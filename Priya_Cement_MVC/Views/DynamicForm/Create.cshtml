@@ -1,0 +1,83 @@
+@model Nekta_MVC.Models.Manage_Model.DynamicFormViewModel
+@using Nekta_MVC.Models.Manage_Model;
+@using Nekta_MVC.Controllers
+@using System.Reflection
+
+@using Microsoft.AspNetCore.Mvc.ViewFeatures
+@inject ModelExpressionProvider ModelExpr
+
+@{
+    Layout = "~/Views/Shared/Manage/_Layout_RHS.cshtml";
+    ViewData["Title"] = "Spot | TIC CMS";
+}
+
+
+@{
+    ViewData["Title"] = "Dynamic Form";
+    var fields = DynamicFormController.GetDynamicFields();
+}
+@section head{
+    <link rel="stylesheet" href="/Assets/ckeditor5/ckeditor5.css" />
+}
+
+@section Scripts {
+    <script type="importmap">
+        {
+        "imports": {
+        "ckeditor5": "../Assets/ckeditor5/ckeditor5.js",
+        "ckeditor5/": "../Assets/ckeditor5/"
+        }
+        }
+    </script>
+    <script src="~/Assets/scripts/add_ck_editor.js" type="module"></script>
+}
+
+
+
+
+<h3>Dynamic Form</h3>
+
+<form asp-action="Create" method="post" enctype="multipart/form-data">
+    @foreach (var prop in fields)
+    {
+        
+var modelExp = ModelExpr.CreateModelExpression(
+    (ViewDataDictionary<Nekta_MVC.Models.Manage_Model.DynamicFormViewModel>)ViewData,
+    prop.Name
+);
+        var attr = prop.GetCustomAttribute<DynamicFieldAttribute>();
+
+          
+            <div class="form-group mb-3">
+                <label asp-for="@modelExp.Name"></label>
+
+                @if (attr.FieldType == FieldType.Text)
+                {
+                    <input asp-for="@modelExp.Name" class="form-control" />
+                }
+
+                @if (attr.FieldType == FieldType.Image)
+                {
+                    <input asp-for="@modelExp.Name" type="file" class="form-control" />
+                }
+
+                @if (attr.FieldType == FieldType.CkEditor)
+                {
+                    <textarea asp-for="@modelExp.Name" class="form-control editor-full"></textarea>
+                    <script>
+                        CKEDITOR.replace("@modelExp.Name");
+                    </script>
+                }
+
+                <span asp-validation-for="@modelExp.Name" class="text-danger"></span>
+            </div>
+        
+    }
+
+    <div class="text-center">
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+</form>
+
+
+<partial name="_ValidationScriptsPartial" />

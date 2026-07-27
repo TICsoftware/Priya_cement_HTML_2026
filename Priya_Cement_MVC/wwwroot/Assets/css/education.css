@@ -1,0 +1,295 @@
+ .nourish-section{
+    position:relative;
+    background:var(--cream);
+    padding:80px 0;
+    overflow:hidden;
+  }
+ 
+
+ 
+  .nourish-grid{
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 144px;
+
+  }
+ 
+  /* ---------- Media (arch photo) ---------- */
+.nourish-media {
+    position: relative;
+    flex-shrink: 0;
+    width: 100%;
+    max-width: 40rem;
+    background: #e9e3cf;
+    padding: 12px;
+    border-radius: 999px 999px 22px 22px;
+    overflow: hidden;
+    transition: transform .4s ease, box-shadow .4s ease;
+    margin: 0 auto;
+}
+
+.nourish-media img {
+    display: block;
+    width: 100%;
+    height: auto;
+
+    border-radius: 999px 999px 16px 16px;
+
+    object-fit: cover;
+}
+
+.nourish-media:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 30px 60px rgba(0,0,0,.12);
+}
+ 
+  /* ---------- Copy ---------- */
+  .nourish-copy{
+    flex:1;
+    padding-top:8px;
+    max-width:555px;
+  }
+ 
+  .nourish-title{
+    font-family:'Playfair Display', serif;
+    font-weight:500;
+    font-size:clamp(1.9rem, 3.2vw, 2.6rem);
+    line-height:1.2;
+    margin:0 0 26px;
+  }
+ 
+  .nourish-title .accent{
+    display:block;
+    font-style:italic;
+    font-weight:600;
+    color:var(--leaf-green-dark);
+  }
+ 
+  .nourish-copy p{
+    font-size:clamp(14px, 0.95vw, 16px);
+    line-height:1.7;
+    letter-spacing:0.01em;
+    color:var(--copy);
+    margin:0 0 22px;
+    max-width:56ch;
+  }
+ 
+  .nourish-btn-row{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-top:20px;
+  }
+ 
+  .nourish-btn{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    padding:14px 28px;
+    border-radius:999px;
+    background:var(--terracotta);
+    color:#fff8f0;
+    text-decoration:none;
+    font-size:0.92rem;
+    font-weight:500;
+    letter-spacing:0.02em;
+    transition:background 0.25s ease, transform 0.25s ease;
+  }
+  .nourish-btn:hover{
+    background:var(--terracotta-dark);
+    transform:translateY(-2px);
+  }
+  .nourish-btn svg{ width:16px; height:16px; }
+ 
+  .nourish-leaf{
+    width:clamp(48px, 4vw, 64px);
+    height:auto;
+    transform:rotate(-6deg);
+  }
+  /* Campus dining excellence */
+    /* -----------------------------------------------
+     SECTION-SPECIFIC STRUCTURE
+     (layout/sizing only — no new colors, fonts, or font-sizes
+     introduced below; everything references the tokens above)
+  ------------------------------------------------- */
+  .cd-section{
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cd-band{
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    height: 30%;
+    z-index: 0;
+  }
+
+  .cd-inner{
+    position: relative;
+    z-index: 2;
+    min-height: 640px;
+  }
+
+  .cd-copy{
+    position: relative;
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+    z-index: 3;
+  }
+
+  .cd-heading{
+    margin: 0 0 24px;
+  }
+  .cd-heading em{
+    font-style: italic;
+    font-weight: 500;
+    color: var(--color-secondary);
+  }
+  .cd-heading .word{ display: inline-block; overflow: hidden; }
+  .cd-heading .word span{ display: inline-block; will-change: transform; }
+
+  .cd-leaf{
+    position: absolute;
+    width: 32px;
+    height: auto;
+    left: 18%;
+    bottom: -26px;
+  }
+
+  /* photo cards */
+  .cd-photo{
+    position: absolute;
+    border: 8px solid var(--color-cream);
+    box-shadow: 0 18px 34px var(--line);
+    background-color: var(--color-darkcream);
+    background-size: cover;
+    background-position: center;
+  }
+
+  .cd-photo-1{
+width: 350px;
+    height: 400px;
+    left: -6vw;
+    top: 8vw;
+    transform: rotate(-9deg);
+    z-index: 15;
+  }
+  .cd-photo-2{
+    width: 270px; height: 290px;
+    left: 50%; top: 400px;
+    margin-left: 20px;
+    transform: rotate(6deg);
+    z-index: 4;
+  }
+  .cd-photo-3{
+   width: 300px;
+    height: 400px;
+    right: -6px; top: 90px;
+    transform: rotate(7deg);
+    z-index: 2;
+  }
+
+  /* stamps */
+  .cd-stamp{
+    position: absolute;
+
+    z-index: 5;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+  }
+  .cd-stamp::before{
+    content:"";
+    position:absolute;
+    inset:0;
+  
+    margin: 6px;
+  }
+
+  .cd-stamp .bowl{
+    width: 40px; height: 40px;
+
+  
+  }
+  .cd-stamp .label{
+    font-family: var(--font-body);
+    font-size: var(--text-12);
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    margin-top: 8px;
+    color: var(--color-text-dark);
+  }
+
+  .cd-stamp-1{ left: 132px; top: 40px; }
+  .cd-stamp-2{ right: 12vw; top: 30px; }
+
+
+  .cd-photo{
+  position: absolute;
+  border: 8px solid var(--color-cream);
+  box-shadow: 0 18px 34px var(--line);
+  object-fit: cover;
+  object-position: center;
+  border-radius: 10px;
+}
+/* remove: background-color / background-size / background-position from .cd-photo */
+
+.cd-stamp .bowl{
+  width: 135px; height: 135px;
+
+  object-fit: cover;
+
+}
+
+.edge-card-title, .edge-card-text {
+    color: var(--color-text-heading);
+}
+
+/* Thumbslider coffe image position */
+.merge-imgs img:nth-child(1) {
+    left: -6vw !important;
+    top: 0vw !;
+    z-index: 10;
+}
+
+
+/* remove: background: var(--color-primary) from .cd-stamp .bowl */
+
+  @media (max-width: 900px){
+    .cd-inner{ min-height: auto; }
+    .cd-photo, .cd-stamp{ position: static; margin: 18px auto; transform: none !important; }
+    .cd-photo-1{ width: 220px; height: 260px; }
+    .cd-photo-2{ width: 160px; height: 195px; }
+    .cd-photo-3{ width: 220px; height: 270px; }
+    .cd-stamp{ display: none; }
+    .cd-leaf{ display: none; }
+    .cd-band{ height: 12%; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation: none !important; transition: none !important; }
+  }
+ 
+  /* ---------- Responsive ---------- */
+  @media (max-width:900px){ .nourish-grid{   
+    flex-direction:column; align-items:center; gap:40px; text-align:center;}
+    .nourish-copy{ max-width:520px;}
+    .nourish-copy p{margin-left:auto;margin-right:auto;}
+    .nourish-btn-row{ justify-content:center; gap:24px; flex-wrap:wrap;}
+  }
+ 
+  @media (max-width:560px){
+    .nourish-section{ padding:56px 0; }
+    .nourish-title{ font-size:1.7rem; }
+    .nourish-btn{padding:12px 24px;font-size:0.85rem;}
+    .nourish-leaf{ width:40px;}
+  }
+  
+
+

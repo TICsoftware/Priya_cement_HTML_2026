@@ -1,0 +1,99 @@
+.bg-darkcream .edge-details h3 {
+    color: var(--color-text-heading);
+}
+
+.bg-darkcream .edge-details p {
+    color: var(--color-text-heading);
+}
+
+
+/* Outdoor catering Excellence */
+
+.outdoor-catering-section{position:relative;background:#F8F3E8;}
+.oc-banner{ position:relative;min-height:420px;border-radius:340px 340px 0 0;overflow:hidden;background:url("../images/business/outdoor-catering.webp")   center/cover no-repeat;}
+.oc-overlay{ position:absolute; inset:0; background:rgba(0,0,0,.55);}
+.oc-content{ position:relative; z-index:2; max-width:760px; margin:0 auto; padding:110px 40px 70px; text-align:center; color:#fff;}
+.oc-content h2{ margin-bottom:20px;}
+.oc-content h2 span{ font-style:italic;}
+.oc-content p{ max-width:620px; margin:0 auto 18px; color:rgba(255,255,255,.9);}
+
+
+
+
+.oce-dome{border-radius: 50% 50% 0 0 / 0px 0px 0 0; /* JS sets the resting curve via inline style now */}
+@media (max-width: 992px){
+   .oce-dome{ border-radius: 50% 50% 0 0 / 90px 90px 0 0;}
+}
+
+/* Dome css */
+.oce-section{background: var(--color-primary);}
+.curveSvg-bg{position: relative;width: 100%;aspect-ratio: 2 / 1; /* matches viewBox 1000x500 exactly — prevents skew */}
+.curveSvg{position: absolute;inset: 0;width: 100%; height: 100%;}
+.oce-photo{position: absolute;inset: 0;width: 100%;height: 100%;object-fit: cover;clip-path: url(#oceClip);}
+.oce-copy{ position: relative; z-index: 10; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; max-width: 640px; margin-inline: auto; padding-inline: 1.5rem;}
+.oce-heading{ color: var(--color-cream); }
+.oce-heading em{ font-style: italic; font-weight: 500; color: var(--color-secondary);}
+.oce-copy p{ color: var(--color-cream); opacity: 0.9; margin-top: 1rem;}
+.oce-deco{ position: absolute; z-index: 20; display: none;}
+
+@media (min-width: 768px){
+   .oce-deco{ display: block; }
+}
+.oce-deco-fork{ top: -40px; left: 0; width: 112px; transform: rotate(-6deg); }
+.oce-deco-leaf-top{ top: -16px; right: 16px; width: 40px; }
+.oce-deco-leaf-small{ bottom: 40px; left: 20%; width: 28px; }
+.oce-deco-tomato{ top: 40px; right: 0; width: 96px; }
+
+
+
+/* ==================== OUTDOOR CATERING EXCELLENCE ==================== */
+.container-fluid {padding: 0px !important;}
+.bc-catering-section {
+   background: var(--color-primary);
+}
+
+/* ---- Dome shape ---- */
+.bc-catering-dome { position: relative; z-index: 1; width: 105%; aspect-ratio: 6 / 2; margin: 0 auto; border-radius: 50% 50% 0 0 / 100% 100% 0 0; overflow: hidden; display: flex; align-items: center; justify-content: center; margin-left: -3%;}
+/* Background image tag inside the dome */
+.bc-catering-dome-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; z-index: 0;}
+/* Dark tint over the dome image for text contrast */
+.bc-catering-dome-overlay { position: absolute; inset: 0; background: rgba(28, 25, 24, 0.75); z-index: 1;}
+.bc-catering-dome-content { position: relative; z-index: 2; text-align: center; max-width: 940px;}
+.bc-catering-dome-content .title-section {  color: var(--color-cream);}
+.bc-catering-dome-content .text-letters-slide {  color: var(--color-cream);}
+.bc-catering-dome-content p {color: var(--color-cream);}
+.bc-catering-dome-leaf { width: 26px; height: auto; margin: 6px auto 0;}
+
+/* ---- Decorative images ---- */
+.bc-catering-deco {  position: absolute;  z-index: 4;  pointer-events: none;}
+.bc-catering-deco--fork { left: -3vw; top: 0vw; width: 17vw;}
+.bc-catering-deco--tomato {right: -5vw; top: 2vw; width: 12vw;;}
+.bc-catering-deco--leaf-top { right: 40px; top: -10px; width: 60px; z-index: 3;}
+.bc-catering-deco--corner { left: 0; top: -50px; width: 160px; border-radius: 0 0 12px 0; z-index: 3;}
+.bc-catering-deco--bar {left: 130px;bottom: 20px;width: 4px; height: 28px; background: var(--color-third); z-index: 2;}
+
+/* ---- Responsive ---- */
+@media (max-width: 992px) {
+   .bc-catering-dome { aspect-ratio: 1.4 / 1; }
+   .bc-catering-deco--fork { width: 110px; top: 0px; left: -20px; }
+   .bc-catering-deco--tomato { width: 100px; top: 15px; right: -10px; }
+   .bc-catering-deco--leaf-top { width: 40px; right: 15px; }
+   .bc-catering-deco--corner { width: 100px; top: -20px; }
+   .bc-catering-dome {
+      width: 100%;
+        aspect-ratio: 1 / 1;
+      margin: 0 auto; 
+      border-radius: 140% 140% 0 0 / 100% 100% 0 0; 
+      margin-left: -3%;
+      height: 65vh;
+      padding-top: 80px;
+   }
+   .bc-catering-dome-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    width: 90%;
+    max-width: 940px;
+}
+
+}

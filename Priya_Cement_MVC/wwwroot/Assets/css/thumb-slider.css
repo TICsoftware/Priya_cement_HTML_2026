@@ -1,0 +1,37 @@
+.bc-life-frame {background: #8b9e84; border-radius: 24px; padding: clamp(10px, 1.2vw, 16px);}
+.bc-life-frame img {display: block; width: 100%;  height: 100%; object-fit: cover; border-radius: 20px;}
+.bc-life-main { aspect-ratio: 880 / 810; max-height: 640px; width: 100%;}
+.bc-life-thumb { background: #889980; border-radius: 14px;padding: 6px; cursor: pointer;border: 0; box-shadow:0 20px 30px rgba(67, 60, 40, 0.21), 0 9px 21px rgba(67, 60, 40, 0.25); transition: transform var(--motion-fast) var(--ease-premium), outline-color var(--motion-fast) var(--ease-premium); outline: 2px solid transparent; outline-offset: 2px; aspect-ratio: 255 / 224;}
+.bc-life-thumb img { width: 100%; height: 100%; object-fit: cover;  border-radius: 10px;  display: block;}
+.bc-life-thumb:hover { transform: translateY(-4px);}
+.bc-life-thumb.is-active { outline-color: var(--color-cream);}
+.bc-life-copy { color: var(--color-cream);}
+.bc-life-copy h3 { font-family: var(--font-heading); color: var(--color-cream); font-weight: 500; font-size: var(--text-h3);    margin-bottom: 0.75rem;}
+.bc-life-polaroid { position: absolute;  top: 24px;  left: 24px; width: clamp(120px, 17vw, 322px); transform: rotate(-8deg);    border-radius: 8px; box-shadow: -15px 20px 25px rgba(43, 52, 40, 0.3); display: none;}
+
+.thumb-grid-wrapper { display: flex; align-items: center; gap: 10px; }
+.thumb-track {display: flex; gap: 12px;overflow-x: auto;scroll-behavior: smooth;scrollbar-width: none; flex: 1;  padding: 40px 20px;
+   margin: -40px -20px;}
+.thumb-track::-webkit-scrollbar { display: none; }
+.thumb-arrow {display: none; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: 50%; border: 0;   background: var(--color-cream); cursor: pointer;flex-shrink: 0;font-size: 1.2rem;}
+.thumb-grid-wrapper.has-overflow .thumb-arrow { display: flex; }
+
+.merge-imgs {position: absolute; top:0; left: 0;width: 100%; height: auto; display: flex;align-items: center;  justify-content: center;}
+.merge-imgs img {position: absolute;}
+.merge-imgs img:nth-child(1) {left: -12vw;top: -4vw;z-index: 10;}
+.merge-imgs img:nth-child(2) { left: -3vw; top: -3vw;z-index: -10;}
+.thumb-grid-wrapper {position: relative;left: -8vw; margin-top: 3vw;}
+.merge-img {will-change: transform, opacity;}
+.read-more-content {overflow: hidden;  transition: max-height 0.4s ease; position: relative;}
+.read-more-content.is-collapsed::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 1.5em;  background: linear-gradient(to bottom, rgba(116,141,110,0), rgba(116,141,110,1));}
+.read-more-icon { transition: transform 0.25s ease;}
+.read-more-toggle.active .read-more-icon {transform: rotate(45deg);}
+@media (min-width: 1024px) {
+    .bc-life-polaroid { display: block;}
+}
+
+@media (max-width: 767px) {
+ .thumb-grid-wrapper {position: relative; left: 0; margin-top: 0;}
+  .merge-imgs {top: 18vw;left: -10vw;max-width: 175px;}
+  .thumb-slider-thumbs {margin-top: -15vw;}
+}

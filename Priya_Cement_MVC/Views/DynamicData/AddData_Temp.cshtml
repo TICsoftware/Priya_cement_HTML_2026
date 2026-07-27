@@ -1,0 +1,254 @@
+@model Core_project_BusinessLogic.Entity.ContextDetail
+ 
+
+@using Core_project_BusinessLogic.Entity
+@{
+    Layout = null;
+
+    var fields = ViewBag.Fields as List<ContextFieldDefinition>
+    ?? new List<ContextFieldDefinition>();
+
+    var reference = ViewBag.Reference;
+    var encId = ViewBag.EncId;
+    var temp_cont_id= ViewBag.temp_cont_id;
+    var mode = ViewBag.Mode as string ?? "block";      
+     
+}
+<link rel="stylesheet" href="/Assets/ckeditor5/ckeditor5.css" />
+<style>
+    /* Ensure CKEditor is visible inside the spot-templates modal (scrollable modal body can clip min-height) */
+    #spotTemplatesModalBody .ck.ck-editor__editable {
+        min-height: 180px;
+    }
+    #spotTemplatesModalBody .ck.ck-editor {
+        min-height: 200px;
+    }
+</style>
+@if (mode == "Main")
+{
+    <h2>Main Component: @(reference?.Context_Title ?? "Reference")</h2>
+}
+else
+{
+    <h2>Block Component: @(reference?.Context_Title ?? "Reference")</h2>
+}
+
+
+
+<form id="addContextDetailsFormTemp"  method="post" asp-action="Submit_temp" asp-controller="DynamicData"  >
+
+    <input type="hidden" name="referenceId" value="@reference.ID" />
+    <input type="hidden" name="masterId" value="@reference.Context_Master_ID" />
+    <input type="hidden" name="temp_cont_id" value="@temp_cont_id" />
+    <input type="hidden" name="mode" value="@ViewBag.Mode" />
+   <input type="hidden" name="is_block" value="@(mode == "Main" ? 0 : 1)" />
+    @foreach (var f in fields)
+    {
+        <div class="mb-3">
+            <label class="form-label">@f.name</label>
+
+            @* TEXTBOX *@
+            @if (f.field_type_id == 1)
+            {
+                @* <input name="@f.name_key" class="form-control" placeholder="@f.place_holder" /> *@
+
+                <input name="@f.name_key"
+       class="form-control dynamic-field"
+       placeholder="@f.place_holder"
+       data-required="@(f.is_required == 1 ? "true" : "false")"
+       data-validation="@f.field_validation"
+        data-message="@f.custom_validation"   
+       data-name="@f.name" />
+            }
+
+            @* DROPDOWN *@
+            else if (f.field_type_id == 2)
+            {
+                List<string> opts = new();
+
+                if (!string.IsNullOrWhiteSpace(f.field_options))
+                {
+                    try
+                    {
+                        opts = System.Text.Json.JsonSerializer
+                        .Deserialize<List<string>>(f.field_options);
+                    }
+                    catch { }
+                }
+
+            
+                    <select name="@f.name_key"
+        class="form-control dynamic-field"
+        data-required="@(f.is_required == 1 ? "true" : "false")"
+        data-name="@f.name">
+                    <option value="">-- Select --</option>
+                    @foreach (var o in opts)
+                    {
+                        <option value="@o">@o</option>
+                    }
+                </select>
+            }
+
+            @* HTML EDITOR *@
+            else if (f.field_type_id == 7)
+            {
+               
+
+
+          <textarea name="@f.name_key" 
+        class="form-control editor-full dynamic-field"
+          data-required="@(f.is_required == 1 ? "true" : "false")"
+          data-validation="@f.field_validation"
+          data-message="@f.custom_validation"
+          data-name="@f.name"></textarea>
+
+            }
+
+            @* IMAGE FIELD *@
+            else if (f.field_type_id == 8)
+            {
+
+
+
+                <div class="form-group mb-3">
+
+                    <button type="button" id="btnFile"
+                            class="btn btn-outline-primary d-block select-media"
+                            data-field="@f.name_key">
+                        Select File
+                    </button>
+
+                    <input type="hidden" name="@($"{f.name_key}_existing")" />
+                    <img src="@f.image_previewname" style="max-height:120px"  />
+                   <img src="@f.image_previewname" style="max-height:120px" class="imgPreview" />
+
+                </div>
+
+
+            }
+
+            <small class="text-muted">@f.help_text</small>
+
+        </div>
+    }
+    @Html.Hidden("returnUrl", ViewBag.ReturnUrl as string)
+    <button class="btn btn-primary">Save</button>
+</form>
+
+<script>
+(function () {
+    $(document)
+        .off("submit.addDataTemp", "#addContextDetailsFormTemp")
+        .on("submit.addDataTemp", "#addContextDetailsFormTemp", function (e) {
+            e.preventDefault();
+
+            console.log("EDIT SUBMIT CALLED");
+
+            // 🔥 CKEDITOR SYNC
+            if (window.syncCkEditorsToSource) {
+                window.syncCkEditorsToSource(
+                    document.getElementById("addContextDetailsFormTemp")
+                );
+            }
+
+
+             
+            @* if (typeof window.syncCkEditorsToSource === "function") {
+                window.syncCkEditorsToSource(document.getElementById("addContextDetailsFormTemp"));
+            } *@
+
+            if (!validateDynamicFormTemp()) {
+                return;
+            }
+
+            var $form = $(this);
+            $.ajax({
+                url: $form.attr("action"),
+                type: "POST",
+                data: $form.serialize(),
+                success: function (response) {
+                    if (response.success) {
+                        alert("Data added successfully");
+                        if (typeof window.hideSpotTemplatesModal === "function") {
+                           var modalEl = document.getElementById('modal_spottemplates');
+var modal = bootstrap.Modal.getInstance(modalEl);
+
+if (modal) {
+    modal.hide();
+}
+                        }
+                        if (typeof window.Refresh_context_details === "function") {
+                            window.Refresh_context_details(false);
+                        } else if (window.parent && typeof window.parent.hideSpotTemplatesModal === "function") {
+                            window.parent.hideSpotTemplatesModal();
+                            window.parent.Refresh_context_details(false);
+                        }
+                    } else {
+                        alert(response.message);
+                    }
+                },
+                error: function () {
+                    alert("Error occurred");
+                }
+            });
+        });
+})();
+</script>
+<script>
+
+function validateDynamicFormTemp() {
+
+    let isValid = true;
+    $(".error-msg").remove();
+
+    $(".dynamic-field").each(function () {
+
+        let value = ($(this).val() || "").toString();
+        let required = $(this).data("required") === true || $(this).data("required") === "true";
+        let validation = $(this).data("validation");
+        let message = $(this).data("message");   // 🔹 custom message
+        let name = $(this).data("name");
+
+        // 🔹 REQUIRED VALIDATION
+        if (required && (!value || value.trim() === "")) {
+
+            let msg = message || (name + " is required");
+
+           // alert(msg);
+           $(this).after(`<span class="error-msg text-danger">${msg}</span>`);
+           this.scrollIntoView({ behavior: 'smooth', block: 'center' });
+$(this).focus();
+            isValid = false;
+            return false;
+        }
+
+        // 🔹 REGEX VALIDATION
+        if (validation && value) {
+            try {
+                let regex = new RegExp(validation);
+
+                if (!regex.test(value)) {
+
+                    let msg = message || (name + " is invalid");
+
+                    //alert(msg);
+                    $(this).after(`<span class="error-msg text-danger">${msg}</span>`);
+                   this.scrollIntoView({ behavior: 'smooth', block: 'center' });
+$(this).focus();
+                    isValid = false;
+                    return false;
+                }
+            }
+            catch (e) {
+                console.error("Invalid regex for field:", name);
+            }
+        }
+
+    });
+
+    return isValid;
+}
+
+</script>
+
+  

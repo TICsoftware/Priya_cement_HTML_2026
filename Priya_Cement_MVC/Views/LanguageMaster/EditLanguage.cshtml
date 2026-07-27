@@ -1,0 +1,119 @@
+    @model Core_project_BusinessLogic.Entity.LanguageMaster
+
+@{
+    Layout = "~/Views/Shared/Manage/_Layout_RHS.cshtml";
+    ViewData["Title"] = "Edit Language";
+    string returnUrl = Context.Request.Query["ReturnUrl"].ToString();
+}
+
+
+<div class="page-heading">
+    <div class="page-title">
+        <div class="row">
+            <div class="col-12 col-md-6 order-md-2 order-first">
+                <nav aria-label="breadcrumb" class="breadcrumb-header float-start">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/manage/dashboard">Dashboard</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">
+                            Edit Language
+                        </li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+<h2>Edit Language</h2>
+
+@using (Html.BeginForm())
+{
+    <div asp-validation-summary="ModelOnly" class="text-danger mb-2"></div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group mb-3">
+                @Html.HiddenFor(m => m.ID, new { @Value = Model.ID })
+
+                @Html.LabelFor(m => m.Language_Name)
+                @Html.TextBoxFor(m => m.Language_Name, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Language_Name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group mb-3">
+                @Html.LabelFor(m => m.Language_Sequence)
+                @Html.TextBoxFor(m => m.Language_Sequence, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Language_Sequence, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group mb-3">
+
+            @Html.LabelFor(m => m.Status)
+            @Html.DropDownListFor(m => m.Status,
+                new List<SelectListItem>{
+                    new SelectListItem{Text="Active", Value="1"},
+                    new SelectListItem{Text="Inactive", Value="0"}
+                },
+                new { @class="form-control form-select" })
+            @Html.ValidationMessageFor(m => m.Status, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-md-12  ">
+            <div class="d-inline-block text-center">
+             <button class="btn btn-primary cms-btn-custom">Update</button>
+            </div>
+        </div>
+    </div>
+   
+}
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        (function () {
+            if (!window.jQuery || !$.validator) return;
+
+            $.validator.addMethod("regex", function (value, element, pattern) {
+                if (this.optional(element)) return true;
+                var regex = new RegExp(pattern);
+                return regex.test(value);
+            });
+
+            $("form").validate({
+                rules: {
+                    Language_Name: {
+                        required: true,
+                        minlength: 2,
+                        maxlength: 50,
+                        regex: "^[A-Za-z\\s\\.\\-']+$"
+                    },
+                    Language_Sequence: {
+                        required: true,
+                        digits: true,
+                        min: 1,
+                        max: 9999
+                    },
+                    Status: {
+                        required: true
+                    }
+                },
+                messages: {
+                    Language_Name: {
+                        required: "Language name is required.",
+                        minlength: "Language name must be at least 2 characters.",
+                        maxlength: "Language name cannot exceed 50 characters.",
+                        regex: "Language name contains invalid characters."
+                    },
+                    Language_Sequence: {
+                        required: "Sequence is required.",
+                        digits: "Sequence must be a number.",
+                        min: "Sequence must be at least 1.",
+                        max: "Sequence cannot exceed 9999."
+                    },
+                    Status: {
+                        required: "Status is required."
+                    }
+                }
+            });
+        })();
+    </script>
+}

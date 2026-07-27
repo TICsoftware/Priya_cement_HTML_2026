@@ -1,0 +1,82 @@
+@using Nekta_MVC.Helpers
+@model Priya_cement_BusinessLogic.Entity.PageViewModel
+@{
+    ViewData["Title"] = "Article";
+}
+
+
+
+@section head {
+    <title>@Model.Content.cont_window_title</title>
+
+    <meta content="@Model.Content.cont_metatag" name="keywords" />
+    <meta content="@Model.Content.cont_metadesc" name="description" />
+
+
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="" />
+    <meta name="twitter:title" content="@Model.Content.ContTitle" />
+    <meta name="twitter:description" content="@Model.Content.cont_metadesc" />
+    <link rel="canonical" href="" />
+
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="Nekta" />
+    <meta property="og:title" content="@Model.Content.ContTitle" />
+    <meta property="og:description" content="@Model.Content.cont_metadesc" />
+    <meta property="og:url" content="https://www.nekta.com/" />
+    <meta property="og:image" content="@Model.Content.MastheadImage" />
+
+    <meta itemprop="name" content="Nekta" />
+    <meta itemprop="description" content="@Model.Content.cont_metadesc" />
+    <meta itemprop="image" content="@Model.Content.MastheadImage" />
+
+    <!-- Facebook / Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Nekta" />
+    <meta property="og:title" content="@Model.Content.ContTitle" />
+    <meta property="og:description" content="@Model.Content.cont_metadesc" />
+    <meta property="og:image" content="@Model.Content.MastheadImage" />
+    <meta property="og:url" content="https://www.nekta.com/" />
+}
+
+@section Styles {
+   <link rel="stylesheet" href="/Assets/css/blanktemplate-style.css" />
+}
+
+<section class="banner-inner-section mt-[150px] lg:mt-[225px] h-full relative">
+      
+  
+        <div class="inner-banner-vector">
+         
+           
+            <div class="relative w-full px-0 md:px-8 xl:px-6 2xl:px-8 inner-banner-caption">
+                <div class="container">
+                    <nav aria-label="breadcrumb" class="breadcrumb_container pb-2 lg:pb-0 mb-2">
+                             @Html.Raw(Model.Content.BreadcrumPath)
+                    </nav>
+                    <div class="w-full sm:max-w-[60vw] lg:max-w-[35vw] innerbanner-title-outer">
+                        <h1 class="text-h1 innerbanner-title-heading "> 
+                               @Html.Raw(Model.Content.Cont_hmpg_intro.CleanParagraphTags())
+                             </h1>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</section>
+
+<section class="section-pb pt-15 blank-template-section relative">
+    <div class="container">
+        <div class="blank-template-inner">
+       @Html.Raw(Model.Content.Content)
+        </div>
+
+        
+    </div>
+</section>
+
+@section Scripts {
+   <script src="~/Assets/js/blanktemplate-script.js"></script>
+
+}

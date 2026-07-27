@@ -1,0 +1,65 @@
+.bg-darkcream .edge-details h3 {
+    color: var(--color-text-heading);
+}
+
+.bg-darkcream .edge-details p {
+    color: var(--color-text-heading);
+}
+
+
+/* Sport */
+
+
+/* ---------------------------- Sports Catering Excellence -------------------------------------- */
+.sce-copy-wrap{padding: 3rem 2.5rem;}
+.sce-backdrop{ position: absolute; inset: 0 8% 0 0; background: var(--color-darkcream); border-radius: 2rem; z-index: 0;}
+.sce-copy{  position: relative;  z-index: 1;}
+.sce-heading em{font-style: italic;font-weight: 500;color: var(--color-secondary);}
+.sce-leaf{ width: 30px; height: auto; margin-top: 1rem;}
+/* -- right tilted photo -- */
+.sce-photo-wrap{padding: 1.5rem 0;}
+.sce-photo{ 
+    width: 100%;
+    max-width: 689px;
+    aspect-ratio: 23 / 24.2;
+    object-fit: cover;
+    border: 8px solid var(--color-cream);
+    border-radius: 1.5rem;
+    box-shadow: 0 24px 44px var(--line);
+    transform: rotate(-9deg);
+    margin-inline: auto;
+    display: block;
+    position: absolute;
+    top: -18vw;
+    left: 3vw;
+  }
+@media (max-width: 992px){
+   .sce-copy-wrap{ padding: 2rem 1.25rem; }
+   .sce-backdrop{ inset: 0; }
+   .sce-photo{ transform: rotate(2deg); max-width: 340px; }
+   .sce-photo {
+    width: 100%;
+    max-width: 689px;
+    aspect-ratio: 23 / 24.2;
+    object-fit: cover;
+    border: 8px solid var(--color-cream);
+    border-radius: 1.5rem;
+    box-shadow: 0 24px 44px var(--line);
+    transform: rotate(-9deg);
+    margin-inline: auto;
+    display: block;
+    position: relative;
+    /* top: -19vw; */
+    /* left: -1vw; */
+}
+}
+
+
+
+/* ---------- Drakcream bg thumbslider ---------- */
+.merge-imgs {position: absolute; top:0; left: 0;width: 20vw !important; height: auto; display: flex;align-items: center;  justify-content: center;}
+.merge-imgs img {position: absolute;}
+.merge-imgs img:nth-child(1) {left: -12vw;top: -4vw;z-index: 10;}
+.merge-imgs img:nth-child(2) { left: -3vw; top: -3vw;z-index: -10;}
+.thumb-grid-wrapper {position: relative;left: -8vw; margin-top: 3vw;}
+.merge-img {will-change: transform, opacity;}

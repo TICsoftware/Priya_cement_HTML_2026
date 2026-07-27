@@ -1,0 +1,60 @@
+/* Dark cream bg Thumslider */
+/* ---------- Drakcream bg thumbslider ---------- */
+.bg-darkcream-thumbslider{ background-color: var( --color-darkcream);}
+
+.bg-darkcream-thumbslider  .bc-life-frame { background: #D5CABF;}
+.bg-darkcream-thumbslider .bc-life-thumb { background: #D5CABF;}
+
+.bg-darkcream-thumbslider .merge-imgs {position: absolute; top:-6vw; left: 0vw;width: 15vw; height: auto; display: flex;align-items: center;  justify-content: center;}
+.bg-darkcream-thumbslider  .merge-imgs img {position: absolute;}
+/* .bg-darkcream-thumbslider .merge-imgs img:nth-child(1) {left: -7vw;top: 7vw;z-index: 10;}
+.bg-darkcream-thumbslider .merge-imgs img:nth-child(2) { left: -3vw; top: -3vw;z-index: -10;} */
+
+/* WHat our culinary capability */
+.bc-deco { position: absolute; pointer-events: none; user-select: none; z-index: 1234; width: 11vw; rotate: -33deg;}
+
+/* WWhy client choose nekta Thumb slider */
+.bg-darkcream .edge-details h3 { color: var(--color-text-heading);}
+.bg-darkcream .edge-details p { color: var(--color-text-heading);}
+
+/* theree cards deco image position*/
+.story-gallery {margin-top: 0px !important;}
+.story-gallery-left { position: absolute; left: -6vw !important; bottom: -6vw !important;}
+.story-gallery-right .story-turmuric { position: relative; left: 12vw !important; bottom: 0 !important;}
+.story-gallery-right .story-leaf { position: absolute; left: 20vw !important; bottom: 0 !important;}
+
+.bg-darkcream-thumbslider .read-more-wrapper h3 {    color: var( --color-text-heading);}
+.bg-darkcream-thumbslider .read-more-wrapper p {    color: var( --color-text-heading);}
+
+
+/*  */
+.merge-img--bottom {    position: absolute;
+    right: -13vw;
+    top: 35vw;
+    width: 12vw;
+overflow: hidden;}
+
+
+/* Bottom right heart deco cs */
+.section-bottom-decor {
+   position: absolute;
+   z-index: 5;
+   pointer-events: none;
+}
+ 
+.section-bottom-decor--heart {
+right: -9vw;
+    bottom: -7vw;
+    width: 160px;
+    height: auto;
+    rotate: -22deg;
+}
+ 
+/* Responsive scaling for smaller screens */
+@media (max-width: 768px) {
+   .section-bottom-decor--heart {
+      width: 90px;
+      right: -10px;
+      bottom: -20px;
+   }
+}

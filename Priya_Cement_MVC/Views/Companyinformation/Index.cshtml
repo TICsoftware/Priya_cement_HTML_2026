@@ -1,0 +1,215 @@
+@{
+    ViewData["Title"] = "Company Information";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="assets/css/company-info.css" />
+}
+
+        <!-- HERO BANNER END-->
+      <section class="relative inside-banner-outer overflow-hidden">
+         <div class="inside-banner-inner banner-animation relative ">
+
+            <!-- Banner -->
+            <div class="rounded-bottom-lr overflow-hidden h-170 rounded-bl-xl rounded-br-xl relative innerbanner-image-wrapper">
+
+               <!-- Parallax Image -->
+               <picture>
+                  <!-- Desktop -->
+                  <source media="(min-width:1024px)"
+                     srcset="assets/images/banners/company-info-banner-desktop.webp">
+
+                  <!-- Tablet -->
+                  <source media="(min-width:768px)"
+                     srcset="assets/images/banners/company-info-banner-mob.webp">
+
+                  <!-- Mobile -->
+                  <img
+                     src="assets/images/banners/company-info-banner-mob.webp"
+                     alt="About Bubble Food"
+                     class="innerbanner-image absolute left-0 top-0 w-full h-full object-cover"
+                     loading="eager"
+                     fetchpriority="high">
+               </picture>
+
+               <!-- Keep Existing Overlay -->
+               <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/70 z-10"></div>
+
+
+            </div>
+
+            <!-- Content -->
+           
+               <div class="innerbanner-caption absolute inset-0 z-30 flex items-end">
+                  <div class="container pb-12 md:pb-15">
+                     <div class="max-w-4xl text-left">
+
+                        <nav class="mb-4" aria-label="Breadcrumb">
+                           <ol class="flex items-center gap-2 text-sm">
+                              <li>
+                                 <a href="/" class="text-white/70 hover:text-white transition">
+                                    Home
+                                 </a>
+                              </li>
+
+                              <li class="text-white/60">/</li>
+
+                              <li class="text-white">
+                                 About Us
+                              </li>
+                           </ol>
+                        </nav>
+
+                        <h1 class="innerbanner-title text-h1 text-white">
+                           Company 
+                           <span class="innerbanner-title-span">
+                              Information
+                           </span>
+                        </h1>
+
+                     </div>
+                  </div>
+               </div>
+           
+
+         </div>
+      </section>
+         <!-- HERO BANNER END -->
+
+         <!-- ==================== COMPANY DETAILS SECTION ==================== -->
+         <section class="company-details-section relative section-spacing overflow-hidden">
+            <!-- Background Image -->
+            <img
+               src="assets/images/company_info/bg_image.webp"
+               alt=""
+               class="absolute inset-0 w-full h-full object-cover pointer-events-none select-none"
+               loading="lazy">
+            <!-- Overlay to soften bg under cards -->
+            <div class="absolute inset-0 bg-cream/90"></div>
+            <div class="container relative z-10">
+               <!-- Intro -->
+               <div class="text-center mb-10 md:mb-14 into-section-wrapper into-section-center-wrapper">
+                  <p>
+                     Company related information as per statutory requirements.
+                  </p>
+               </div>
+               <div class="grid lg:grid-cols-2 gap-6 md:gap-8 items-start">
+                  <!-- LEFT: Company Details Card -->
+                  <div class="info-card relative">
+                     <div class="section-title-outer mx-auto max-w-5xl">
+                        <h2 class="title-section text-h2 info-card-title" data-leaf-target letters-slide-down text-split>
+                           Company  <span class="text-letters-slide"> Details</span>
+                        </h2>
+                     </div>
+                    
+                     <div class="info-card-body">
+                        <div class="info-block">
+                           <h3 class="text-h3 font-bold">Company Name:</h3>
+                           <p >Nekta Food Solutions Limited</p>
+                        </div>
+                        <div class="info-block">
+                           <h3 class="text-h3 font-bold">Address of its registered office :</h3>
+                           <p >
+                              9th Floor, Express Towers, Nariman Point,<br>
+                              Mumbai 400 021.
+                           </p>
+                        </div>
+                        <div class="info-block">
+                           <h3 class="text-h3 font-bold">Corporate Identity Number:</h3>
+                           <p >U56102MH2023PLC413789</p>
+                        </div>
+                        <div class="info-block info-block--inline">
+                           <span class="info-icon">
+                              <img src="assets/images/company_info/phone.svg" alt="Phone Icon" class="icon-sm">
+                           </span>
+                           <h2 class="text-h3">
+                              Tel No. : <span class="info-value">+91-22-3122-0200</span>
+                           </h2>
+                        </div>
+                        <div class="info-block info-block--inline">
+                           <span class="info-icon">
+                              <img src="assets/images/company_info/email.svg" alt="Email Icon" class="icon-sm">
+                           </span>
+                           <h3 class="text-h3">
+                              Email id : <a href="mailto:sales@nektafoods.com" class="info-value info-value--link">sales@nektafoods.com</a>
+                           </h3>
+                        </div>
+                     </div>
+                     <!-- Decorative leaf -->
+                     <img
+                        src="assets/images/company_info/green_leaf.svg"
+                        alt=""
+                        class="info-card-leaf absolute pointer-events-none select-none">
+                  </div>
+               <!-- RIGHT: Policies + Annual Return -->
+                  <div class="flex flex-col gap-6 md:gap-8">
+                     <!-- Policies Card -->
+                     <div class="info-card">
+                     <div class="section-title-outer mx-auto max-w-5xl">
+                        <h2 class="title-section text-h2 info-card-title info-card-title--italic" data-leaf-target letters-slide-down text-split>
+                           <span class="text-letters-slide"> Policies</span>
+                        </h2>
+                     </div>
+
+                     
+                        <ul class="policy-list">
+                           <li class="policy-item">
+                              <a href="assets/docs/policies/tata-code-of-conduct.pdf" target="_blank" rel="noopener" class="policy-link" download>
+                                 <span class="policy-icon">
+                                    <img src="assets/images/company_info/pdf.svg" alt="Document Icon" class="icon-sm">
+                                 </span>
+                                 <p>Tata Code of Conduct</p>
+                              </a>
+                           </li>
+                           <li class="policy-item">
+                              <a href="assets/docs/policies/human-rights-policy.pdf" target="_blank" rel="noopener" class="policy-link" download>
+                                 <span class="policy-icon">
+                                    <img src="assets/images/company_info/pdf.svg" alt="Document Icon" class="icon-sm">
+                                 </span>
+                                 <p>Human Rights Policy</p>
+                              </a>
+                           </li>
+                           <li class="policy-item">
+                              <a href="assets/docs/policies/volunteering-policy.pdf" target="_blank" rel="noopener" class="policy-link" download>
+                                 <span class="policy-icon">
+                                    <img src="assets/images/company_info/pdf.svg" alt="Document Icon" class="icon-sm">
+                                 </span>
+                                 <p>Volunteering Policy</p>
+                              </a>
+                           </li>
+                           <li class="policy-item">
+                              <a href="assets/docs/policies/remuneration-policy.pdf" target="_blank" rel="noopener" class="policy-link" download>
+                                 <span class="policy-icon">
+                                    <img src="assets/images/company_info/pdf.svg" alt="Document Icon" class="icon-sm">
+                                 </span>
+                                 <p>Remuneration Policy for Directors, Key Managerial Personnel and other employees</p>
+                              </a>
+                           </li>
+                           <li class="policy-item">
+                              <a href="assets/docs/policies/whistle-blower-policy.pdf" target="_blank" rel="noopener" class="policy-link" download>
+                                 <span class="policy-icon">
+                                    <img src="assets/images/company_info/pdf.svg" alt="Document Icon" class="icon-sm">
+                                 </span>
+                                 <p>Whistle Blower Policy & Vigil Mechanism</p>
+                              </a>
+                           </li>
+                        </ul>
+                     </div>
+                     <!-- Annual Return Card -->
+                     <a href="assets/docs/annual-return-fy-2024-25.pdf" target="_blank" rel="noopener" class="info-card annual-return-card flex items-center gap-3">
+                        <span class="policy-icon"><img src="assets/images/company_info/pdf.svg" alt="Document Icon" class="icon-md"></span>
+                        <h3 class="info-card-title text-h3">
+                           Annual return for <span class="info-card-title__accent">FY 2024-25</span>
+                        </h3>
+                     </a>
+                  </div>
+               </div>
+            </div>
+         </section>
+
+@section Scripts {
+    <script src="~/Assets/js/inner-banner-script.js"></script>
+  
+    
+}
+

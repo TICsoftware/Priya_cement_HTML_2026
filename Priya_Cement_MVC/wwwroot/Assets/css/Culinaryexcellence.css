@@ -1,0 +1,189 @@
+/* ---------- CORPORATE DINING EXCELLENCE ---------- */
+.bc-dining-section { position: relative;}
+.bc-polaroid {position: absolute; background: #fdfcf6; border: 1px solid rgba(116, 141, 110, 0.2); border-radius: 10px; padding: 8px;
+box-shadow: 0 24px 45px rgba(67, 60, 40, 0.22); display: none; z-index: 5;}
+.bc-polaroid img { display: block; width: 100%; height: 100%; object-fit: cover; border-radius: 8px;}
+
+/* Chili / basil decorations */
+.bc-dining-deco--chili {left: 14vw; top: 0vw; transform: rotate(-10deg); z-index: 2;max-width: 12vw;}
+.bc-dining-deco--basil { right:8vw; top:2vw; transform: rotate(15deg); z-index: 2;max-width: 16vw;}
+.outer-polaroids {top: 3vw; left: 5vw; position: absolute;}
+
+.curveshape-wrap {position: relative;width: 100%;min-height: 80vh;overflow: visible;display: flex; align-items: center;  justify-content: center; padding-top:5vw;}
+.curveshape-wrap .curveSvg-bg {position: absolute;inset: 0;z-index: 1;pointer-events: none; overflow: hidden;}
+.curveshape-wrap svg {position: absolute;top: 0;left: 0;width: 100%;height: 100%; display: block; overflow: visible;}
+/*  End */
+
+
+/* Counter css */
+.counter-odometer {display: inline-flex;align-items: baseline;gap: 0ch;font-variant-numeric: tabular-nums;line-height: 1;overflow: hidden;}
+.odometer-digit {overflow: hidden;display: inline-block;vertical-align: bottom;height: 1em;width: 1ch;text-align: center;font-family: inherit;font-weight: inherit;font-size: inherit;}
+.odometer-column {display: block;transform: translateY(0);will-change: transform; overflow: hidden;}
+.odometer-digit-line {display: block;height: 1em;line-height: 1em;box-sizing: border-box;}
+.counter-suffix {display: inline-block;margin-left: 0.35ch;font-family: inherit;font-size: inherit;line-height: 1; color: var(--color-green);}
+.odometer-comma {display: inline-block; width: 0.4em; text-align: center;font-weight: inherit;vertical-align: bottom;}
+.counter-wrapper{ display:flex; align-items:center; justify-content:center; gap:1rem;}
+.counter-item{ flex:1; text-align:center;color: var(--color-green); justify-content: center; align-items: center;}
+.counter-divider{ width:1px; height:70px;background:#d8d2c2; flex-shrink:0;}
+.counter {font-size:var(--text-h2); color: var(--color-green);font-weight:500; font-family:var(--font-body);}
+.counter-item p {font-size:var(--text-h4); color: var(--color-text-heading); font-family:var(--font-heading); font-weight:500;}
+
+
+/* ---------- NEKTA'S EDGE (arch cards) ---------- */
+.bc-edge-section { position: relative; background-color: var(--color-cream); }
+.bc-arch-grid { display: grid;grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem;}
+
+.bc-arch-card {position: relative; border: 1px solid var(--color-green); border-radius: 336px 336px 0 0; aspect-ratio: 320 / 416;    display: flex; flex-direction: column; justify-content: flex-end; align-items: center; text-align: center; padding: 1rem 1rem 2.5rem; overflow: hidden; transition: background-color var(--motion-base) var(--ease-premium);}
+
+.bc-arch-card img {width: clamp(52px, 4.6vw, 88px); height: auto; margin-bottom: 12px; transition: transform var(--motion-base) var(--ease-premium);}
+.bc-arch-card h3 {font-family:var(--font-heading); font-weight: 500; font-size: var(--text-h4); max-width: 100%; margin-inline: auto;}
+.bc-arch-card p {font-size: 1rem; max-height: 0;  opacity: 0; overflow: hidden; transition: max-height var(--motion-base) var(--ease-premium),  opacity var(--motion-base) var(--ease-premium),  margin-top var(--motion-base) var(--ease-premium);}
+.bc-arch-card:hover { background-color: rgba(116, 141, 110, 0.10);}
+.bc-arch-card:hover img {transform: translateY(-4px) scale(1.05);}
+.bc-arch-card:hover p {max-height: 200px;opacity: 1; margin-top: 8px;}
+
+/* Left tommato decoration three tilt card */
+.story-gallery-left { position: absolute; left: 9%; top: -4vw;}
+
+
+/* Want to explore more with nekta  */
+/* ---------- EVERY ENQUIRY ---------- */
+.cu-enquiry-section { position: relative; background-color: var(--color-cream); overflow: hidden;}
+.cu-enquiry-section::before {top: 46%;}
+.cu-enquiry-section::after { top: 56%; transform: rotate(-3deg);}
+.cu-enquiry-section .line-svg {  width: 100%; height: auto; overflow: visible; pointer-events: none; z-index: 0;}
+.cu-enquiry-section .line-svg svg { width: 100%; height: auto;display: block;}
+.cu-enquiry-section .container { position: relative; z-index: 2;}
+.cu-arch-media { position: relative; width: min(88%, 430px); max-width: 430px; margin-inline: auto; background: #e9e3cf;border-radius: 999px 999px 24px 24px; padding: clamp(10px, 2vw, 14px); overflow: hidden;transition: transform 0.4s ease, box-shadow 0.4s ease; box-shadow: 0 24px 60px rgba(35, 35, 35, 0.12);}
+.cu-enquiry-copy { max-width: 620px;margin-inline: auto; margin-top: 10px;}
+.cu-arch-media img { display: block; width: 100%; aspect-ratio: 400 / 342; object-fit: cover; border-radius: 999px 999px 16px 16px;}
+
+/* ---------- Drakcream bg thumbslider ---------- */
+.bg-darkcream-thumbslider{ background-color: var( --color-darkcream);}
+.bg-darkcream-thumbslider .read-more-wrapper h3 {    color: var( --color-text-heading);}
+.bg-darkcream-thumbslider .read-more-wrapper p {    color: var( --color-text-heading);}
+.bg-darkcream-thumbslider  .bc-life-frame { background: #D5CABF;}
+.bg-darkcream-thumbslider .bc-life-thumb { background: #D5CABF;}
+
+.bg-darkcream-thumbslider .merge-imgs {position: absolute; top:0vw; left: 0;width: 100%; height: auto; display: flex;align-items: center;  justify-content: center;}
+.bg-darkcream-thumbslider  .merge-imgs img {position: absolute;}
+.bg-darkcream-thumbslider .merge-imgs img:nth-child(1) {left: -7vw;top: 7vw;z-index: 10;}
+.bg-darkcream-thumbslider .merge-imgs img:nth-child(2) { left: -3vw; top: -3vw;z-index: -10;}
+
+.underline{text-decoration-line: underline;color:var(--color-third);}
+.read-more-content.is-collapsed::after {background: linear-gradient(   to bottom, rgba(247, 242, 231, 0), rgb(228, 215, 171)) !important;}
+/* WHat our culinary capability */
+.bc-deco { position: absolute; pointer-events: none; user-select: none; z-index: 1234; width: 11vw; rotate: -33deg;}
+
+/* WWhy client choose nekta Thumb slider */
+.bg-darkcream .edge-details h3 { color: var(--color-text-heading);}
+.bg-darkcream .edge-details p { color: var(--color-text-heading);}
+
+/* -------------Build to aviation standard--------------------- */
+.av-section{ background: var(--color-secondary);}
+/* dark-background equivalent of the site's --line token */
+.av-section{ --line-light: rgba(246,244,230,0.18); }
+.av-heading{color: var(--color-cream);margin-bottom: 2rem;}
+.av-heading em{ font-style: italic; font-weight: 500; color: var(--color-cream); opacity: 0.85;}
+/* -- media / arch image -- */
+.av-media-wrap{max-width: 640px;margin-inline: auto;}
+.av-arch{ position: relative; width: 100%; aspect-ratio: 4 / 4.25; overflow: hidden; border-radius: 340px 340px 24px 24px; border: 8px solid #8B9E84; box-shadow: 0 24px 44px rgba(0,0,0,0.18);}
+.av-arch img{ width: 100%; height: 100%; object-fit: cover;}
+.av-arrow{ position: absolute; top: 50%; transform: translateY(-50%); width: 44px; height: 44px; border-radius: 50%; border: none; background: var(--color-cream); color: var(--color-text-heading);display: flex;align-items: center;justify-content: center;box-shadow: 0 10px 20px rgba(0,0,0,0.18);cursor: pointer;transition: transform var(--motion-fast) var(--ease-premium), background var(--motion-fast) var(--ease-premium);}
+.av-arrow:hover{background: var(--color-third); color: var(--color-cream);}
+.av-arrow-prev{ left: -8px; }
+.av-arrow-next{ right: -8px; }
+/* -- list -- */
+.av-list{ list-style: none; margin: 0; padding: 0px 0px 0px 80px;}
+.av-item{ padding: 14px 0; border-bottom: 1px solid var(--line-light); cursor: pointer;}
+.av-item:first-child{ padding-top: 0; }
+.av-item span{ font-family: var(--font-heading); font-size: var(--text-22); color: var(--color-cream); opacity: 0.6; font-weight: 400;
+transition: opacity var(--motion-fast) var(--ease-premium), font-weight var(--motion-fast) var(--ease-premium);}
+.av-item.active span,
+.av-item:hover span{ opacity: 1;}
+.av-item.active span{ font-weight: 600;}
+.av-leaf{  width: 34px;  height: auto;opacity: 0.35; position: absolute; right: 0; bottom: -10px;}
+@media (max-width: 992px){
+   .av-media-wrap{ margin-bottom: 2.5rem; }
+   .av-arrow-prev{ left: 8px; }
+   .av-arrow-next{ right: 8px; }
+}
+
+/* -----------------------------------AVIATION END----------------------------- */
+
+
+@media (min-width: 1024px) {
+    .cu-arch-media {width: 100%;max-width: 22vw;}
+}
+
+@media (hover: hover) {
+    .cu-arch-media:hover { transform: translateY(-8px); box-shadow: 0 40px 80px rgba(35, 35, 35, 0.18);}
+}
+
+.cu-plate-deco { position: absolute; border-radius: 50%; pointer-events: none; user-select: none;}
+.cu-plate-wrap{ position:absolute; z-index:1; pointer-events:none; user-select:none;}
+/* Mobile & tablet: peek from corners without covering copy */
+.cu-plate-left{  left:-12%;  bottom:4%;  top:auto; width:clamp(96px, 26vw, 130px); transform:rotate(-10deg);}
+.cu-plate-right{right:-10%; top:8%; width:clamp(88px, 24vw, 120px); transform:rotate(8deg);}
+
+@media (min-width:768px) and (max-width:1279px){
+    .cu-plate-left{ left:-4%; bottom:8%; width:175px;}
+    .cu-plate-right{  right:-3%; top:14%; width:160px;}
+    .cu-coriander{  width:42px; top:14px; right:6px;}
+    .cu-strawberry{  width:36px;  top:18px; left:-6px;}
+}
+
+@media (min-width:1280px){
+    .cu-plate-left{  left:12%;  top:42%;  bottom:auto;  width:290px;  transform:rotate(-6deg);}
+    .cu-plate-right{ right:12%; top:40%; width:260px; transform:rotate(6deg);}
+    .cu-coriander{ width:62px; top:18px; right:8px;}
+    .cu-strawberry{ width:52px; top:24px; left:-8px;}
+}
+
+/* Background Circle */
+.cu-plate-circle{  position:absolute; inset:0; width:100%; height:100%; object-fit:contain; z-index:0;}
+/* Plate */
+.cu-plate-img{ position:relative; width:100%; display:block; z-index:2;}
+/* Common decorative image */
+.cu-plate-deco{  position:absolute;  z-index:5;  pointer-events:none;  user-select:none;}
+.cu-coriander{width:clamp(28px, 8vw, 62px); top:12px; right:4px; transform:rotate(-15deg);}
+.cu-strawberry{ width:clamp(24px, 7vw, 52px); top:16px; left:-6px; transform:rotate(-18deg);}
+
+.text-green {font-family: var(--font-heading);font-size: var(--text-h4);font-style: italic;font-weight: 700;display: inline-block;}
+.cu-enquiry-section .cu-plate-right .cu-plate-img{margin-left: -1.5vw;}
+
+
+@media (min-width: 768px) {
+    .bc-arch-grid { grid-template-columns: repeat(3, minmax(0, 1fr));}
+}
+@media (min-width: 1280px) {
+.bc-arch-grid {display: grid;grid-template-columns: repeat(5, 330px); /* adjust to your card width */justify-content: center;gap: 0;}
+}
+@media (min-width: 1280px) {
+    .bc-arch-card + .bc-arch-card {margin-left: -1px;margin-bottom: -1px;}
+}
+@media (min-width: 1024px) {
+    .bc-polaroid { display: block;}
+    .bc-polaroid--left { width: clamp(280px, 10vw, 449px); aspect-ratio: 449 / 418;left: clamp(-20px, 1.5vw, 30px);   transform: rotate(-20deg); position: relative;}
+    .bc-polaroid--right {width: clamp(230px, 18vw, 250px); aspect-ratio: 341 / 315;right: clamp(24px, 3.5vw, 68px);top: 6%;right: 11%;   transform: rotate(4deg);}
+}
+
+@media (max-width:991px){
+    .bc-plate-wrap::before{ width: 100%; height: 100%; right: 2%;top: 50%;}
+    .bc-plate-img{width:320px;}
+    .bc-plate-mini{position: absolute; right: -4%; top: 7%;width: 5rem;}
+}
+
+@media (max-width: 767px) {
+  .bc-plate-wrap {width: min(100%, 620px);}
+  .bc-plate-wrap::before{ width: 100%; height: 100%; right: 0;top: 50%;}
+  .thumb-grid-wrapper {position: relative; left: 0; margin-top: 0;}
+  .merge-imgs {top: 18vw;left: -10vw;max-width: 175px;}
+  .thumb-slider-thumbs {margin-top: -15vw;}
+  .bc-arch-grid {padding: 0 20px;}
+  .bc-dining-deco--basil {display: none;}
+  .counter-wrapper {flex-wrap: wrap;gap: 1rem;}
+  .bg-darkcream-thumbslider .merge-imgs img:nth-child(1) { left: -7vw; top: 52vw; z-index: 10;}
+  .av-list {list-style: none;margin: 0;padding: 0px 0px 0px 20px;}
+  .counter-wrapper {flex-wrap: wrap;gap: 1rem;}
+}

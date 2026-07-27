@@ -1,0 +1,45 @@
+@{
+    ViewData["Title"] = "Article";
+}
+
+
+@section head {
+    <title>Error - Page Not Found</title>
+
+    <meta content="error, 404, page not found" name="keywords" />
+    <meta content="The page you're looking for doesn't exist or may have been moved." name="description" />
+
+
+}
+ <div class="min-h-screen flex items-center justify-center relative overflow-hidden error-inside-page">
+
+        <section class="text-center px-6 sm:px-8 max-w-2xl mx-auto relative z-1 ">
+
+            <!-- 404 Number -->
+            <h1 class="text-[90px] sm:text-[120px] md:text-[160px] lg:text-[200px] font-bold text-gray-900 leading-none tracking-tight dark-textwhite">
+                404
+            </h1>
+
+            <!-- Heading -->
+            <h2 class="text-xl sm:text-2xl dark-textwhite md:text-3xl font-semibold text-gray-800 mt-4">
+                Oops! Page Not Found
+            </h2>
+
+            <!-- Description -->
+            <div class="mt-4">
+                <p>
+                    The page you're looking for doesn’t exist or may have been moved.
+                    Please check the URL or return to the homepage.
+                </p>
+            </div>
+
+            <!-- Buttons -->
+
+            <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
+                <a href="/" class="themeht-btn color-btn">
+                    Back to Home
+                </a>
+            </div>
+
+        </section>
+    </div>
