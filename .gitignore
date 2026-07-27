@@ -494,10 +494,10 @@ bin/
 Core_project_BusinessLogic/CryptoValues.cs
 Core_project_BusinessLogic/obj
 Priya_cement_BusinessLogic/obj
-Nekta_MVC/obj
+Priya_cement_MVC/obj
 Priya_cement_BusinessLogic/CryptoValues.cs
-Nekta_MVC/appsettings.json
+Priya_cement_MVC/appsettings.json
 Priya_cement_BusinessLogic/appsettings.json
-Nekta_MVC/publish_linux
+Priya_cement_MVC/publish_linux
 
 

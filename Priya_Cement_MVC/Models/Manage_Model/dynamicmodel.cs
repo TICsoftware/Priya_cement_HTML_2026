@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations;
 using System;
 
-namespace  Nekta_MVC.Models.Manage_Model
+namespace  Priya_cement_MVC.Models.Manage_Model
 {
     public enum FieldType
     {

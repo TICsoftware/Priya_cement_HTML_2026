@@ -1,6 +1,6 @@
 using Microsoft.Identity.Client;
 
-namespace Nekta_MVC;
+namespace Priya_cement_MVC;
 
 public class Component
 {

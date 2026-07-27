@@ -4,7 +4,7 @@ using System.Net;
 using System.Net.Mail;
 using System.Text.RegularExpressions;
 
-namespace Nekta_MVC.Classes
+namespace Priya_cement_MVC.Classes
 {
     public static class Helper
     {

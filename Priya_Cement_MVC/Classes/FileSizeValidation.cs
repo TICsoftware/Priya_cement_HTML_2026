@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace Nekta_MVC.Classes
+namespace Priya_cement_MVC.Classes
 {
     public class MaxFileSizeAttribute : ValidationAttribute
     {

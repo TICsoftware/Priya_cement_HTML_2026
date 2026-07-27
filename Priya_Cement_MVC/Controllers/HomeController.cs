@@ -1,12 +1,12 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using Nekta_MVC.Models;
-using Nekta_MVC.Classes;
+using Priya_cement_MVC.Models;
+using Priya_cement_MVC.Classes;
 using Priya_cement_BusinessLogic.BAL;
 using Priya_cement_BusinessLogic;
-using Nekta_MVC.Helpers;
+using Priya_cement_MVC.Helpers;
 
-namespace Nekta_MVC.Controllers;
+namespace Priya_cement_MVC.Controllers;
 
 public class HomeController : Controller
 {

@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using Microsoft.Identity.Client;
-using Nekta_MVC.Classes;
+using Priya_cement_MVC.Classes;
 using System.ComponentModel.DataAnnotations;
 
-namespace Nekta_MVC;
+namespace Priya_cement_MVC;
 
 public class Career
 {
