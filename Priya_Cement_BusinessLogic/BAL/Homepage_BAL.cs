@@ -4,11 +4,11 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
-using Priya_cement_BusinessLogic.DAL;
-using Priya_cement_BusinessLogic.Entity;
-using Priya_cement_BusinessLogic;
+using Priya_Cement_BusinessLogic.DAL;
+using Priya_Cement_BusinessLogic.Entity;
+using Priya_Cement_BusinessLogic;
 
-namespace Priya_cement_BusinessLogic.BAL
+namespace Priya_Cement_BusinessLogic.BAL
 {
     public class Homepage_BAL : Homepage_DAL
     {

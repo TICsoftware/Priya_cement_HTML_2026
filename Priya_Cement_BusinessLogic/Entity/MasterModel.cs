@@ -1,4 +1,4 @@
-namespace Priya_cement_BusinessLogic.Entity;
+namespace Priya_Cement_BusinessLogic.Entity;
 
 
 public class Options_List

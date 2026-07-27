@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
  <ItemGroup>
     <ProjectReference Include="..\Core_project_BusinessLogic\Core_project_BusinessLogic.csproj" />
-    <ProjectReference Include="..\Priya_cement_BusinessLogic\Priya_cement_BusinessLogic.csproj" />
+    <ProjectReference Include="..\Priya_Cement_BusinessLogic\Priya_Cement_BusinessLogic.csproj" />
   </ItemGroup>
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>

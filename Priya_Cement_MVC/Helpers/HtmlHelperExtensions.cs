@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Priya_cement_MVC.Helpers
+namespace Priya_Cement_MVC.Helpers
 {
     public static class HtmlHelperExtensions
     {

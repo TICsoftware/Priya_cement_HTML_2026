@@ -1,4 +1,4 @@
-namespace Priya_cement_MVC.Models;
+namespace Priya_Cement_MVC.Models;
 
 public class ErrorViewModel
 {

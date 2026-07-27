@@ -1,5 +1,5 @@
 {
-  "name": "Priya_cement_net8_2026",
+  "name": "Priya_Cement_net8_2026",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -10,16 +10,16 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/TICsoftware/Priya_cement_NET8_2026.git"
+    "url": "git+https://github.com/TICsoftware/Priya_Cement_NET8_2026.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "commonjs",
   "bugs": {
-    "url": "https://github.com/TICsoftware/Priya_cement_NET8_2026/issues"
+    "url": "https://github.com/TICsoftware/Priya_Cement_NET8_2026/issues"
   },
-  "homepage": "https://github.com/TICsoftware/Priya_cement_NET8_2026#readme",
+  "homepage": "https://github.com/TICsoftware/Priya_Cement_NET8_2026#readme",
   "dependencies": {
     "@tailwindcss/vite": "^4.2.2",
     "vite": "^8.0.8"

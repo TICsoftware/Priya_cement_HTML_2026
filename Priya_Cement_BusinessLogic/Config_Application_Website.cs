@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Priya_cement_BusinessLogic.Entity;
+using Priya_Cement_BusinessLogic.Entity;
 
-namespace Priya_cement_BusinessLogic
+namespace Priya_Cement_BusinessLogic
 {
     public static class Config_Application_Website
     {

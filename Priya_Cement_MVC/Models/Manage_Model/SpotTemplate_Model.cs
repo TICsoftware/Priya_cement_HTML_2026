@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Priya_cement_MVC.Models.Manage_Model
+namespace Priya_Cement_MVC.Models.Manage_Model
 {
     public class SpotTemplate_Model
     {

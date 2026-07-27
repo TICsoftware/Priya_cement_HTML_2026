@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 
-namespace Priya_cement_MVC;
+namespace Priya_Cement_MVC;
 
 public class cms_Reports
 {

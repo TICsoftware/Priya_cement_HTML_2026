@@ -1,8 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 using Newtonsoft.Json;
-using Priya_cement_MVC.Classes;
+using Priya_Cement_MVC.Classes;
 
-namespace Priya_cement_MVC;
+namespace Priya_Cement_MVC;
 
 public class ContactUs
 {

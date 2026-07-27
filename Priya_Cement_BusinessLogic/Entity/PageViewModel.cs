@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Priya_cement_BusinessLogic.Entity
+namespace Priya_Cement_BusinessLogic.Entity
 {
     public class PageViewModel
     {

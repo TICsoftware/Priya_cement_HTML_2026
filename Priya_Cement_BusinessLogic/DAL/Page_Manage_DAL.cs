@@ -7,7 +7,7 @@ using Microsoft.Extensions.Configuration;
 using System.Globalization;
 using Microsoft.Data.SqlClient;
 
-namespace Priya_cement_BusinessLogic.DAL
+namespace Priya_Cement_BusinessLogic.DAL
 {
     public class Page_Manage_DAL : DBHelper
     {

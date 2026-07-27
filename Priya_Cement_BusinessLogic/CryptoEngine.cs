@@ -3,7 +3,7 @@ using System.Security.Cryptography;
 using System.Text;
 
 
-namespace Priya_cement_BusinessLogic
+namespace Priya_Cement_BusinessLogic
 {
     public static class CryptoEngine
     {

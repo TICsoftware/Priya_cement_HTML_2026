@@ -8,7 +8,7 @@ using System.Security.Cryptography;
 using System.Threading.Tasks;
  
 
-namespace Priya_cement_BusinessLogic
+namespace Priya_Cement_BusinessLogic
 {
     public abstract class DBHelper : IDisposable
     {

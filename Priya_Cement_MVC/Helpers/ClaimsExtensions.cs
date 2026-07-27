@@ -4,7 +4,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
-namespace Priya_cement_MVC.Helpers
+namespace Priya_Cement_MVC.Helpers
 {
     public static class ClaimsExtensions
     {

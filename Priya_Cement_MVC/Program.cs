@@ -5,8 +5,8 @@ using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Rewrite;
 using Microsoft.Extensions.FileProviders;
-using Priya_cement_MVC.Policy;
-using Priya_cement_MVC.Routes;
+using Priya_Cement_MVC.Policy;
+using Priya_Cement_MVC.Routes;
 
 var builder = WebApplication.CreateBuilder(args);
 

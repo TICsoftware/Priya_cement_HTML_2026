@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using Microsoft.Identity.Client;
-using Priya_cement_MVC.Classes;
+using Priya_Cement_MVC.Classes;
 using System.ComponentModel.DataAnnotations;
 
-namespace Priya_cement_MVC;
+namespace Priya_Cement_MVC;
 
 public class Career
 {

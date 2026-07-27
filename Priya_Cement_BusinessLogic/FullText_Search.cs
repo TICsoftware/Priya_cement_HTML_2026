@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace Priya_cement_BusinessLogic
+namespace Priya_Cement_BusinessLogic
 {
     public class FullText_Search
     {

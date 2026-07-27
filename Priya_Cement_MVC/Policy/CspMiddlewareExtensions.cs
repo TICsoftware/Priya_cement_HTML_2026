@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Priya_cement_MVC.Policy
+namespace Priya_Cement_MVC.Policy
 {
     public static class CspMiddlewareExtensions
     {

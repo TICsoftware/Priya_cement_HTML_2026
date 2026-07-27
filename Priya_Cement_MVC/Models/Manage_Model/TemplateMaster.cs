@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
-namespace Priya_cement_MVC.Models.Manage_Model
+namespace Priya_Cement_MVC.Models.Manage_Model
 {
     public class Model_Template_Master
     {

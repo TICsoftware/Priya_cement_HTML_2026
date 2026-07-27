@@ -1,7 +1,7 @@
 
 using System.Text;
 
-namespace Priya_cement_MVC
+namespace Priya_Cement_MVC
 {
     public static class FileLogger
     {

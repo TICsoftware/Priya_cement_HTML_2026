@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
-namespace Priya_cement_MVC.Filters
+namespace Priya_Cement_MVC.Filters
 {
     public class SessionAuthorizeAttribute : ActionFilterAttribute
     {
