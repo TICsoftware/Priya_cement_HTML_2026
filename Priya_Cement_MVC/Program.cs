@@ -32,17 +32,22 @@ builder.Services.AddSession();
 // Add services to the container.
 //builder.Services.AddControllersWithViews();
 //.AddRazorRuntimeCompilation();
-if (builder.Environment.IsDevelopment())
-{
-    builder.Services.AddControllersWithViews();
-    //.AddRazorRuntimeCompilation();//uncomment while live
-}
-else
-{
-    builder.Services
-        .AddControllersWithViews();
-       // .AddRazorRuntimeCompilation();
-}
+
+builder.Services.AddControllersWithViews()
+    .AddRazorRuntimeCompilation();
+
+    
+// if (builder.Environment.IsDevelopment())
+// {
+//     builder.Services.AddControllersWithViews();
+//     //.AddRazorRuntimeCompilation();//uncomment while live
+// }
+// else
+// {
+//     builder.Services
+//         .AddControllersWithViews();
+//        // .AddRazorRuntimeCompilation();
+// }
 
 
 builder.Services.AddAuthentication("MyCookieAuth")

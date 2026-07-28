@@ -5,9 +5,6 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-
-<meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 @{
     var nonce = Context.Items["CSPNonce"]?.ToString();
 }
@@ -23,10 +20,8 @@
   <link rel="icon" type="image/png" sizes="512x512" href="~/Assets/images/favicon/android-chrome-512x512.png">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300..700;1,300..700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
-
+   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+   <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
 
 
   @RenderSection("head", required: false)
@@ -34,10 +29,10 @@
   <link rel="preload" href="~/dist/site.css" as="style"  onload="this.onload=null;this.rel='stylesheet'" asp-append-version="true">
   <link rel="stylesheet" href="~/dist/site.css" asp-append-version="true" />
 
-  
-  <link rel="stylesheet" href="~/Assets/css/swiper-bundle.min.css" />
+
   <link rel="preload" href="~/Assets/css/header-footer.css" as="style">
   <link rel="stylesheet" href="~/Assets/css/header-footer.css">
+  
   <link rel="preload" href="~/Assets/css/common-style.css" as="style">
   <link rel="stylesheet" href="~/Assets/css/common-style.css">
 
@@ -56,79 +51,13 @@
  @Html.Partial("~/Views/Shared/_Header.cshtml")
 
 
-    <div class="hero-assistant fixed top-1/2 right-0 z-50">
-               <button type="button" class="assistant-trigger" data-modal-open="contactModal"
-                  aria-label="Open assistant enquiry form">
-               <img loading="lazy" src="assets/images/assistant.png" alt="" class="hero-section-ass-img" aria-hidden="true"
-                  />
-               </button>
-            </div>
-
    <main id="main-content">
     @RenderBody()
 
     @Html.Partial("~/Views/Shared/_Footer.cshtml")
 
   </main>
-      <div id="contactModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="contactModalTitle" hidden>
-         <div class="modal-backdrop" data-modal-close></div>
-         <div class="modal-panel" tabindex="-1">
-            <button type="button" class="modal-close" data-modal-close aria-label="Close enquiry form">
-               <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
-                  <path
-                     d="m6.23 4.93 5.77 5.77 5.77-5.77 1.3 1.3L13.3 12l5.77 5.77-1.3 1.3L12 13.3l-5.77 5.77-1.3-1.3L10.7 12 4.93 6.23z" />
-               </svg>
-            </button>
-            <div class="modal-scroll">
-               <h2 id="contactModalTitle" class="modal-title">
-                  For Sales inquiries/RFIs/RFPs, please connect with us at
-                  <a href="mailto:sales@bubblefood.com">sales@bubblefood.com</a>
-                  or Fill in the <span>form below.</span>
-               </h2>
-               <p class="modal-intro">
-                  Please share your requirements.<br />
-                  An associate will connect with you shortly.
-               </p>
-               <form class="enquiry-form" action="#" method="post">
-                  <div class="form-field">
-                     <label for="fullName">Full Name Organisation</label>
-                     <input id="fullName" name="fullName" type="text" placeholder="Enter Full Name Organisation"
-                        autocomplete="organization" />
-                  </div>
-                  <div class="form-field">
-                     <label for="interest">Area of Interest</label>
-                     <select id="interest" name="interest">
-                        <option value="">Select</option>
-                        <option value="corporate">
-                           Business and Corporate
-                        </option>
-                        <option value="education">Education</option>
-                        <option value="healthcare">Healthcare</option>
-                        <option value="events">Outdoor Events</option>
-                     </select>
-                  </div>
-                  <div class="form-field">
-                     <label for="email">Email Address</label>
-                     <input id="email" name="email" type="email" placeholder="Enter Email Address"
-                        autocomplete="email" />
-                  </div>
-                  <div class="form-field">
-                     <label for="phone">Contact Number</label>
-                     <input id="phone" name="phone" type="tel" placeholder="Enter Contact Number"
-                        autocomplete="tel" />
-                  </div>
-                  <div class="form-field">
-                     <label for="message">Message</label>
-                     <textarea id="message" name="message" placeholder="Enter your message"></textarea>
-                  </div>
-                  <button type="submit" class="common-btn modal-submit btn-slide-fill">
-                  <span>Send Enquiry</span>
-                  <span aria-hidden="true">&rarr;</span>
-                  </button>
-               </form>
-            </div>
-         </div>
-      </div>
+
 
       <!--back to top-->
       <div class="back-to-top fixed bottom-3 right-5 w-8 h-8 sm:w-10 sm:h-10 rounded-full
@@ -170,13 +99,13 @@
 
 
   @* COMMON SCRIPT  *@
-   <script src="~/Assets/js/jquery.min.js"></script>
+  <script src="~/Assets/js/jquery.min.js"></script>
   <script src="~/Assets/js/gsap.min.js"></script>
   <script src="~/Assets/js/ScrollTrigger.min.js"></script>
   <script src="~/Assets/js/lenis.min.js"></script>
+  <script src="~/Assets/js/swiper-bundle.min.js"></script>
   <script src="~/Assets/js/common-script.js"></script>
   <script src="~/Assets/js/title-animation.js"></script>
-   <script src="~/Assets/js/swiper-bundle.min.js"></script>
   <!-- <script defer type="text/javascript" src="~/Assets/js/cookie-script.js"></script> -->
   
 
