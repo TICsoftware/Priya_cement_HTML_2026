@@ -24,7 +24,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
       normalizeWheel: true,
       syncTouch: false,
         prevent: (node) => {
-        return node.closest('.testimonial-content');
+        return node.closest('.testimonial-content') || node.closest('#products-section');
       }
     });
   
@@ -69,11 +69,119 @@ document.addEventListener("DOMContentLoaded", (event) => {
   }
 
 
+  // --------------------------------------------
+  // BACK TO TOP + SCROLL PROGRESS RING
+  // --------------------------------------------
+  (function initBackToTop() {
+    const btn = document.querySelector('.back-to-top');
+    const circle = document.querySelector('.progress-ring-circle');
+    if (!btn || !circle) return;
+
+    const radius = Number(circle.getAttribute('r')) || 45;
+    const circumference = 2 * Math.PI * radius;
+    const SHOW_AFTER = 420;
+
+    circle.style.strokeDasharray = String(circumference);
+    circle.style.strokeDashoffset = String(circumference);
+
+    const getScrollTop = () => {
+      if (window.lenis && typeof window.lenis.scroll === 'number') {
+        return window.lenis.scroll;
+      }
+      return window.scrollY || document.documentElement.scrollTop || 0;
+    };
+
+    const getScrollPercent = () => {
+      const scrollable = Math.max(
+        document.documentElement.scrollHeight - window.innerHeight,
+        1
+      );
+      return Math.min(Math.max(getScrollTop() / scrollable, 0), 1);
+    };
+
+    const updateScrollUI = () => {
+      const percent = getScrollPercent();
+      circle.style.strokeDashoffset = String(circumference * (1 - percent));
+
+      const show = getScrollTop() > SHOW_AFTER;
+      btn.classList.toggle('active', show);
+      btn.setAttribute('aria-hidden', show ? 'false' : 'true');
+      btn.tabIndex = show ? 0 : -1;
+    };
+
+    const scrollToTop = (e) => {
+      e.preventDefault();
+      if (window.lenis && typeof window.lenis.scrollTo === 'function') {
+        window.lenis.scrollTo(0, { duration: 1.1 });
+      } else {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    };
+
+    btn.addEventListener('click', scrollToTop);
+
+    if (window.lenis && typeof window.lenis.on === 'function') {
+      window.lenis.on('scroll', updateScrollUI);
+    }
+    window.addEventListener('scroll', updateScrollUI, { passive: true });
+    window.addEventListener('resize', updateScrollUI);
+    updateScrollUI();
+  })();
+
+
+// --------------------------------------------
+// HEADER ANIMATION
+// --------------------------------------------
+
   
 // --------------------------------------------
 // FOOTER YEAR
 // --------------------------------------------
-document.getElementById("year-foot").innerHTML = (new Date().getFullYear());
+const yearFoot = document.getElementById("year-foot");
+if (yearFoot) yearFoot.innerHTML = String(new Date().getFullYear());
+
+// --------------------------------------------
+// FOOTER VECTOR — smooth scroll reveal
+// --------------------------------------------
+(function initFooterVector() {
+  const vector = document.querySelector('.footer-vector');
+  if (!vector || typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
+
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduceMotion) {
+    gsap.set(vector, { clearProps: 'all', opacity: 0.7, y: 0 });
+    return;
+  }
+
+  gsap.set(vector, {
+    y: 90,
+    opacity: 0,
+    force3D: true,
+  });
+
+  gsap.to(vector, {
+    y: 0,
+    opacity: 0.7,
+    ease: 'none',
+    force3D: true,
+    overwrite: 'auto',
+    scrollTrigger: {
+      trigger: 'footer',
+      start: 'top 92%',
+      end: 'top 45%',
+      scrub: 1.1, // soft lag = smoother with Lenis than reverse play/pause
+      invalidateOnRefresh: true,
+    },
+  });
+
+  const refresh = () => ScrollTrigger.refresh();
+  if (!vector.complete) {
+    vector.addEventListener('load', refresh, { once: true });
+  } else {
+    refresh();
+  }
+})();
+
 
 // --------------------------------------------
 // HEADER
@@ -107,8 +215,69 @@ document.getElementById("year-foot").innerHTML = (new Date().getFullYear());
     });
   }
 
-  /* ---------- desktop interaction ---------- */
+  /* ---------- sync header height to CSS custom property ---------- */
   const header = document.getElementById('siteHeader');
+  function syncHeaderHeight() {
+    if (header) document.documentElement.style.setProperty('--header-h', header.offsetHeight + 'px');
+  }
+  syncHeaderHeight();
+  window.addEventListener('resize', syncHeaderHeight, { passive: true });
+
+  /* ---------- header load appear ---------- */
+  (function initHeaderIntro() {
+    if (!header || typeof gsap === 'undefined') {
+      header?.classList.remove('is-intro');
+      return;
+    }
+
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduceMotion) {
+      header.classList.remove('is-intro');
+      syncHeaderHeight();
+      return;
+    }
+
+    function playHeaderIntro() {
+      const parts = header.querySelectorAll('.logo-link, .primary-nav, .header-actions');
+
+      // Whole bar fades in after loader — no empty header strip during load
+      gsap.set(header, { autoAlpha: 0, y: -14, force3D: true });
+      gsap.set(parts, { y: -8, autoAlpha: 0, force3D: true });
+
+      const tl = gsap.timeline({
+        delay: 0.12,
+        onComplete() {
+          header.classList.remove('is-intro');
+          gsap.set(header, { clearProps: 'transform,opacity,visibility' });
+          gsap.set(parts, { clearProps: 'transform,opacity,visibility' });
+          syncHeaderHeight();
+        },
+      });
+
+      tl.to(header, {
+        autoAlpha: 1,
+        y: 0,
+        duration: 0.7,
+        ease: 'power3.out',
+        force3D: true,
+      }).to(
+        parts,
+        {
+          y: 0,
+          autoAlpha: 1,
+          duration: 0.55,
+          stagger: 0.07,
+          ease: 'power2.out',
+          force3D: true,
+        },
+        '-=0.4'
+      );
+    }
+
+    playHeaderIntro();
+  })();
+
+  /* ---------- desktop interaction ---------- */
   const megaPanel = document.getElementById('megaPanel');
   const megaInner = document.getElementById('megaInner');
   const megaBackdrop = document.getElementById('megaBackdrop');

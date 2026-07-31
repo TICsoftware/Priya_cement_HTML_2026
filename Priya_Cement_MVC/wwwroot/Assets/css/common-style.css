@@ -2,15 +2,257 @@
 TITLE ANIMATION
 =====================================**/
 .section-title-outer {margin-bottom: 30px;}
-.title-section{font-weight:400; color: var(--color-primary);margin-bottom: 15px;} 
-.section-title-outer p {font-size: var(--text-intro);}
+.title-section{color: var(--color-primary);margin-bottom: 15px;} 
+.title-section span {color: var(--color-secondary);}
+.eyebrow-text {color: var(--color-third); font-size: var(--text-12); text-transform: uppercase;font-weight: 400;letter-spacing: 1.2px; margin-bottom: 10px;}
+.section-title-outer p {font-size: var(--text-intro); max-width: 85%;}
 .section-title-outer-center {text-align: center;}
 .section-title-outer-start {text-align: start;}
 .intro-outer-wrapper p {font-size: var(--text-intro);}
+.section-title-md {max-width: 785px; margin:0 auto;}
+.section-title-sm {max-width: 520px; margin:0 auto;}
+.section-title-left {margin-left: 0; margin-right: auto;}
 
+body{overflow-x: hidden;}
+
+/**=====================================
+BACK TO TOP
+=====================================**/
+.back-to-top{
+  border: 0;
+  padding: 0;
+  transform: translate3d(0, 10px, 0);
+  box-shadow: 0 8px 24px rgba(35, 31, 32, 0.28);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+.back-to-top.active{
+  opacity: 1;
+  pointer-events: auto;
+  transform: translate3d(0, 0, 0);
+}
+.back-to-top:hover{
+  background-color: rgba(35, 31, 32, 0.88);
+}
+.back-to-top:focus-visible{
+  outline: 2px solid #ED1C24;
+  outline-offset: 3px;
+}
+.progress-ring-circle{
+  transition: stroke-dashoffset 0.12s linear;
+}
+
+/**=====================================
+FOOTER VECTOR
+=====================================**/
+.footer-vector{
+  opacity: 0.9;
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  transform: translate3d(0, 0, 0);
+}
+@media (prefers-reduced-motion: reduce) {
+  .footer-vector{
+    will-change: auto;
+    opacity: 0.9 !important;
+    transform: none !important;
+  }
+}
+
+/**=====================================
+TEXT REVEAL CSS
+=====================================**/
+.reveal-text .char {color: var(--title-grey);transition: color 0.6s ease;}
+.reveal-text .char.revealed {color: var(--color-primary);}
+.reveal-text .char.highlight.revealed {color: var(--color-secondary);}
+.white-copy .reveal-text .char.highlight.revealed {color: var(--color-white);}
+.white-copy .reveal-text .char.revealed {color: var(--color-white);}
 
 /**=====================================
 INNER BANNER CSS
 =====================================**/
 .into-section-center-wrapper {display: flex; justify-content: center;}
 .into-section-center-wrapper p {font-size: var(--text-intro); color: var(--color-text);}
+
+
+/* ==========================================================
+   Common Link/Button Style
+   ========================================================== */
+.site-link{
+  --link-color: #231F20;
+  --link-hover: #ED1C24;
+  --link-ease: cubic-bezier(.22,1,.36,1);
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  color: var(--link-color);
+  font-weight:400;
+  text-decoration:none;
+  position:relative;
+  padding-bottom:10px;
+  transition: color .28s var(--link-ease);
+  font-size: var(--text-button);
+}
+
+/* base underline — always visible, default color */
+.site-link::before{
+  content:"";
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:2px;
+  height:1px;
+  background: var(--link-color);
+}
+
+/* traveling underline — hidden, scales in on hover */
+.site-link::after{
+  content:"";
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:2px;
+  height:1px;
+  background: var(--link-hover);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform .28s var(--link-ease);
+}
+
+.site-link-arrow{
+  display:inline-block;
+  transition: transform .28s var(--link-ease);
+  transform: translateX(0);
+}
+
+.site-link:hover{
+  color: var(--link-hover);
+}
+
+.site-link:hover img {
+  filter: brightness(0) saturate(100%) invert(18%) sepia(99%) saturate(5054%) hue-rotate(349deg) brightness(97%) contrast(92%);
+}
+.site-link:hover::after{
+  transform: scaleX(1);
+}
+.site-link:hover .site-link-arrow{
+  transform: translateX(6px);
+}
+
+/* dark hero override */
+.hero-slide-link{
+  --link-color: #fff;
+  --link-hover: #ED1C24;
+}
+.white-link{
+  --link-color: #fff;
+  --link-hover: #ED1C24;
+}
+.white-link .site-link-arrow img{filter: invert(1);}
+.outer-bg-white {background-color: #fff;}
+.outer-btn-spacing {padding: 25px 25px;}
+
+
+.parallax-wrap {
+  overflow: hidden;
+  position: relative;
+}
+.parallax-img {
+  display: block;
+  width: 100%;
+  height: 130%;
+  object-fit: cover;
+  object-position: center;
+  will-change: transform;
+  backface-visibility: hidden;
+  transform: translate3d(0, 0, 0);
+}
+.bg-parallax-section .parallax-wrap{
+  position:absolute;
+  inset:0;
+  z-index:0;
+  overflow:hidden;
+  border-radius:0;
+}
+.bg-parallax-section .parallax-img{
+  position:absolute;
+  left:0;
+  top:0;
+  width:100%;
+  height:100%;
+  max-width:none;
+  object-fit:cover;
+  object-position:center;
+}
+
+
+.white-copy{
+  margin-left:0;
+  margin-right:auto;
+  color:var(--color-white, #fff);
+}
+.white-copy .eyebrow-text{
+  color:var(--color-white, #fff);
+}
+.white-copy .title-section,
+.white-copy p{
+  color:var(--color-white, #fff);
+}
+
+/**=====================================
+ODOMETER CSS
+=====================================**/
+.counter-odometer {display: inline-flex;align-items: baseline;gap: 0ch;font-variant-numeric: tabular-nums;line-height: 1;overflow: hidden;}
+.odometer-digit {overflow: hidden;display: inline-block;vertical-align: bottom;height: 1em;width: 1ch;text-align: center;font-family: inherit;font-weight: inherit;font-size: inherit;}
+.odometer-column {display: block;transform: translateY(0);will-change: transform; overflow: hidden;}
+.odometer-digit-line {display: block;height: 1em;line-height: 1em;box-sizing: border-box;}
+.counter-suffix {display: inline-block;margin-left: 0.35ch;font-family: inherit;font-size: var(--text-58);line-height: 1; color: var(--color-primary);font-weight: 500;}
+.odometer-comma {display: inline-block; width: 0.4em; text-align: center;font-weight: inherit;vertical-align: bottom;}
+.counter-wrap .counter, .counter-wrap .counter-no {font-size: var(--text-58);font-weight: 500;line-height: 1;}
+
+
+
+@media (prefers-reduced-motion: reduce) {
+  .parallax-img {
+    height: 100%;
+    will-change: auto;
+    transform: none !important;
+  }
+
+  .bg-parallax-section .parallax-img{
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    top:0;
+    transform:none !important;
+  }
+}
+
+
+@media (max-width: 992px){
+
+}
+
+@media (max-width: 767px){
+.section-title-outer p {max-width: 100%;}
+.section-title-md {max-width: 100%; }
+.section-title-sm {max-width: 100%; }
+}
+
+
+@media (min-width: 1200px) and (max-width: 1366px) {
+  .counter-wrap .counter, .counter-wrap .counter-no{font-size: 2.875rem;}
+
+}
+
+/* 150% zoom */
+@media screen and (min-width: 1025px) and (-webkit-min-device-pixel-ratio:1.5),screen and (min-width:1025px) and (min-resolution:144dpi) {
+
+   
+}
+
+/* 125% zoom */
+@media screen and (min-width: 1025px) and (-webkit-min-device-pixel-ratio:1.25),screen and (min-width:1025px) and (min-resolution:120dpi) {
+
+}

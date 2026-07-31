@@ -1,4 +1,4 @@
-﻿
+
 @{
     ViewData["Title"] = "Priya Cement";
     Layout = "~/Views/Shared/_Layout_home_page.cshtml";
@@ -6,6 +6,15 @@
 
 @section head {
     <title></title>
+
+    <script nonce="@(Context.Items["CSPNonce"])">document.documentElement.classList.add('site-preloader-pending');</script>
+    <style nonce="@(Context.Items["CSPNonce"])">
+      html.site-preloader-pending .site-header {
+        opacity:0 !important;
+        visibility:hidden !important;
+        pointer-events:none !important;
+      }
+    </style>
 
     <meta content="" name="keywords" />
     <meta content="" name="description" />
@@ -47,18 +56,643 @@
     <link rel="preload" href="~/Assets/css/homepage-style.css" as="style">
     <link rel="stylesheet" href="~/Assets/css/homepage-style.css" />
 
-    <link rel="preload" href="~/Assets/css/swiper-custom.css" as="style">
-    <link rel="stylesheet" href="~/Assets/css/swiper-custom.css" />
+    <link rel="preload" href="~/Assets/css/homepage-preloader.css" as="style" asp-append-version="true">
+    <link rel="stylesheet" href="~/Assets/css/homepage-preloader.css" asp-append-version="true" />
 }
 
-<div class="h-screen">Home</div>
+<section class="hero-banner-section">
+  <div class="swiper hero-swiper">
+    <div class="swiper-wrapper">
+
+      <!-- Slide 1 -->
+      <div class="swiper-slide">
+        <div class="slide-media">
+          <picture class="bannerinner-picture">
+              <source media="(min-width:768px)" srcset="Assets/images/banners/homebanner-desktop-1.webp">
+              <source media="(max-width:767px)" srcset="Assets/images/banners/homebanner-mobile-1.webp">
+              <img class="slide-bg" src="Assets/images/banners/homebanner-desktop-1.webp" alt="" fetchpriority="high">
+          </picture>
+        </div>
+
+        <div class="slide-scrim"></div>
+        
+        <div class="container slide-copy slide-copy--right flex items-center">
+          <div class="slide-content w-full md:w-[52%]">
+
+            <div class="banner-extra-logo-wrap"><img src="Assets/images/banners/40years-icon.svg" alt=""></div>
+
+            <div class="banner-logo-wrap"><img src="Assets/images/banners/maxload-logo.svg" alt=""></div>
+            <h1 class="text-h1 text-white">The strength behind tomorrow's landmarks</h1>
+            <p class="hero-para">
+              MAXLOAD is designed for demanding applications where durability, load-bearing capacity, and performance cannot be compromised.
+            </p>
+            
+          </div>
+        </div>
+          <div class="outer-hero-button outer-bg-white">
+            <a class="site-link" href="#">
+              Read the full story
+              <span class="site-link-arrow" aria-hidden="true"><img src="Assets/images/common-images/button-arrow-icon.svg" alt="" class="w-auto object-cover"></span>
+            </a>
+          </div>
+      </div>
+
+      <!-- Slide 2 -->
+      <div class="swiper-slide">
+        <div class="slide-media">
+          <picture class="bannerinner-picture">
+              <source media="(min-width:768px)" srcset="Assets/images/banners/homebanner-desktop-2.webp">
+              <source media="(max-width:767px)" srcset="Assets/images/banners/homebanner-mobile-2.webp">
+              <img class="slide-bg" src="Assets/images/banners/homebanner-desktop-2.webp" alt="">
+          </picture>
+        </div>
+
+        <div class="slide-scrim"></div>
+
+        <div class="container slide-copy slide-copy--right flex items-center">
+          <div class="slide-content w-full md:w-[52%]">
+          <div class="banner-extra-logo-wrap"><img src="Assets/images/banners/40years-icon.svg" alt=""></div>
+            <h2 class="text-h1 text-white">Building a Stronger India, Since 1986</h2>
+          <p class="hero-para">Founded on 15 August 1986, India's 39th Independence Day, Priya Cement was born alongside a nation driven by ambition and progress.</p>
+          </div>
+        </div>
+          <div class="outer-hero-button outer-bg-white">
+            <a class="site-link" href="#">
+              Read the full story
+              <span class="site-link-arrow" aria-hidden="true"><img src="Assets/images/common-images/button-arrow-icon.svg" alt="" class="w-auto object-cover"></span>
+            </a>
+          </div>
+      </div>
+
+      <!-- Slide 3 -->
+      <div class="swiper-slide">
+        <div class="slide-media">
+          <picture class="bannerinner-picture">
+              <source media="(min-width:768px)" srcset="Assets/images/banners/homebanner-desktop-3.webp">
+              <source media="(max-width:767px)" srcset="Assets/images/banners/homebanner-mobile-3.webp">
+              <img class="slide-bg" src="Assets/images/banners/homebanner-desktop-3.webp" alt="">
+          </picture>
+        </div>
+
+        <div class="slide-scrim"></div>
+
+        <div class="container slide-copy slide-copy--left flex items-center">
+          <div class="slide-content w-full md:w-[52%]">
+            <h2 class="text-h1 text-white">Laying the Foundation for Future Generations</h2>
+            <p class="hero-para">Nurturing young minds through holistic education at Priya Cement School.</p>
+          </div>
+        </div>
+          <div class="outer-hero-button outer-bg-white">
+            <a class="site-link" href="#">
+              Read the full story
+              <span class="site-link-arrow" aria-hidden="true"><img src="Assets/images/common-images/button-arrow-icon.svg" alt="" class="w-auto object-cover"></span>
+            </a>
+          </div>
+      </div>
+
+      <!-- Slide 4 -->
+      <div class="swiper-slide">
+        <div class="slide-media">
+          <picture class="bannerinner-picture">
+              <source media="(min-width:768px)" srcset="Assets/images/banners/homebanner-desktop-4.webp">
+              <source media="(max-width:767px)" srcset="Assets/images/banners/homebanner-mobile-4.webp">
+              <img class="slide-bg" src="Assets/images/banners/homebanner-desktop-4.webp" alt="">
+          </picture>
+        </div>
+
+        <div class="slide-scrim"></div>
+
+        <div class="container slide-copy slide-copy--right flex items-center">
+          <div class="slide-content w-full md:w-[52%]">
+            <h2 class="text-h1 text-white">Built for Volume. Engineered for Endurance.</h2>
+            <p class="hero-para">Backed by 4 million tonnes capacity to fuel mega infrastructure non-stop.</p>
+          </div>
+        </div>
+          <div class="outer-hero-button outer-bg-white">
+            <a class="site-link" href="#">
+              Read the full story
+              <span class="site-link-arrow" aria-hidden="true"><img src="Assets/images/common-images/button-arrow-icon.svg" alt="" class="w-auto object-cover"></span>
+            </a>
+          </div>
+      </div>
+
+    </div>
+
+    <!-- Pagination + nav — bottom center cluster -->
+    <div class="hero-pag-wrap">
+      <button type="button" class="swiper-button-prev" aria-label="Previous slide">
+        <img src="Assets/images/common-images/button-arrow-icon.svg" alt="" class="w-auto object-cover" aria-hidden="true">
+      </button>
+      <div class="hero-pagination"></div>
+      <button type="button" class="swiper-button-next" aria-label="Next slide">
+        <img src="Assets/images/common-images/button-arrow-icon.svg" alt="" class="w-auto object-cover" aria-hidden="true">
+      </button>
+    </div>
 
 
+  </div>
+</section>
 
+<section id="products-section" class="home-products-section section-spacing">
+    <div class="container">
+      <div class="section-title-outer section-title-outer-start section-title-md relative">
+          <h2 class="eyebrow-text"> Products </h2>
+          <h3 class="text-h2 title-section reveal-text">
+            Whatever you're building, there's a <span>Priya Cement</span> made for it
+          </h3>
+          <p> 
+            From family homes to a thermal power plant, we have been the choice for
+            structures built to outlast generations.
+          </p>
+
+          <div class="logo-lion-vector-outer">
+            <img src="Assets/images/common-images/logo-lion-vector.svg" alt="" class="w-auto h-auto object-cover">
+          </div>
+      
+      </div>
+    </div>
+
+    <div class="products-pin-track">
+      <div class="products-pin-sticky ">
+      <div class="outer-product-slider mt-8 sm:mt-10">
+        <div class="swiper product-swiper">
+          <div class="swiper-wrapper">
+  
+            <!-- Slide 1 -->
+            <div class="swiper-slide product-slide-box">
+              <div class="product-slide-inner">
+                <div class="rounded-sm overflow-hidden aspect-[1.05/1] product-slide-img">
+                  <a href="#">
+                    <img src="Assets/images/homepage/products/1.webp" alt="" class="w-full h-full object-cover">
+                  </a>
+                </div>
+                <div class="mt-4 space-y-4">
+                  <h3>MAXLOAD (OPC — 53 Grade)</h3>
+                  <div class="outer-btn-wrap">
+                     <a class="site-link" href="#">
+                      View specs
+                      <span class="site-link-arrow" aria-hidden="true"><img src="Assets/images/common-images/button-arrow-icon.svg" alt="" class="w-auto object-cover"></span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+  
+            <!-- Slide 2 -->
+            <div class="swiper-slide product-slide-box">
+              <div class="product-slide-inner">
+                <div class="rounded-sm overflow-hidden aspect-[1.05/1] product-slide-img">
+                  <a href="#">
+                  <img src="Assets/images/homepage/products/2.webp" alt="" class="w-full h-full object-cover">
+                  </a>
+                </div>
+                <div class="mt-4 space-y-4">
+                  <h3>Portland Pozzolana Cement (PPC)</h3>
+                    <div class="outer-btn-wrap">
+                    <a class="site-link" href="#">
+                      View specs
+                      <span class="site-link-arrow" aria-hidden="true"><img src="Assets/images/common-images/button-arrow-icon.svg" alt="" class="w-auto object-cover"></span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+  
+            <!-- Slide 3 -->
+            <div class="swiper-slide product-slide-box">
+              <div class="product-slide-inner">
+                <div class="rounded-sm overflow-hidden aspect-[1.05/1] product-slide-img">
+                  <a href="#">
+                    <img src="Assets/images/homepage/products/3.webp" alt="" class="w-full h-full object-cover">
+                  </a>
+                </div>
+                <div class="mt-4 space-y-4">
+                  <h3>MAXLOAD Bulk Cement</h3>
+                    <div class="outer-btn-wrap">
+                    <a class="site-link" href="#">
+                      View specs
+                      <span class="site-link-arrow" aria-hidden="true"><img src="Assets/images/common-images/button-arrow-icon.svg" alt="" class="w-auto object-cover"></span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+  
+            <!-- Slide 4 -->
+            <div class="swiper-slide product-slide-box">
+              <div class="product-slide-inner">
+                <div class="rounded-sm overflow-hidden aspect-[1.05/1] product-slide-img">
+                  <a href="#">
+                    <img src="Assets/images/homepage/products/2.webp" alt="" class="w-full h-full object-cover">
+                  </a>
+                </div>
+                <div class="mt-4 space-y-4">
+                  <h3>Priya Cement PSC</h3>
+                    <div class="outer-btn-wrap">
+                    <a class="site-link" href="#">
+                      View specs
+                      <span class="site-link-arrow" aria-hidden="true"><img src="Assets/images/common-images/button-arrow-icon.svg" alt="" class="w-auto object-cover"></span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Slide 5 -->
+            <div class="swiper-slide product-slide-box">
+              <div class="product-slide-inner">
+                <div class="rounded-sm overflow-hidden aspect-[1.05/1] product-slide-img">
+                  <a href="#">
+                    <img src="Assets/images/homepage/products/3.webp" alt="Cement product" class="w-full h-full object-cover">
+                  </a>
+                </div>
+                <div class="mt-4 space-y-4">
+                  <h3>Priya Cement PSC</h3>
+                  <div class="outer-btn-wrap">
+                    <a class="site-link" href="#">
+                      View specs
+                      <span class="site-link-arrow" aria-hidden="true"><img src="Assets/images/common-images/button-arrow-icon.svg" alt="" class="w-auto object-cover"></span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+  
+          </div>
+        </div>
+
+        <div class="product-swiper-nav" aria-label="Product slider navigation">
+          <button type="button" class="product-swiper-prev" aria-label="Previous product"></button>
+          <button type="button" class="product-swiper-next" aria-label="Next product"></button>
+        </div>
+      </div>
+    
+  
+    
+      </div>
+    </div>
+</section>
+
+<section class="home-whatwestandfor-section section-spacing overflow-hidden relative enlarge-outer-section">
+  <div class="container">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-12 items-center">
+        <div class="lg:col-span-5 leftContent-wrap">
+          <div class="section-title-outer section-title-outer-start section-title-md">
+              <h2 class="eyebrow-text">What We Stand For</h2>
+              <h3 class="text-h2 title-section reveal-text">
+                When the foundation matters, <span> every bag matters </span>
+              </h3>
+              <p>
+                Our commitment to quality is reflected in every process, every batch and every certification we earn.
+              </p>
+
+              <div class="outer-btn-wrap">
+                <a class="site-link" href="#">
+                  View our products
+                  <span class="site-link-arrow" aria-hidden="true"><img src="Assets/images/common-images/button-arrow-icon.svg" alt="" class="w-auto object-cover"></span>
+                </a>
+              </div>
+          </div>
+          <div>
+            <div class="grid grid-cols-3 sm:grid-cols-4 gap-3 md:gap-3 certificates-box-outer mt-8 sm:mt-10">
+                <div class="certificates-box">
+                    <img src="Assets/images/homepage/certificates/certificates-1.svg" alt="" class="w-auto object-cover">
+                </div>
+                <div class="certificates-box">
+                    <img src="Assets/images/homepage/certificates/certificates-2.svg" alt="" class="w-auto object-cover">
+                </div>
+                <div class="certificates-box">
+                    <img src="Assets/images/homepage/certificates/certificates-3.svg" alt="" class="w-auto object-cover">
+                </div>
+                <div class="certificates-box">
+                    <img src="Assets/images/homepage/certificates/certificates-4.svg" alt="" class="w-auto object-cover">
+                </div>
+                <div class="certificates-box">
+                    <img src="Assets/images/homepage/certificates/certificates-5.svg" alt="" class="w-auto object-cover">
+                </div>
+                <div class="certificates-box">
+                    <img src="Assets/images/homepage/certificates/certificates-6.svg" alt="" class="w-auto object-cover">
+                </div>
+                <div class="certificates-box">
+                    <img src="Assets/images/homepage/certificates/certificates-7.svg" alt="" class="w-auto object-cover">
+                </div>
+                <div class="certificates-box">
+                    <img src="Assets/images/homepage/certificates/certificates-8.svg" alt="" class="w-auto object-cover">
+                </div>
+            </div>
+          </div>
+        </div>
+        <div class="lg:col-span-7 rounded-sm parallax-wrap enlarge-wrapper">
+          <img  src="Assets/images/homepage/whatwestandfor-img.webp" alt="" class="w-full rounded-sm object-cover parallax-img">
+        </div>
+    </div>
+  
+  </div>
+</section>
+
+<section class="home-sustainability-section section-spacing overflow-hidden relative">
+  <div class="video-bg-wrap absolute top-0 inset-s-0 w-full h-full overflow-hidden">
+    <video
+      class="video-bg w-full h-full object-fit-cover"
+      autoplay
+      muted
+      loop
+      playsinline
+      poster="Assets/images/video/sustainability-poster.webp">
+      <source src="Assets/images/video/home-sustainability-video.mp4" type="video/mp4">
+    </video>
+    <div class="video-bg-overlay absolute top-0 inset-s-0 w-full h-full"></div>
+  </div>
+
+  <div class="container relative z-1">
+    <div class="section-title-outer section-title-outer-start section-title-sm white-copy">
+      <h2 class="eyebrow-text">sustainability</h2>
+      <h3 class="text-h2 title-section reveal-text">
+       Strong cement, Lighter footprint
+      </h3>
+      <p>
+       Building responsibly has always been part of how we build.
+      </p>
+
+      
+    </div>
+    <div class="sustainability-block divide-y divide-white/40 space-y-4 md:space-y-8">
+        <div class="pb-4 md:pb-5 lg:pb-6 counter-wrap-outer">
+          <div class="flex items-end gap-2 counter-wrap-inner">
+            <div class="counter-wrap flex items-center gap-2">
+              <span class="text-white counter" data-target="35" data-suffix="%">0</span>
+            </div>
+            <p class="stat-label">fly ash incorporated</p>
+          </div>
+          <p class="stat-sub">PPC puts industrial fly ash to work.</p>
+        </div>
+        <div class="pb-4 md:pb-5 lg:pb-6 counter-wrap-outer">
+          <div class="flex items-end gap-2 counter-wrap-inner">
+            <div class="counter-wrap flex items-center gap-2">
+              <p class="text-white counter" data-target="11" data-suffix="MW">0</p>
+            </div>
+            <span class="stat-label">waste heat recovered</span>
+          </div>
+          <p class="stat-sub">Process heat converted into clean electricity.</p>
+        </div>
+        <div class="pb-4 md:pb-5 lg:pb-6 counter-wrap-outer">
+          <div class="flex items-end gap-2 counter-wrap-inner">
+            <div class="counter-wrap flex items-center gap-2">
+              <span class="text-white counter-no">GreenPro</span>
+            </div>
+            <p class="stat-label">certified product</p>
+          </div>
+          <p class="stat-sub">Lifecycle-verified from source to end-of-life.</p>
+        </div>
+    </div>
+  </div>
+  <div class="outer-btn-wrap outer-bg-white outer-btn-spacing absolute left-0 bottom-0">
+        <a class="site-link" href="#">
+          Read our sustainability story
+          <span class="site-link-arrow" aria-hidden="true"><img src="Assets/images/common-images/button-arrow-icon.svg" alt="" class="w-auto object-cover"></span>
+        </a>
+  </div>
+</section>
+
+<section class="home-testimonials-section section-spacing bg-light-gray relative bg-testimonials-section">
+    <div class="testimonials-outer-wrap" aria-hidden="true">
+      <img src="Assets/images/homepage/home-testimonials-bg.webp" alt="" class="w-full h-full object-cover testimonials-bg-img">
+    </div>
+    <div class="container z-1">
+      <div class="testimonials-layout gap-10 lg:grid grid grid-cols-1 lg:grid-cols-12 lg:gap-16 lg:items-start">
+          <!-- Heading (always first) -->
+          <div class="testimonials-left-part lg:col-span-5">
+             <div class="section-title-outer section-title-outer-start section-title-sm section-title-left">
+                  <h2 class="eyebrow-text"> Pestimonials </h2>
+                  <h3 class="text-h2 title-section reveal-text">
+                 <span> Trusted by </span> those who know cement best
+                  </h3>
+                  <div class="outer-btn-wrap">
+                     <a class="site-link" href="#">
+                      Contact Us
+                      <span class="site-link-arrow" aria-hidden="true"><img src="Assets/images/common-images/button-arrow-icon.svg" alt="" class="w-auto object-cover"></span>
+                    </a>
+                  </div>
+              </div>
+          </div>
+
+          <!-- RIGHT: testimonial cards — marquee on desktop, load-more list on mobile -->
+          <div class="testimonials-marquee-col lg:col-span-7 min-h-0 overflow-hidden">
+            <div id="marquee-section" class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+              <!-- ================= COLUMN 1 — scrolls UP (desktop) ================= -->
+              <div class="marquee-viewport h-full lg:pt-16">
+                <div id="track-up" class="marquee-track up">
+
+                  <!-- Card 1 -->
+                  <div class="quote-card rounded-sm shrink-0">
+                    <div class="quote-mark"> <img src="Assets/images/common-images/quote-icon.svg" alt="" class="w-auto object-cover"></div>
+                    <p class="quote-card-para">
+                      The testing standards and consistent performance gave us the confidence we needed from foundation to finish.
+                    </p>
+                    <div class="flex items-center gap-3 quote-card-content">
+                      <img src="Assets/images/homepage/dummy-avtar.webp" alt="" class="w-15 h-15 rounded-full object-cover" />
+                      <div>
+                        <p class="quote-card-member">Vrushali Pandey</p>
+                        <p class="quote-card-desn">Engineer · Hyderabad</p>
+                      </div>
+                    </div>
+                    <div class="outer-btn-wrap">
+                      <a class="site-link" href="#">
+                        Read The Story
+                        <span class="site-link-arrow" aria-hidden="true"><img src="Assets/images/common-images/button-arrow-icon.svg" alt="" class="w-auto object-cover"></span>
+                      </a>
+                    </div>
+                  </div>
+
+                  <!-- Card 2 -->
+                  <div class="quote-card rounded-sm shrink-0">
+                    <div class="quote-mark"> <img src="Assets/images/common-images/quote-icon.svg" alt="" class="w-auto object-cover"></div>
+                    <p class="quote-card-para">
+                      Every batch performed the same as the last. That reliability is what let us hit deadlines without second-guessing the mix.
+                    </p>
+                    <div class="flex items-center gap-3 quote-card-content">
+                      <img src="Assets/images/homepage/dummy-avtar.webp" alt="" class="w-15 h-15 rounded-full object-cover" />
+                      <div>
+                        <p class="quote-card-member">Sandeep Rao</p>
+                        <p class="quote-card-desn">Site Supervisor · Pune</p>
+                      </div>
+                    </div>
+                    <div class="outer-btn-wrap">
+                      <a class="site-link" href="#">
+                        Read The Story
+                        <span class="site-link-arrow" aria-hidden="true"><img src="Assets/images/common-images/button-arrow-icon.svg" alt="" class="w-auto object-cover"></span>
+                      </a>
+                    </div>
+                  </div>
+
+                  <!-- Card 3 -->
+                  <div class="quote-card rounded-sm shrink-0">
+                    <div class="quote-mark"> <img src="Assets/images/common-images/quote-icon.svg" alt="" class="w-auto object-cover"></div>
+                    <p class="quote-card-para">
+                    Our quality audits stopped flagging variance the moment we moved to this cement. That alone paid for the switch.
+                    </p>
+                    <div class="flex items-center gap-3 quote-card-content">
+                      <img src="Assets/images/homepage/dummy-avtar.webp" alt="" class="w-15 h-15 rounded-full object-cover" />
+                      <div>
+                        <p class="quote-card-member">Rahul Deshmukh</p>
+                        <p class="quote-card-desn">QA Lead · Mumbai</p>
+                      </div>
+                    </div>
+                    <div class="outer-btn-wrap">
+                      <a class="site-link" href="#">
+                        Read The Story
+                        <span class="site-link-arrow" aria-hidden="true"><img src="Assets/images/common-images/button-arrow-icon.svg" alt="" class="w-auto object-cover"></span>
+                      </a>
+                    </div>
+                  </div>
+                
+
+                </div>
+              </div>
+
+              <!-- ================= COLUMN 2 — scrolls DOWN (desktop) ================= -->
+              <div class="marquee-viewport h-full">
+                <div id="track-down" class="marquee-track down">
+
+                  <!-- Card 1 -->
+                  <div class="quote-card rounded-sm shrink-0">
+                    <div class="quote-mark"> <img src="Assets/images/common-images/quote-icon.svg" alt="" class="w-auto object-cover"></div>
+                    <p class="quote-card-para">
+                      When you're responsible for the strength of a structure, consistency matters. Priya Cement delivered exactly that throughout our project.
+                    </p>
+                    <div class="flex items-center gap-3 quote-card-content">
+                      <img src="Assets/images/homepage/dummy-avtar.webp" alt="" class="w-15 h-15 rounded-full object-cover" />
+                      <div>
+                        <p class="quote-card-member">Amit Tike</p>
+                        <p class="quote-card-desn">Contractor · Vijayawada</p>
+                      </div>
+                    </div>
+                    <div class="outer-btn-wrap">
+                      <a class="site-link" href="#">
+                        Read The Story
+                        <span class="site-link-arrow" aria-hidden="true"><img src="Assets/images/common-images/button-arrow-icon.svg" alt="" class="w-auto object-cover"></span>
+                      </a>
+                    </div>
+                  </div>
+
+                  <!-- Card 2 -->
+                  <div class="quote-card rounded-sm shrink-0">
+                    <div class="quote-mark"> <img src="Assets/images/common-images/quote-icon.svg" alt="" class="w-auto object-cover"></div>
+                    <p class="quote-card-para">
+                      We switched suppliers mid-project once before — never again. This is the first brand that held up to spec every single time.
+                    </p>
+                    <div class="flex items-center gap-3 quote-card-content">
+                      <img src="Assets/images/homepage/dummy-avtar.webp" alt="" class="w-15 h-15 rounded-full object-cover" />
+                      <div>
+                        <p class="quote-card-member">Neha Kulkarni</p>
+                        <p class="quote-card-desn">Architect · Nagpur</p>
+                      </div>
+                    </div>
+                    <div class="outer-btn-wrap">
+                      <a class="site-link" href="#">
+                        Read The Story
+                        <span class="site-link-arrow" aria-hidden="true"><img src="Assets/images/common-images/button-arrow-icon.svg" alt="" class="w-auto object-cover"></span>
+                      </a>
+                    </div>
+                  </div>
+
+                  <!-- Card 3 -->
+                  <div class="quote-card rounded-sm shrink-0">
+                    <div class="quote-mark"> <img src="Assets/images/common-images/quote-icon.svg" alt="" class="w-auto object-cover"></div>
+                    <p class="quote-card-para">
+                        Fast curing, consistent grading, and a team that actually answers the phone when something needs checking on site.
+                    </p>
+                    <div class="flex items-center gap-3 quote-card-content">
+                      <img src="Assets/images/homepage/dummy-avtar.webp" alt="" class="w-15 h-15 rounded-full object-cover" />
+                      <div>
+                        <p class="quote-card-member">Kavita Joshi</p>
+                        <p class="quote-card-desn">Project Manager · Nashik</p>
+                      </div>
+                    </div>
+                    <div class="outer-btn-wrap">
+                      <a class="site-link" href="#">
+                        Read The Story
+                        <span class="site-link-arrow" aria-hidden="true"><img src="Assets/images/common-images/button-arrow-icon.svg" alt="" class="w-auto object-cover"></span>
+                      </a>
+                    </div>
+                  </div>
+                
+                </div>
+              </div>
+
+            </div>
+
+          <div class="mt-4 w-auto sm:w-auto flex justify-center lg:hidden">
+            <button
+              id="load-more-btn"
+              type="button"
+              class="inline-flex items-center justify-center gap-2 text-sm font-semibold  border border-neutral-900 rounded-full px-6 py-2 transition-colors"
+            >
+              Load More
+            </button>
+            </div>
+          </div>
+
+         
+      </div>
+    </div>
+</section>
+
+<section class="home-careers-section section-spacing overflow-hidden relative enlarge-outer-section">
+    <div class="container">
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-12 items-center">
+            <!-- Left Image -->
+            <div class="lg:col-span-7 rounded-sm parallax-wrap enlarge-wrapper">
+                <img  src="Assets/images/homepage/careers-img.webp" alt="" class="w-full rounded-sm object-cover parallax-img">
+            </div>
+
+            <!-- Right Content -->
+            <div class="lg:col-span-5 rightContent-wrap">
+
+               <div class="section-title-outer section-title-outer-start section-title-md">
+                  <h2 class="eyebrow-text"> Careers </h2>
+                  <h3 class="text-h2 title-section reveal-text">
+                    The structures we build are only as strong as <span>the people behind them</span> 
+                  </h3>
+                  <p> 
+                    From family homes to a thermal power plant, we have been the choice for
+                    structures built to outlast generations.
+                  </p>
+                </div>
+
+                <div class="flex flex-wrap gap-10 mt-10">
+
+                    <div class="outer-btn-wrap">
+                      <a class="site-link" href="#">
+                        Our Culture
+                        <span class="site-link-arrow" aria-hidden="true"><img src="Assets/images/common-images/button-arrow-icon.svg" alt="" class="w-auto object-cover"></span>
+                      </a>
+                    </div>
+
+                    <div class="outer-btn-wrap">
+                      <a class="site-link" href="#">
+                        Explore openings
+                        <span class="site-link-arrow" aria-hidden="true"><img src="Assets/images/common-images/button-arrow-icon.svg" alt="" class="w-auto object-cover"></span>
+                      </a>
+                    </div>
+                  
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</section>
 
 @section Scripts {
   @* ADDED SCRIPT  *@
-
+  <script src="~/Assets/js/swiper-bundle.min.js"></script>
+  <script src="~/Assets/js/homepage-script.js" asp-append-version="true"></script>
+  <script src="~/Assets/js/homepage-preloader.js" asp-append-version="true"></script>
+  <script src="~/Assets/js/odometer-counter-script.js"></script>
 
   
 }
