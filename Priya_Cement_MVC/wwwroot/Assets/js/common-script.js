@@ -104,6 +104,12 @@ document.addEventListener("DOMContentLoaded", (event) => {
       circle.style.strokeDashoffset = String(circumference * (1 - percent));
 
       const show = getScrollTop() > SHOW_AFTER;
+      // If the button currently holds focus and we're about to hide it,
+      // move focus away first — setting aria-hidden on a focused element
+      // is invalid (the browser blocks it and logs a console warning).
+      if (!show && document.activeElement === btn) {
+        btn.blur();
+      }
       btn.classList.toggle('active', show);
       btn.setAttribute('aria-hidden', show ? 'false' : 'true');
       btn.tabIndex = show ? 0 : -1;
