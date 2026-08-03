@@ -518,6 +518,8 @@ document.addEventListener("DOMContentLoaded", () => {
         transformOrigin: '50% 50%',
         force3D: true,
         borderRadius: '0.625rem',
+        autoAlpha: 0,
+        y: 30,
       });
 
       gsap.set(contentEls, {
@@ -544,21 +546,36 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       };
 
-      const tl = gsap.timeline({
-        defaults: { force3D: true },
+      // Entrance — video wrap fades/settles in as the section approaches,
+      // finishing before the pinned scrub takes over below.
+      const entranceTween = gsap.to(videoWrap, {
+        autoAlpha: 1,
+        y: 0,
+        ease: 'power2.out',
         scrollTrigger: {
           trigger: section,
-          start: () => `top top+=${getHeaderH()}`,
-          end: '+=110%',
-          pin: true,
-          scrub: 1.6,
+          start: 'top 85%',
+          end: 'top 60%',
+          scrub: 1,
           invalidateOnRefresh: true,
-          anticipatePin: 1,
-          onEnter: playVideo,
-          onEnterBack: playVideo,
-          onLeaveBack: resetOdometers,
         },
       });
+
+   const tl = gsap.timeline({
+  defaults: { force3D: true },
+  scrollTrigger: {
+    trigger: section,
+    start: () => `top top+=${getHeaderH()}`,
+    end: '+=90%',        // was '+=110%' — pin releases much sooner
+    pin: true,
+    scrub: 1.2,          // was 1.6 — slightly snappier response to scroll
+    invalidateOnRefresh: true,
+    anticipatePin: 1,
+    onEnter: playVideo,
+    onEnterBack: playVideo,
+    onLeaveBack: resetOdometers,
+  },
+});
 
       // Pinned flush to the header first (no gap) — video holds at 50% for
       // the first 30% of the pinned scroll, then travels to full bleed.
@@ -616,6 +633,8 @@ document.addEventListener("DOMContentLoaded", () => {
         resetOdometers();
         if (tl.scrollTrigger) tl.scrollTrigger.kill();
         tl.kill();
+        if (entranceTween.scrollTrigger) entranceTween.scrollTrigger.kill();
+        entranceTween.kill();
         gsap.set([videoWrap, ...contentEls], {
           clearProps: 'transform,opacity,visibility,borderRadius',
         });
@@ -642,6 +661,8 @@ document.addEventListener("DOMContentLoaded", () => {
         transformOrigin: '50% 50%',
         force3D: true,
         borderRadius: '0.625rem',
+        autoAlpha: 0,
+        y: 24,
       });
       gsap.set(contentEls, { autoAlpha: 0, y: 28, force3D: true });
 
@@ -662,6 +683,21 @@ document.addEventListener("DOMContentLoaded", () => {
           window.PriyaOdometer.reset(section);
         }
       };
+
+      // Entrance — video wrap fades/settles in as the section approaches,
+      // finishing before the scrub timeline starts below.
+      const entranceTween = gsap.to(videoWrap, {
+        autoAlpha: 1,
+        y: 0,
+        ease: 'power2.out',
+        scrollTrigger: {
+          trigger: section,
+          start: 'top 100%',
+          end: 'top 55%',
+          scrub: 1,
+          invalidateOnRefresh: true,
+        },
+      });
 
       const tl = gsap.timeline({
         defaults: { force3D: true },

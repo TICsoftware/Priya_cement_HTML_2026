@@ -148,7 +148,8 @@
    .mega-promo {display: none;}
     .primary-nav, .mega-stage, .mega-backdrop, .divider-v{display:none;}
     .header-inner{height:auto;gap:8px;}
-    .logo-link img{height:30px;}
+    .logo-link img{height:25px;}
+    .site-header.is-compact {padding: 4px 0;}
     .mobile-toggle{ display:flex; align-items:center; justify-content:center; width:36px;height:36px; border-radius:9px;    background:none;border:none; cursor:pointer;  margin-left:2px; flex-shrink:0;}
     .mobile-toggle span{display:block;width:18px;height:2px;background:var(--color-primary);border-radius:2px; position:relative;    transition:background .2s ease; }
     .mobile-toggle span::before,.mobile-toggle span::after{ content:"";position:absolute;left:0;width:18px;height:2px;background:var(--color-primary);border-radius:2px; transition:transform .3s var(--ease), top .3s var(--ease), opacity .2s ease; }
@@ -243,8 +244,8 @@
    .icon-btn img { width: 15px; height: 15px;}
    .icon-btn {width: 30px;height: 30px;}
    .header-actions {gap: 4px;}
-    .site-header.is-compact .logo-link img {height: 42px;}
-
+   .site-header.is-compact .logo-link img {height: 42px;}
+   .mega-panel {max-width: 90%;}
 }
 
 
