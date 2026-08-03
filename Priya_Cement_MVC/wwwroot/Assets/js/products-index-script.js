@@ -110,4 +110,94 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     }
   }
+
+/* ---------------------------------------
+   PRODUCTS LION — scale up + stroke draw → fill
+--------------------------------------- */
+  if (!reduceMotion && typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+    const lionWrap = document.querySelector('.lion-logo-wrap');
+    const lionSvg = lionWrap && lionWrap.querySelector('.lion-logo-svg');
+    const lionFill = lionSvg && lionSvg.querySelector('.lion-logo-fill');
+
+    if (lionWrap && lionSvg && lionFill) {
+      // Clone fill path as a stroke outline for the line-draw
+      let lionStroke = lionSvg.querySelector('.lion-logo-stroke');
+      if (!lionStroke) {
+        lionStroke = lionFill.cloneNode();
+        lionStroke.removeAttribute('fill');
+        lionStroke.classList.remove('lion-logo-fill');
+        lionStroke.classList.add('lion-logo-stroke');
+        lionStroke.setAttribute('fill', 'none');
+        lionStroke.setAttribute('stroke', '#C8C8C8');
+        lionStroke.setAttribute('stroke-width', '1.75');
+        lionStroke.setAttribute('stroke-linecap', 'round');
+        lionStroke.setAttribute('stroke-linejoin', 'round');
+        lionStroke.setAttribute('vector-effect', 'non-scaling-stroke');
+        lionSvg.insertBefore(lionStroke, lionFill);
+      }
+
+      const pathLen = (() => {
+        try {
+          return lionStroke.getTotalLength();
+        } catch (e) {
+          return 0;
+        }
+      })();
+
+      if (pathLen > 0) {
+        gsap.set(lionWrap, {
+          scale: 0.05,
+          transformOrigin: '50% 50%',
+          force3D: true,
+        });
+        gsap.set(lionStroke, {
+          strokeDasharray: pathLen,
+          strokeDashoffset: pathLen,
+          autoAlpha: 1,
+        });
+        gsap.set(lionFill, { autoAlpha: 0 });
+
+        // Trigger on the lion itself — section top fires too early
+        // while the logo sits at the bottom of the products grid.
+        gsap
+          .timeline({
+            scrollTrigger: {
+              trigger: lionWrap,
+              start: 'top 85%',
+              toggleActions: 'play none none reverse',
+              invalidateOnRefresh: true,
+            },
+          })
+          .to(
+            lionWrap,
+            {
+              scale: 1,
+              duration: 1.35,
+              ease: 'power2.out',
+              force3D: true,
+            },
+            0
+          )
+          .to(
+            lionStroke,
+            {
+              strokeDashoffset: 0,
+              duration: 1.35,
+              ease: 'power2.inOut',
+            },
+            0
+          )
+          .to(
+            lionFill,
+            { autoAlpha: 1, duration: 0.55, ease: 'power2.out' },
+            '-=0.3'
+          )
+          .to(
+            lionStroke,
+            { autoAlpha: 0, duration: 0.4, ease: 'power1.out' },
+            '-=0.35'
+          );
+      }
+    }
+  }
 });

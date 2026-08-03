@@ -884,18 +884,6 @@ z-index: -1;
   z-index: -1;
   pointer-events: none;
 }
-.lion-logo-svg {
-  display: block;
-  width: 100%;
-  height: auto;
-  max-width: min(45vw, 480px);
-}
-.lion-logo-stroke {
-  fill: none;
-}
-.lion-logo-fill {
-  will-change: opacity;
-}
 
 
 

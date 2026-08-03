@@ -234,6 +234,21 @@ ODOMETER CSS
 .counter-wrap .counter, .counter-wrap .counter-no {font-size: var(--text-58);font-weight: 500;line-height: 1;}
 
 
+.lion-logo-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-width: min(45vw, 480px);
+}
+.lion-logo-stroke {
+  fill: none;
+}
+.lion-logo-fill {
+  will-change: opacity;
+}
+
+
+
 
 @media (prefers-reduced-motion: reduce) {
   .parallax-img {
