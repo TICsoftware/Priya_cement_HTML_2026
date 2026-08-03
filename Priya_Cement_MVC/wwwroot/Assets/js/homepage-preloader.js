@@ -95,8 +95,8 @@
     let finished = false;
     let shatterStarted = false;
     let shatterHandle = null;
-    const MIN_MS = 1400;
-    const MAX_MS = 4500;
+    const MIN_MS = 750;
+    const MAX_MS = 3500;
     const SHATTER_AT = 80; // dissolve starts once the bar reaches this
     const FAST_TIME_SCALE = 6; // speed multiplier applied the instant we hit 100%
     let pageLoaded = document.readyState === 'complete';
@@ -135,7 +135,7 @@
       const minRatio = Math.min(1, elapsed / MIN_MS);
       // Reserve the last stretch for real load confirmation, not a guess.
       const target = pageLoaded ? 100 : Math.min(90, Math.round(minRatio * 90));
-      shown += (target - shown) * 0.2;
+      shown += (target - shown) * 0.35;
       if (target - shown < 0.4) shown = target;
       const displayed = Math.round(shown);
       setProgress(displayed);
@@ -164,14 +164,14 @@
       if (typeof gsap !== 'undefined') {
         gsap.to(preloader, {
           autoAlpha: 0,
-          duration: 0.45,
+          duration: 0.25,
           ease: 'power2.out',
           onComplete: () => preloader.remove(),
         });
       } else {
-        preloader.style.transition = 'opacity .45s ease';
+        preloader.style.transition = 'opacity .25s ease';
         preloader.style.opacity = '0';
-        window.setTimeout(() => preloader.remove(), 460);
+        window.setTimeout(() => preloader.remove(), 260);
       }
     }
 
@@ -243,19 +243,19 @@
           y: (i, target) => parseFloat(target.dataset.dy) + gsap.utils.random(-20, 20),
           rotate: () => gsap.utils.random(-45, 45),
           scale: 0.6,
-          duration: 0.8,
+          duration: 0.5,
           ease: 'power2.out',
-          stagger: { amount: 0.3, from: 'random' },
+          stagger: { amount: 0.15, from: 'random' },
           onComplete: onTilesDone,
         });
         return { fastForward: () => tween.timeScale(FAST_TIME_SCALE) };
       }
 
       tiles.forEach((t) => {
-        t.style.transition = 'opacity .5s ease';
+        t.style.transition = 'opacity .3s ease';
         t.style.opacity = '0';
       });
-      let fallbackTimer = window.setTimeout(onTilesDone, 500);
+      let fallbackTimer = window.setTimeout(onTilesDone, 320);
       return {
         fastForward: () => {
           window.clearTimeout(fallbackTimer);
