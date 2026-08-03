@@ -28,7 +28,7 @@
   }
   .primary-nav{position:relative; display:flex; align-items:center; gap:4px; flex:1;justify-content: end;}
   .nav-item{ position:relative;}
-  .nav-trigger{appearance:none; background:none; border:none; font-weight:500; font-size:1.125rem;display:flex;  align-items:center; gap:6px; padding:10px 14px; border-radius:8px; cursor:pointer; transition:color .2s ease, background .2s ease; white-space:nowrap;}
+  .nav-trigger{appearance:none; background:none; border:none; font-weight:500; font-size:1rem;display:flex;  align-items:center; gap:6px; padding:10px 14px; border-radius:8px; cursor:pointer; transition:color .2s ease, background .2s ease; white-space:nowrap;}
   .nav-trigger:hover, .nav-item.is-active .nav-trigger{ color:var(--color-secondary); background:var(--red-tint);}
   .nav-trigger svg{ width:11px; height:11px; flex-shrink:0; transition:transform .3s var(--ease); stroke:currentColor;}
   .nav-item.is-active .nav-trigger svg{ transform:rotate(180deg);}
@@ -44,7 +44,7 @@
   .icon-btn img{width:19px;height:19px;}
   .icon-btn svg{width:19px;height:19px;stroke:var(--color-primary);}
   .lang-wrap{position:relative;}
-  .lang-btn{ appearance:none; background:none; border:none; display:flex; align-items:center; gap:6px; height:38px; padding:0 10px 0 12px;border-radius:9px; cursor:pointer; font-weight:500; font-size:1.125rem; color:var(--color-primary); transition:background .2s ease;  }
+  .lang-btn{ appearance:none; background:none; border:none; display:flex; align-items:center; gap:6px; height:38px; padding:0 10px 0 12px;border-radius:9px; cursor:pointer; font-weight:500; font-size:0.875rem; color:var(--color-primary); transition:background .2s ease;  }
   .lang-btn:hover{background:var(--red-tint);}
   .lang-btn img{width:18px;height:18px;}
   .lang-btn svg.chev{width:9px;height:9px;stroke:currentColor;transition:transform .25s var(--ease);}
@@ -58,7 +58,7 @@
   .divider-v{ width:1px; height:24px; background:var(--color-primary); margin:0 6px;}
   .whatsapp-btn:hover{background:rgba(37,211,102,0.12);color:#25D366;}
   .whatsapp-btn svg{width:19px;height:19px;}
-  .btn-dealer{ font-weight:500; font-size:1.125rem; color: var(--color-primary); border:none;cursor:pointer;transition:color .25s ease, transform .2s ease;}
+  .btn-dealer{ font-weight:500; font-size:0.875rem; color: var(--color-primary); border:none;cursor:pointer;transition:color .25s ease, transform .2s ease;}
   .btn-dealer:hover{color:var(--color-secondary);}
   .btn-dealer:active{transform:scale(.97);}
 
@@ -262,7 +262,8 @@
    .logo-link img {height: 60px;}
    .ml-title{font-size:0.875rem;}
    .ml-desc {font-size:0.75rem;}
-   .nav-trigger, .btn-dealer, .lang-btn{font-size: 1rem;}
+   .nav-trigger{font-size: 1rem;}
+   .btn-dealer, .lang-btn{font-size: 0.875rem;}
    .header-inner {gap: 15px;}
    .icon-btn img { width: 15px; height: 15px;}
    .icon-btn {width: 30px;height: 30px;}

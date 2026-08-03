@@ -162,6 +162,7 @@ img, picture, video, canvas {
 
 @layer utilities {  
   .rounded-sm {border-radius:0.625rem;}
+  .rounded-md {border-radius:1.25rem;}
 
    .section-spacing {
     @apply py-10 md:py-15 2xl:py-20;

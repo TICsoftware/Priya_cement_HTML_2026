@@ -464,7 +464,7 @@
 }
 
 
-
+.eyebrow-text {display: none;}
 
 @media (max-width: 992px){
   .home-products-section .outer-product-slider{
@@ -693,6 +693,7 @@
     overflow: hidden;
     -webkit-mask-image: linear-gradient(to bottom, transparent 0, black 64px, black calc(100% - 64px), transparent 100%);
             mask-image: linear-gradient(to bottom, transparent 0, black 64px, black calc(100% - 64px), transparent 100%);
+    touch-action: pan-x;
   }
 
   .marquee-track {
@@ -715,7 +716,7 @@
     animation-duration: 32s;
   }
 
-  /* start running only once the section enters view */
+  /* start running only once the section enters view (CSS fallback) */
   .section-in-view .marquee-track {
     animation-play-state: running;
   }
@@ -723,6 +724,22 @@
   /* pause whichever column is hovered, without affecting the other */
   .marquee-viewport:hover .marquee-track {
     animation-play-state: paused;
+  }
+
+  /* JS-driven marquee (auto + drag) — kill CSS keyframes */
+  #marquee-section.is-js-marquee .marquee-track {
+    animation: none !important;
+    cursor: grab;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+  #marquee-section.is-js-marquee .marquee-viewport {
+    touch-action: none;
+    cursor: grab;
+  }
+  #marquee-section.is-js-marquee .marquee-viewport.is-dragging,
+  #marquee-section.is-js-marquee .marquee-viewport.is-dragging .marquee-track {
+    cursor: grabbing;
   }
 
   @keyframes scrollUp {
@@ -736,6 +753,9 @@
 
   @media (prefers-reduced-motion: reduce) {
     .marquee-track { animation: none !important; }
+    #marquee-section.is-js-marquee .marquee-track {
+      cursor: default;
+    }
   }
 
 
@@ -860,7 +880,7 @@ z-index: -1;
 .logo-lion-vector-outer {
   position: absolute;
   top: -2vw;
-  right: -10vw;
+  left: -18vw;
   z-index: -1;
   pointer-events: none;
 }
@@ -868,7 +888,7 @@ z-index: -1;
   display: block;
   width: 100%;
   height: auto;
-  max-width: min(28vw, 280px);
+  max-width: min(45vw, 480px);
 }
 .lion-logo-stroke {
   fill: none;

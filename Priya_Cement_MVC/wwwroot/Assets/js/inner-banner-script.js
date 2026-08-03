@@ -1,41 +1,48 @@
 document.addEventListener("DOMContentLoaded", () => {
-// Background image parallax
-gsap.to(".innerbanner-image", {
-    yPercent: 15,
-    ease: "none",
-    scrollTrigger: {
-        trigger: ".inside-banner-outer",
-        start: "top top",
-        end: "bottom top",
-        scrub: true
-    }
-});
+  if (typeof gsap === "undefined" || typeof ScrollTrigger === "undefined") return;
 
-// Slow zoom while scrolling
-gsap.fromTo(".innerbanner-image",
-{
-    scale: 1.15
-},
-{
+  const banner = document.querySelector(".inside-banner-outer");
+  const image = document.querySelector(".innerbanner-image");
+  const caption = document.querySelector(".innerbanner-caption");
+  if (!banner || !image) return;
+
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  // Natural size on load — zoom only happens while scrolling
+  gsap.set(image, {
     scale: 1,
-    ease: "none",
-    scrollTrigger: {
-        trigger: ".inside-banner-outer",
+    yPercent: 0,
+    transformOrigin: "50% 50%",
+    force3D: true,
+  });
+
+  if (!reduceMotion) {
+    // Scroll: soft Y parallax + gentle zoom out of the crop
+    gsap.to(image, {
+      yPercent: 12,
+      scale: 1.12,
+      ease: "none",
+      force3D: true,
+      scrollTrigger: {
+        trigger: banner,
         start: "top top",
         end: "bottom top",
-        scrub: true
+        scrub: true,
+      },
+    });
+  }
+
+  // Load: caption reveal
+  if (caption) {
+    if (reduceMotion) {
+      gsap.set(caption, { clearProps: "all" });
+    } else {
+      gsap.from(caption, {
+        y: 80,
+        opacity: 0,
+        duration: 1.4,
+        ease: "power4.out",
+      });
     }
+  }
 });
-
-// Text reveal
-gsap.from(".innerbanner-caption",{
-    y:80,
-    opacity:0,
-    duration:1.4,
-    ease:"power4.out"
-});
-
-});
-
-
-

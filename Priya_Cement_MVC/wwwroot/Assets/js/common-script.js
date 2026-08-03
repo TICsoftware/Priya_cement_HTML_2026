@@ -160,7 +160,7 @@ if (yearFoot) yearFoot.innerHTML = String(new Date().getFullYear());
   }
 
   gsap.set(vector, {
-    y: 90,
+    y: 140,
     opacity: 0,
     force3D: true,
   });
