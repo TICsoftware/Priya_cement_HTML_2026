@@ -880,6 +880,7 @@
     max-width: 100%;position:relative;margin-top: 20px;
   }
   .home-sustainability-section {height: calc(115vh - var(--header-h, 0px)); min-height: calc(115vh - var(--header-h, 0px));}
+  .logo-lion-vector-outer {max-width: 65%;}
 }
 
 
