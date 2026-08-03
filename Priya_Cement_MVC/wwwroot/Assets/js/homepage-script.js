@@ -286,6 +286,114 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 /* ---------------------------------------
+   PRODUCTS LION — title top-right → viewport bottom-left (scrub)
+--------------------------------------- */
+  // if (
+  //   !reduceMotion &&
+  //   sectionProducts &&
+  //   typeof gsap !== 'undefined' &&
+  //   typeof ScrollTrigger !== 'undefined'
+  // ) {
+  //   const lion = sectionProducts.querySelector('.logo-lion-vector-outer');
+
+  //   if (lion) {
+  //     const mmLion = gsap.matchMedia();
+
+  //     mmLion.add('(min-width: 768px)', () => {
+  //       let origin = null;
+
+  //       const getPad = () => (window.innerWidth < 1024 ? 20 : 28);
+
+  //       const clearTravel = () => {
+  //         origin = null;
+  //         lion.classList.remove('is-lion-traveling');
+  //         gsap.set(lion, {
+  //           clearProps:
+  //             'position,top,left,right,bottom,width,height,x,y,zIndex,margin',
+  //         });
+  //       };
+
+  //       const captureOrigin = () => {
+  //         gsap.set(lion, {
+  //           clearProps:
+  //             'position,top,left,right,bottom,width,height,x,y,zIndex,margin',
+  //         });
+  //         lion.classList.remove('is-lion-traveling');
+
+  //         const r = lion.getBoundingClientRect();
+  //         origin = {
+  //           left: r.left,
+  //           top: r.top,
+  //           w: r.width,
+  //           h: r.height,
+  //         };
+
+  //         gsap.set(lion, {
+  //           position: 'fixed',
+  //           top: origin.top,
+  //           left: origin.left,
+  //           right: 'auto',
+  //           bottom: 'auto',
+  //           width: origin.w,
+  //           height: origin.h,
+  //           x: 0,
+  //           y: 0,
+  //           zIndex: 0,
+  //           margin: 0,
+  //           pointerEvents: 'none',
+  //           force3D: true,
+  //         });
+  //         lion.classList.add('is-lion-traveling');
+  //       };
+
+  //       const applyProgress = (progress) => {
+  //         if (!origin) captureOrigin();
+  //         if (!origin) return;
+
+  //         const pad = getPad();
+  //         const dx = pad - origin.left;
+  //         const dy = window.innerHeight - pad - origin.h - origin.top;
+  //         const p = gsap.parseEase('power2.inOut')(progress);
+
+  //         gsap.set(lion, {
+  //           x: dx * p,
+  //           y: dy * p,
+  //           force3D: true,
+  //         });
+  //       };
+
+  //       const st = ScrollTrigger.create({
+  //         trigger: sectionProducts,
+  //         start: 'top 80%',
+  //         end: 'top 28%',
+  //         scrub: 1.2,
+  //         invalidateOnRefresh: true,
+  //         onUpdate: (self) => {
+  //           applyProgress(self.progress);
+  //         },
+  //         onRefresh: (self) => {
+  //           if (self.progress <= 0) {
+  //             clearTravel();
+  //             return;
+  //           }
+  //           origin = null;
+  //           applyProgress(self.progress);
+  //         },
+  //         onLeaveBack: () => {
+  //           clearTravel();
+  //         },
+  //       });
+
+  //       return () => {
+  //         st.kill();
+  //         clearTravel();
+  //       };
+  //     });
+  //   }
+  // }
+
+
+/* ---------------------------------------
    PARALLAX IMAGE
 --------------------------------------- */
   if (!reduceMotion && typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
