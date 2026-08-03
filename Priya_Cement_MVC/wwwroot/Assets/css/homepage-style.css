@@ -911,7 +911,7 @@ z-index: -1;
   .logo-lion-vector-outer {max-width: 65%;}
   /* .hero-swiper .slide-media {left: 0;} */
   .hero-swiper {height: calc(90vh - var(--header-h, 0px));}
-
+.logo-lion-vector-outer {right: -5vw; left: auto;}
 }
 
 @media (max-width: 393px){
