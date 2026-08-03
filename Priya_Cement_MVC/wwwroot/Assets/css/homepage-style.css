@@ -863,11 +863,18 @@ z-index: -1;
   right: -10vw;
   z-index: -1;
   pointer-events: none;
-  will-change: transform;
 }
-.logo-lion-vector-outer.is-lion-traveling {
-  z-index: 0;
-  margin: 0;
+.lion-logo-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-width: min(28vw, 280px);
+}
+.lion-logo-stroke {
+  fill: none;
+}
+.lion-logo-fill {
+  will-change: opacity;
 }
 
 
