@@ -879,11 +879,20 @@
   .sustainability-block { 
     max-width: 100%;position:relative;margin-top: 20px;
   }
-  .home-sustainability-section {height: calc(115vh - var(--header-h, 0px)); min-height: calc(115vh - var(--header-h, 0px));}
+ 
   .logo-lion-vector-outer {max-width: 65%;}
+  .hero-swiper .slide-media {left: 0;}
+  .hero-swiper {height: calc(90vh - var(--header-h, 0px));}
+
 }
 
-
+@media (max-width: 393px){
+ .home-sustainability-section {height: calc(115vh - var(--header-h, 0px)); min-height: calc(115vh - var(--header-h, 0px));}
+}
+@media (max-width: 375px){
+.home-sustainability-section {height: calc(100vh - var(--header-h, 0px)); min-height: calc(100vh - var(--header-h, 0px));}
+}
+  
 @media (min-width: 1200px) and (max-width: 1366px) {
 .hero-pag-wrap{bottom: 40px;}
 .site-link {font-size: 1rem;}
