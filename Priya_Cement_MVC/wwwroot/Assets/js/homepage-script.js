@@ -288,7 +288,45 @@ document.addEventListener("DOMContentLoaded", () => {
 /* ---------------------------------------
    PRODUCTS LION 
 --------------------------------------- */
- 
+ /* ---------------------------------------
+   LION LOGO — elastic bounce pop-in, replays on re-entry
+--------------------------------------- */
+if (!reduceMotion && typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+  const mmLogo = gsap.matchMedia();
+
+  mmLogo.add('all', () => {
+    const logoWrap = document.querySelector('.logo-lion-vector-outer');
+    if (!logoWrap) return;
+
+    gsap.set(logoWrap, {
+      scale: 0.4,
+      autoAlpha: 0,
+      force3D: true,
+      transformOrigin: '50% 50%',
+    });
+
+    const tween = gsap.to(logoWrap, {
+      scale: 1,
+      autoAlpha: 1,
+      duration: 1,
+      ease: 'elastic.out(1, 0.65)',
+      paused: true, // don't play immediately — let ScrollTrigger control it
+      scrollTrigger: {
+        trigger: logoWrap,
+        start: 'top 85%',
+        toggleActions: 'play none none reverse',
+        invalidateOnRefresh: true,
+      },
+    });
+
+    return () => {
+      if (tween.scrollTrigger) tween.scrollTrigger.kill();
+      tween.kill();
+      gsap.set(logoWrap, { clearProps: 'transform,opacity,visibility' });
+    };
+  });
+}
+
 
 /* ---------------------------------------
    PARALLAX IMAGE
