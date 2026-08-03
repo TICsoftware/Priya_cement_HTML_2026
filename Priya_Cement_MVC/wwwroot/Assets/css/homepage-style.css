@@ -856,7 +856,18 @@
 .quote-card .site-link:hover img {filter: brightness(0) saturate(100%) invert(11%) sepia(5%) saturate(538%) hue-rotate(314deg) brightness(94%) contrast(90%);}
 .bg-light-gray {background-color: #fcfcfc;}
 
-.logo-lion-vector-outer {position: absolute; top: -2vw; right: -10vw; z-index: -1;}
+.logo-lion-vector-outer {
+  position: absolute;
+  top: -2vw;
+  right: -10vw;
+  z-index: -1;
+  pointer-events: none;
+  will-change: transform;
+}
+.logo-lion-vector-outer.is-lion-traveling {
+  z-index: 0;
+  margin: 0;
+}
 
 
 
@@ -869,6 +880,7 @@
     max-width: 100%;position:relative;margin-top: 20px;
   }
   .home-sustainability-section {height: calc(115vh - var(--header-h, 0px)); min-height: calc(115vh - var(--header-h, 0px));}
+  .logo-lion-vector-outer {max-width: 65%;}
 }
 
 
