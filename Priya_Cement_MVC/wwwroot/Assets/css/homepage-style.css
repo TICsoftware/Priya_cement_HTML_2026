@@ -755,6 +755,7 @@
   max-width:none;
   object-fit:cover;
   object-position:center;
+z-index: -1;
 }
 
 
