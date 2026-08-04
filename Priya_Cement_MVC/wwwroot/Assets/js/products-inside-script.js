@@ -61,87 +61,101 @@
 
   if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
 
-  /* ---- Product bag pin (desktop only, option A) ---- */
+  /* ---- Product bag: fixed until CTA end, then release (no opacity 0 at end) ---- */
   const mm = gsap.matchMedia();
 
   mm.add('(min-width: 1024px)', () => {
     const bag = document.querySelector('.product-float-sticky');
+    const rail = document.querySelector('.product-float-rail');
     const cta = document.querySelector('.cta-band');
-    if (!bag || !cta) return;
+    const banner = document.querySelector('.inside-banner-outer');
+    if (!bag || !rail || !cta) return;
 
-    const headerOffset = () => {
-      const raw = getComputedStyle(document.documentElement).getPropertyValue('--header-h').trim();
-      const n = parseFloat(raw);
-      return Number.isFinite(n) ? n + 20 : 100;
+    gsap.set(bag, { autoAlpha: 0 });
+
+    const show = () => {
+      gsap.to(bag, {
+        autoAlpha: 1,
+        duration: reduceMotion ? 0 : 0.35,
+        ease: 'power2.out',
+        overwrite: 'auto',
+      });
     };
 
-    if (!reduceMotion) {
-      gsap.set(bag, { autoAlpha: 0, scale: 0.9, transformOrigin: '50% 50%' });
-    }
+    const hide = () => {
+      gsap.to(bag, {
+        autoAlpha: 0,
+        duration: reduceMotion ? 0 : 0.25,
+        ease: 'power1.in',
+        overwrite: 'auto',
+      });
+    };
 
-    const pinST = ScrollTrigger.create({
-      trigger: bag,
-      start: () => `top top+=${headerOffset()}`,
+    const armFixed = () => {
+      if (bag.parentElement !== rail) rail.appendChild(bag);
+      bag.classList.remove('is-released');
+      // Clear inline absolute coords from release so CSS fixed applies
+      ['position', 'top', 'right', 'left', 'bottom', 'transform'].forEach((p) =>
+        bag.style.removeProperty(p)
+      );
+      gsap.set(bag, { autoAlpha: 1 });
+    };
+
+    const releaseToCta = () => {
+      const bagRect = bag.getBoundingClientRect();
+      const ctaRect = cta.getBoundingClientRect();
+      const top = bagRect.top - ctaRect.top;
+      const right = ctaRect.right - bagRect.right;
+
+      cta.appendChild(bag);
+      bag.classList.add('is-released');
+      gsap.set(bag, {
+        position: 'absolute',
+        top,
+        right,
+        left: 'auto',
+        bottom: 'auto',
+        x: 0,
+        y: 0,
+        autoAlpha: 1,
+      });
+    };
+
+    const rangeST = ScrollTrigger.create({
+      trigger: banner || rail,
+      start: 'bottom 75%',
       endTrigger: cta,
       end: 'bottom bottom',
-      pin: true,
-      pinSpacing: false,
-      anticipatePin: 1,
       invalidateOnRefresh: true,
-      onToggle: (self) => {
-        bag.classList.toggle('is-pinned', self.isActive);
-        const spacer = bag.closest('.pin-spacer');
-        if (spacer) {
-          spacer.style.height = '0px';
-          spacer.style.margin = '0px';
-          spacer.style.minHeight = '0px';
-        }
+      onEnter: () => {
+        armFixed();
+        show();
       },
-      onRefresh: (self) => {
-        bag.classList.toggle('is-pinned', self.isActive);
-        const spacer = bag.closest('.pin-spacer') || bag.parentElement;
-        if (spacer && spacer.classList.contains('pin-spacer')) {
-          spacer.style.height = '0px';
-          spacer.style.margin = '0px';
-          spacer.style.minHeight = '0px';
-        }
+      onEnterBack: () => {
+        armFixed();
+        show();
+      },
+      // End at CTA — keep visible, park in CTA so it scrolls away (no fade out)
+      onLeave: () => {
+        releaseToCta();
+      },
+      // Only hide when scrolling back up into the hero
+      onLeaveBack: () => {
+        if (bag.parentElement !== rail) rail.appendChild(bag);
+        bag.classList.remove('is-released');
+        ['position', 'top', 'right', 'left', 'bottom', 'transform'].forEach((p) =>
+          bag.style.removeProperty(p)
+        );
+        hide();
       },
     });
-
-    let fadeST;
-    if (!reduceMotion) {
-      fadeST = ScrollTrigger.create({
-        trigger: bag,
-        start: 'top 90%',
-        end: 'top 55%',
-        onEnter: () => {
-          gsap.to(bag, {
-            autoAlpha: 1,
-            scale: 1,
-            duration: 0.7,
-            ease: 'power2.out',
-            overwrite: 'auto',
-          });
-        },
-        onLeaveBack: () => {
-          gsap.to(bag, {
-            autoAlpha: 0,
-            scale: 0.9,
-            duration: 0.35,
-            ease: 'power1.in',
-            overwrite: 'auto',
-          });
-        },
-        invalidateOnRefresh: true,
-      });
-    }
 
     requestAnimationFrame(() => ScrollTrigger.refresh());
 
     return () => {
-      pinST.kill();
-      if (fadeST) fadeST.kill();
-      bag.classList.remove('is-pinned');
+      rangeST.kill();
+      if (bag.parentElement !== rail) rail.appendChild(bag);
+      bag.classList.remove('is-released');
       gsap.set(bag, { clearProps: 'all' });
     };
   });
