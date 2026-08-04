@@ -233,6 +233,9 @@
 
   .our-products-img { align-items: start; }
   .our-products-cards { padding: 30px 20px; }
+  .logo-lion-vector-outer {display: none;}
+  .bg-parallax-section .outer-bg-wrap {overflow: hidden;}
+  .products-landing-section {padding-top: 0;}
 }
 
 @media (max-width: 393px) {
