@@ -16,6 +16,7 @@ TITLE ANIMATION
 .intro-section-center-wrapper {display: flex; justify-content: center;}
 .section-title-md {max-width: 785px; margin:0 auto;}
 .section-title-sm {max-width: 520px; margin:0 auto;}
+.section-title-mid {max-width: 600px; margin:0 auto;}
 .section-title-left {margin-left: 0; margin-right: auto;}
 .section-with-intro .title-section{margin-bottom: 10px;}
 
@@ -177,6 +178,57 @@ background: linear-gradient(90deg, rgba(0, 0, 0, 0.90) -5.49%, rgba(0, 0, 0, 0.7
 .outer-btn-spacing {padding: 25px 25px;}
 
 
+
+
+
+.fill-site-link{
+    display:inline-flex;
+    align-items:center;
+    gap:4px;
+    padding:6px 6px 6px 18px;
+    background:#231F20;
+    color:#fff;
+    border-radius:10px;
+    text-decoration:none;
+  font-size: var(--text-button);
+    font-weight:500;
+    line-height:1;
+    transition:all .35s ease;
+}
+
+.fill-site-link-arrow{
+    width:34px;
+    height:34px;
+    /* border-radius:50%;
+    background:rgba(255,255,255,.12); */
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-shrink:0;
+    transition:transform .35s ease,
+               background .35s ease;
+}
+
+.fill-site-link-arrow img{
+    width:14px;
+    height:14px;
+    object-fit:contain;
+    display:block;
+    transition:transform .35s ease;
+    filter: invert(1);
+}
+
+.fill-site-link:hover{
+    background:#ED1C24;
+}
+
+.fill-site-link:hover .fill-site-link-arrow{
+    transform:translateX(2px);
+}
+
+
+
+
 .parallax-wrap {
   overflow: hidden;
   position: relative;
@@ -248,6 +300,58 @@ ODOMETER CSS
   will-change: opacity;
 }
 
+/**=====================================
+TABLE CSS
+=====================================**/
+/* Table surface line — #EAEAEA */
+.border-surface-line,
+table .border-surface-line {
+  --tw-border-opacity: 1;
+  border-color: #EAEAEA;
+}
+/* Tailwind v4 divide-y puts border-bottom on :not(:last-child) */
+.divide-surface-line > :not(:last-child),
+table tbody.divide-surface-line > tr:not(:last-child) {
+  --tw-divide-opacity: 1;
+  border-color: #EAEAEA;
+}
+.cell-border-r  {
+  border-right: 1px solid #EAEAEA;
+}
+.cell-border-b {
+  border-bottom: 1px solid #EAEAEA;
+}
+table .cell {
+  padding: 18px 14px;
+  font-size: var(--text-p);
+  line-height: 1.5;
+}
+table tbody td:first-child {  border-left: 1px solid #EAEAEA;}
+table {
+  border-collapse: separate;
+  border-spacing: 0;
+  border-radius: 10px 10px 0 0;
+  overflow: hidden;
+}
+table .bg-brand-row {
+  background: radial-gradient(222.5% 222.5% at 50% 50%, #ED1C24 0%, #231F20 100%);
+}
+table .bg-brand-row th {
+  color: #fff;
+  font-weight: 700;
+  font-size: var(--text-20);
+  border: 0;
+}
+table .bg-brand-row th:first-child {
+  border-top-left-radius: 10px;
+}
+table .bg-brand-row th:last-child {
+  border-top-right-radius: 10px;
+}
+.caption-bottom {text-align: left; font-size: var(--text-small);  margin-top: 10px; line-height: 1.5;}
+
+.bg-brand-band {background: radial-gradient(155.56% 155.56% at 50% 130.35%, #ED1C24 0%, #231F20 100%);}
+.cta-band {height: calc(75vh - var(--header-h, 0px)); min-height: calc(75vh - var(--header-h, 0px));display: flex;align-items: center; justify-content: center;}
 
 
 
