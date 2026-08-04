@@ -353,6 +353,17 @@ table .bg-brand-row th:last-child {
 .bg-brand-band {background: radial-gradient(155.56% 155.56% at 50% 130.35%, #ED1C24 0%, #231F20 100%);}
 .cta-band {height: calc(75vh - var(--header-h, 0px)); min-height: calc(75vh - var(--header-h, 0px));display: flex;align-items: center; justify-content: center;}
 
+.bgimage-outer-wrap .bg-image{
+  position:absolute;
+  left:0;
+  top:0;
+  width:100%;
+  height:100%;
+  max-width:none;
+  object-fit:cover;
+  object-position:center;
+z-index: -1;
+}
 
 
 @media (prefers-reduced-motion: reduce) {
