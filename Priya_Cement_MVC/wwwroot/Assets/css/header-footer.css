@@ -247,6 +247,7 @@
    .header-actions {gap: 4px;}
    .site-header.is-compact .logo-link img {height: 42px;}
    .mega-panel {max-width: 90%;}
+  
 }
 
 
@@ -259,16 +260,17 @@
 /* 125% zoom */
 @media screen and (min-width: 1025px) and (-webkit-min-device-pixel-ratio:1.25),screen and (min-width:1025px) and (min-resolution:120dpi) {
 .nav-trigger {padding: 10px 6px;}
-   .logo-link img {height: 60px;}
+   .logo-link img {height: 52px;}
    .ml-title{font-size:0.875rem;}
    .ml-desc {font-size:0.75rem;}
    .nav-trigger{font-size: 1rem;}
-   .btn-dealer, .lang-btn{font-size: 0.875rem;}
+   .btn-dealer, .lang-btn{font-size: 0.675rem;}
    .header-inner {gap: 15px;}
    .icon-btn img { width: 15px; height: 15px;}
    .icon-btn {width: 30px;height: 30px;}
    .header-actions {gap: 4px;}
     .site-header.is-compact .logo-link img {height: 42px;}
+    .site-header {padding: 6px 0;}
 }
 
 

@@ -969,6 +969,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     viewport.addEventListener('pointerdown', (e) => {
+      // Desktop only — never capture touch on mobile (blocks page scroll)
       if (!testimonialsDesktopMq.matches || e.button === 2) return;
       dragging = true;
       hoverPaused = true;
@@ -982,19 +983,20 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     viewport.addEventListener('pointermove', (e) => {
-      if (!dragging) return;
+      if (!dragging || !testimonialsDesktopMq.matches) return;
       const dy = e.clientY - startY;
       dragDist = Math.max(dragDist, Math.abs(dy));
       offset = startOffset + dy;
       wrapOffset();
       apply();
+      e.preventDefault();
     });
 
     function endDrag() {
       if (!dragging) return;
       dragging = false;
       viewport.classList.remove('is-dragging');
-      hoverPaused = viewport.matches(':hover');
+      hoverPaused = testimonialsDesktopMq.matches && viewport.matches(':hover');
     }
 
     viewport.addEventListener('pointerup', endDrag);
@@ -1072,8 +1074,15 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!sectionMarquee) return;
 
     sectionMarquee.classList.remove('section-in-view');
+    sectionMarquee.classList.remove('is-js-marquee');
     sectionMarquee.classList.add('is-mobile-static');
     stopDesktopMarqueeMotion();
+
+    // Kill any in-progress drag so touch can scroll the page
+    marqueeColumns.forEach((col) => {
+      col.clearMotion();
+      if (col.track) col.track.style.transform = '';
+    });
 
     const cards = getOriginalQuoteCards();
     mobileRevealedCount = 0;

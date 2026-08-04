@@ -693,7 +693,6 @@
     overflow: hidden;
     -webkit-mask-image: linear-gradient(to bottom, transparent 0, black 64px, black calc(100% - 64px), transparent 100%);
             mask-image: linear-gradient(to bottom, transparent 0, black 64px, black calc(100% - 64px), transparent 100%);
-    touch-action: pan-x;
   }
 
   .marquee-track {
@@ -726,20 +725,22 @@
     animation-play-state: paused;
   }
 
-  /* JS-driven marquee (auto + drag) — kill CSS keyframes */
-  #marquee-section.is-js-marquee .marquee-track {
-    animation: none !important;
-    cursor: grab;
-    user-select: none;
-    -webkit-user-select: none;
-  }
-  #marquee-section.is-js-marquee .marquee-viewport {
-    touch-action: none;
-    cursor: grab;
-  }
-  #marquee-section.is-js-marquee .marquee-viewport.is-dragging,
-  #marquee-section.is-js-marquee .marquee-viewport.is-dragging .marquee-track {
-    cursor: grabbing;
+  /* JS-driven marquee (auto + drag) — desktop only */
+  @media (min-width: 1024px) {
+    #marquee-section.is-js-marquee .marquee-track {
+      animation: none !important;
+      cursor: grab;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+    #marquee-section.is-js-marquee .marquee-viewport {
+      touch-action: none;
+      cursor: grab;
+    }
+    #marquee-section.is-js-marquee .marquee-viewport.is-dragging,
+    #marquee-section.is-js-marquee .marquee-viewport.is-dragging .marquee-track {
+      cursor: grabbing;
+    }
   }
 
   @keyframes scrollUp {
@@ -803,6 +804,8 @@ z-index: -1;
       -webkit-mask-image: none;
               mask-image: none;
       padding-top: 0 !important;
+      touch-action: auto;
+      cursor: auto;
     }
 
     #marquee-section .marquee-track {
@@ -810,6 +813,15 @@ z-index: -1;
       transform: none !important;
       will-change: auto;
       gap: 1.5rem;
+      cursor: auto;
+      user-select: auto;
+    }
+
+    /* Never capture swipe on mobile — even if is-js-marquee leaked */
+    #marquee-section.is-js-marquee .marquee-viewport,
+    #marquee-section.is-js-marquee .marquee-track {
+      touch-action: auto !important;
+      cursor: auto !important;
     }
 
     #marquee-section .quote-card[aria-hidden="true"] {
@@ -920,6 +932,7 @@ z-index: -1;
 .banner-extra-logo-wrap { top: -5vw;} 
 .banner-logo-wrap img {max-width: 120px;}
 .sustainability-block {max-width: 30vw;}
+ .lion-logo-svg {max-width: min(45vw, 320px);}
 }
 
 /* 150% zoom */
