@@ -227,7 +227,7 @@
 .tic-text {position: absolute; right: 0; top:auto;}
 .linkcolumns-block .link-item, .social-item {font-size: 1rem;}
 .top-line-wrapper p{font-size: 1rem !important; color: #fff;}
-.linkcolumns-block h4 {font-size: 1.125rem;}
+.linkcolumns-block h4 {font-size: 1.125rem; text-transform: uppercase; color: #fff;}
 
 
 @media all and (max-width: 767px) {
