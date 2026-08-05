@@ -81,9 +81,12 @@
   z-index: 2;
   margin-top: 1rem;
   text-align: center;
+  pointer-events: auto;
 }
 .product-site-link a {
   pointer-events: auto;
+  position: relative;
+  z-index: 1;
 }
 
 /* ---- Tables: sticky thead + right fade (mobile) ---- */
@@ -124,9 +127,23 @@
   align-items: center;
   justify-content: flex-end;
   gap: 10px;
-  padding: 10px;
-  margin: -10px;
+  /* Closed: only the round button captures clicks (pills stay out of the way) */
+  pointer-events: none;
+}
+
+.product-download-fab .product-float-button {
   pointer-events: auto;
+}
+
+/* While open / hovered, allow the pill row + gap to receive events */
+.product-download-fab.is-open,
+.product-download-fab:focus-within {
+  pointer-events: auto;
+}
+@media (hover: hover) and (pointer: fine) {
+  .product-download-fab:hover {
+    pointer-events: auto;
+  }
 }
 
 .product-download-fab-actions {
@@ -134,12 +151,13 @@
   align-items: center;
   gap: 10px;
   opacity: 0;
-  visibility: visible;
+  visibility: hidden;
   transform: translateX(14px);
-  pointer-events: auto;
+  pointer-events: none;
   transition:
     opacity 0.28s ease,
-    transform 0.32s cubic-bezier(0.22, 1, 0.36, 1);
+    transform 0.32s cubic-bezier(0.22, 1, 0.36, 1),
+    visibility 0s linear 0.28s;
 }
 
 .product-download-fab-actions .product-download-pill {
@@ -151,7 +169,10 @@
   .product-download-fab:hover .product-download-fab-actions,
   .product-download-fab:focus-within .product-download-fab-actions {
     opacity: 1;
+    visibility: visible;
     transform: translateX(0);
+    pointer-events: auto;
+    transition-delay: 0s;
   }
 
   .product-download-fab:hover .product-download-fab-actions .product-download-pill,
@@ -167,7 +188,10 @@
 
 .product-download-fab.is-open .product-download-fab-actions {
   opacity: 1;
+  visibility: visible;
   transform: translateX(0);
+  pointer-events: auto;
+  transition-delay: 0s;
 }
 
 .product-download-fab.is-open .product-download-fab-actions .product-download-pill {
