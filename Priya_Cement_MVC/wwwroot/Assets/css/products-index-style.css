@@ -154,7 +154,7 @@
   }
 
   .bg-parallax-section .bg-parallax-frame {
-    min-height: 420px;
+    min-height: 380px;
     justify-content: center;
     padding-block: clamp(1.75rem, 3.5vw, 2.5rem);
     padding-inline: clamp(1rem, 2.5vw, 1.75rem);
@@ -180,6 +180,8 @@
   .man-image-wrap {
     width: min(46%, 300px);
   }
+  .products-landing-section {padding-top: 0;}
+  .logo-lion-vector-outer {display: none;}
 }
 
 @media (max-width: 767px) {

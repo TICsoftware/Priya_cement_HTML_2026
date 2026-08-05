@@ -2455,6 +2455,21 @@
       width: 52%;
     }
   }
+  .md\:max-w-\[38\%\] {
+    @media (width >= 48rem) {
+      max-width: 38%;
+    }
+  }
+  .md\:max-w-\[50\%\] {
+    @media (width >= 48rem) {
+      max-width: 50%;
+    }
+  }
+  .md\:max-w-\[62\%\] {
+    @media (width >= 48rem) {
+      max-width: 62%;
+    }
+  }
   .md\:grid-cols-2 {
     @media (width >= 48rem) {
       grid-template-columns: repeat(2, minmax(0, 1fr));

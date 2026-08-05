@@ -148,7 +148,6 @@
    .mega-promo {display: none;}
     .primary-nav, .mega-stage, .mega-backdrop, .divider-v{display:none;}
     .header-inner{height:auto;gap:8px;}
-    .logo-link img{height:25px;}
     .site-header.is-compact {padding: 4px 0;}
     .mobile-toggle{ display:flex; align-items:center; justify-content:center; width:36px;height:36px; border-radius:9px;    background:none;border:none; cursor:pointer;  margin-left:2px; flex-shrink:0;}
     .mobile-toggle span{display:block;width:18px;height:2px;background:var(--color-primary);border-radius:2px; position:relative;    transition:background .2s ease; }
@@ -229,6 +228,10 @@
 .top-line-wrapper p{font-size: 1rem !important; color: #fff;}
 .linkcolumns-block h4 {font-size: 1.125rem; text-transform: uppercase; color: #fff;}
 
+
+@media all and (max-width: 1023px) {
+    .logo-link img{height:50px;}
+}
 
 @media all and (max-width: 767px) {
    .tic-text {position: relative;}
