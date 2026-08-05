@@ -161,7 +161,7 @@
     padding-bottom: 4.5rem;
     
   }
-.bg-parallax-section .outer-bg-wrap {overflow: hidden;}
+.bg-parallax-section .outer-bg-wrap {overflow: hidden; margin-right: 20px;}
   .bg-parallax-section .bg-parallax-content {
     max-width: min(26rem, 58%);
   }
@@ -237,7 +237,7 @@
   .our-products-img { align-items: start; }
   .our-products-cards { padding: 30px 20px; }
   .logo-lion-vector-outer {display: none;}
-  .bg-parallax-section .outer-bg-wrap {overflow: hidden;}
+  .bg-parallax-section .outer-bg-wrap {overflow: hidden;margin-right: 20px;}
   .products-landing-section {padding-top: 0;}
 }
 
