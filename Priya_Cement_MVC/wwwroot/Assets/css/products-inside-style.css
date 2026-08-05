@@ -230,6 +230,13 @@
   background: #ed1c24;
 }
 
+.lion-red-wrap {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+.spec-table.spacing-table-td td:first-child {padding-left: 85px;}
+
 /* Mobile: tap toggle + stack pills above so nothing clips */
 @media (max-width: 767px) {
   .product-download-fab {

@@ -304,13 +304,63 @@ ODOMETER CSS
 /**=====================================
 TABLE CSS
 =====================================**/
-/* Table surface line — #EAEAEA */
+/* Shared product / spec tables */
+.spec-table {
+  width: 100%;
+  min-width: 900px;
+  text-align: left;
+  border-collapse: separate;
+  border-spacing: 0;
+  border-radius: 10px 10px 0 0;
+  overflow: hidden;
+}
+@media (min-width: 1024px) {
+  .spec-table {
+    max-width: 72rem; /* lg:max-w-6xl */
+  }
+}
+.spec-table th,
+.spec-table td {
+  padding: 18px 14px;
+  font-size: var(--text-p);
+  line-height: 1.5;
+  vertical-align: top;
+}
+.spec-table tbody td {
+  border-right: 1px solid #EAEAEA;
+  border-bottom: 1px solid #EAEAEA;
+  background-color: #fff;
+}
+.spec-table tbody td:first-child {
+  border-left: 1px solid #EAEAEA;
+}
+.spec-table .bg-brand-row {
+  background: radial-gradient(222.5% 222.5% at 50% 50%, #ED1C24 0%, #231F20 100%);
+}
+.spec-table .bg-gradient-row {
+background: linear-gradient(90deg, rgba(237, 28, 36, 0.30) 0%, rgba(237, 28, 36, 0.16) 10%, rgba(237, 28, 36, 0.00) 100%);
+}
+.spec-table .bg-gradient-row td {background: transparent;}
+
+.spec-table .bg-brand-row th {
+  color: #fff;
+  font-weight: 700;
+  font-size: var(--text-20);
+  border: 0;
+}
+.spec-table .bg-brand-row th:first-child {
+  border-top-left-radius: 10px;
+}
+.spec-table .bg-brand-row th:last-child {
+  border-top-right-radius: 10px;
+}
+
+/* Legacy helpers (kept for any older markup) */
 .border-surface-line,
 table .border-surface-line {
   --tw-border-opacity: 1;
   border-color: #EAEAEA;
 }
-/* Tailwind v4 divide-y puts border-bottom on :not(:last-child) */
 .divide-surface-line > :not(:last-child),
 table tbody.divide-surface-line > tr:not(:last-child) {
   --tw-divide-opacity: 1;
