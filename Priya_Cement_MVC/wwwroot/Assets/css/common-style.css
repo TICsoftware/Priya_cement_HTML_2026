@@ -19,6 +19,7 @@ TITLE ANIMATION
 .section-title-mid {max-width: 600px; margin:0 auto;}
 .section-title-left {margin-left: 0; margin-right: auto;}
 .section-with-intro .title-section{margin-bottom: 10px;}
+.section-title-nonintro p {font-size: var(--text-p); max-width: 100%;}
 
 body{overflow-x: hidden;}
 
@@ -261,7 +262,7 @@ background: linear-gradient(90deg, rgba(0, 0, 0, 0.90) -5.49%, rgba(0, 0, 0, 0.7
   object-position:center;
 }
 
-
+.section-title-outer-center.white-copy{margin-left:auto;}
 .white-copy{
   margin-left:0;
   margin-right:auto;
@@ -385,7 +386,7 @@ z-index: -1;
 
 
 @media (max-width: 992px){
-
+.innerbanner-image-wrapper {height: 85vh;}
 }
 
 @media (max-width: 767px){
@@ -403,7 +404,7 @@ z-index: -1;
       rgba(0, 0, 0, 0) 100%
     );
   }
-
+.innerbanner-image-wrapper {height: 75vh;}
 
 }
 
