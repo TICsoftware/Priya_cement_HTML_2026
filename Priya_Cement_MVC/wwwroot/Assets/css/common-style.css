@@ -158,6 +158,7 @@ background: linear-gradient(90deg, rgba(0, 0, 0, 0.90) -5.49%, rgba(0, 0, 0, 0.7
 .site-link:hover img {
   filter: brightness(0) saturate(100%) invert(18%) sepia(99%) saturate(5054%) hue-rotate(349deg) brightness(97%) contrast(92%);
 }
+.site-link img{filter: brightness(0) saturate(100%) invert(18%) sepia(99%) saturate(5054%) hue-rotate(349deg) brightness(97%) contrast(92%);}
 .site-link:hover::after{
   transform: scaleX(1);
 }

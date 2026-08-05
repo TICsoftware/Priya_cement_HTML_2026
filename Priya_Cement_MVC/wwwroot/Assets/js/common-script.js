@@ -360,10 +360,26 @@ if (yearFoot) yearFoot.innerHTML = String(new Date().getFullYear());
 
   /* ---------- scroll behavior: shadow, compact, hide-on-scroll-down ---------- */
   let lastY = window.scrollY;
+  let wasCompact = header.classList.contains('is-compact');
   window.addEventListener('scroll', ()=>{
     const y = window.scrollY;
     header.classList.toggle('is-scrolled', y > 4);
-    header.classList.toggle('is-compact', y > 80);
+    const isCompact = y > 80;
+    header.classList.toggle('is-compact', isCompact);
+
+    // The compact state changes the header's actual rendered height (less
+    // padding, smaller logo) — --header-h only gets remeasured on load/
+    // resize otherwise, so anything pinned against it (e.g. the
+    // sustainability section) would lock its top against the *old, taller*
+    // height and leave a gap once the header has visually shrunk. Only
+    // fires on the edge (not every scroll tick), and only while this is
+    // still near the top of the page, well before any pinned section
+    // further down is anywhere close to engaging.
+    if (isCompact !== wasCompact) {
+      wasCompact = isCompact;
+      syncHeaderHeight();
+      if (typeof ScrollTrigger !== 'undefined') ScrollTrigger.refresh();
+    }
 
     const scrollingDown = y > lastY;
     const pastThreshold = y > 140;

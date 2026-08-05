@@ -653,20 +653,30 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       };
 
-      // Entrance — video wrap fades/settles in as the section approaches,
-      // finishing before the pinned scrub takes over below.
-      const entranceTween = gsap.to(videoWrap, {
-        autoAlpha: 1,
-        y: 0,
-        ease: 'power2.out',
+      // Entrance — starts the moment the section is 30% into the viewport
+      // (top 70%) and ends exactly where the pin below picks up, so there's
+      // no dead gap: video fades/settles in AND starts traveling (0.5→0.78
+      // scale) while still unpinned. Content stays hidden through this
+      // phase — it only starts revealing once the video has visibly made
+      // progress in the pinned phase below, so text never sits fully
+      // legible while the video is still small mid-transform underneath it.
+      const entranceTl = gsap.timeline({
+        defaults: { force3D: true },
         scrollTrigger: {
           trigger: section,
-          start: 'top 85%',
-          end: 'top 60%',
+          start: 'top 70%',
+          end: () => `top top+=${getHeaderH()}`,
           scrub: 1,
           invalidateOnRefresh: true,
         },
       });
+
+      entranceTl.to(videoWrap, {
+        autoAlpha: 1,
+        y: 0,
+        scale: 0.78,
+        ease: 'power2.out',
+      }, 0);
 
    const tl = gsap.timeline({
   defaults: { force3D: true },
@@ -684,21 +694,22 @@ document.addEventListener("DOMContentLoaded", () => {
   },
 });
 
-      // Pinned flush to the header first (no gap) — video holds at 50% for
-      // the first 30% of the pinned scroll, then travels to full bleed.
+      // Picks up exactly where the entrance left off (scale 0.78) and
+      // finishes the travel to full bleed — no re-fade, no jump.
       tl.to(videoWrap, {
         scale: 1,
         borderRadius: 0,
-        duration: 0.7,
+        duration: 0.6,
         ease: 'power1.inOut',
-      }, 0.3);
+      }, 0.1);
 
-      // Content rides the same scroll — appears as video nears full size
+      // Content rides the same scroll — appears only once the video has
+      // visibly traveled (past the 0.78 handoff scale), not before.
       if (title) {
         tl.to(
           title,
           { autoAlpha: 1, y: 0, duration: 0.35, ease: 'power2.out' },
-          0.55
+          0.35
         );
       }
       if (stats) {
@@ -710,9 +721,12 @@ document.addEventListener("DOMContentLoaded", () => {
             duration: 0.35,
             ease: 'power2.out',
           },
-          0.65
+          0.5
         );
-        // After stats are visible — run odometer (scrub-safe)
+        // Fires as soon as stats start becoming visible (0.5), not after —
+        // the roll-up itself runs in real time (not scroll-scrubbed), so
+        // starting it late left the numbers sitting static at 0 for a
+        // stretch of scroll before finally kicking off.
         tl.call(
           () => {
             if (tl.scrollTrigger && tl.scrollTrigger.direction === 1) {
@@ -722,14 +736,14 @@ document.addEventListener("DOMContentLoaded", () => {
             }
           },
           null,
-          0.95
+          0.52
         );
       }
       if (cta) {
         tl.to(
           cta,
           { autoAlpha: 1, y: 0, duration: 0.3, ease: 'power2.out' },
-          0.75
+          0.6
         );
       }
 
@@ -740,8 +754,8 @@ document.addEventListener("DOMContentLoaded", () => {
         resetOdometers();
         if (tl.scrollTrigger) tl.scrollTrigger.kill();
         tl.kill();
-        if (entranceTween.scrollTrigger) entranceTween.scrollTrigger.kill();
-        entranceTween.kill();
+        if (entranceTl.scrollTrigger) entranceTl.scrollTrigger.kill();
+        entranceTl.kill();
         gsap.set([videoWrap, ...contentEls], {
           clearProps: 'transform,opacity,visibility,borderRadius',
         });
@@ -791,19 +805,26 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       };
 
-      // Entrance — video wrap fades/settles in as the section approaches,
-      // finishing before the scrub timeline starts below.
-      const entranceTween = gsap.to(videoWrap, {
-        autoAlpha: 1,
-        y: 0,
-        ease: 'power2.out',
+      // Entrance — starts at 30% into the viewport (top 70%) and ends
+      // exactly where the main scrub below picks up (top 50%), so video
+      // fades/settles in AND starts traveling (0.5→0.75) with no dead gap
+      // before the rest of the travel + content reveal continues.
+      const entranceTl = gsap.timeline({
+        defaults: { force3D: true },
         scrollTrigger: {
           trigger: section,
-          start: 'top 100%',
-          end: 'top 55%',
+          start: 'top 70%',
+          end: 'top 50%',
           scrub: 1,
           invalidateOnRefresh: true,
         },
+      });
+
+      entranceTl.to(videoWrap, {
+        autoAlpha: 1,
+        y: 0,
+        scale: 0.75,
+        ease: 'power2.out',
       });
 
       const tl = gsap.timeline({
@@ -819,10 +840,12 @@ document.addEventListener("DOMContentLoaded", () => {
         },
       });
 
+      // Picks up from the entrance's 0.75 scale — less distance left to
+      // cover, so a shorter duration than before (was 1).
       tl.to(videoWrap, {
         scale: 1,
         borderRadius: 0,
-        duration: 1,
+        duration: 0.7,
         ease: 'power1.inOut',
       })
         .to(contentEls, {
@@ -831,7 +854,11 @@ document.addEventListener("DOMContentLoaded", () => {
           duration: 0.35,
           stagger: 0.08,
           ease: 'power2.out',
-        }, 0.55)
+        }, 0.5)
+        // Fires once stats (2nd of the staggered contentEls, ~0.58) has
+        // started in, not after everything including the CTA is done —
+        // the roll-up runs in real time, not scroll-scrubbed, so firing
+        // late just leaves the numbers static at 0 for a stretch first.
         .call(
           () => {
             if (tl.scrollTrigger && tl.scrollTrigger.direction === 1) {
@@ -841,7 +868,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }
           },
           null,
-          0.95
+          0.62
         );
 
       return () => {
@@ -849,6 +876,8 @@ document.addEventListener("DOMContentLoaded", () => {
         resetOdometers();
         if (tl.scrollTrigger) tl.scrollTrigger.kill();
         tl.kill();
+        if (entranceTl.scrollTrigger) entranceTl.scrollTrigger.kill();
+        entranceTl.kill();
         gsap.set([videoWrap, ...contentEls], {
           clearProps: 'transform,opacity,visibility,borderRadius',
         });

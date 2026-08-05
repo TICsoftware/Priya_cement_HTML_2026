@@ -618,7 +618,7 @@
               linear-gradient(0deg, rgba(0, 0, 0, 0.30) 0%, rgba(0, 0, 0, 0.30) 100%);
 }
 .counter-suffix, .stat-label, .stat-sub {color:#fff;}
-.stat-label {font-size: var(--text-24); font-weight: 500;margin-bottom: 0;}
+.stat-label {font-size: var(--text-p); font-weight: 500;margin-bottom: 0;}
 .counter-wrap-outer {width: 100%;}
 .sustainability-block { 
   display: flex;
@@ -627,7 +627,7 @@
     justify-content: end;
     align-items: start;
     text-align: left;
-    max-width: 25vw;
+    max-width: 28vw;
     margin-inline-start: auto;
     position: absolute;
     right: 0;
@@ -847,7 +847,7 @@ z-index: -1;
 .logo-lion-vector-outer {
   position: absolute;
   top: -2vw;
-  left: -18vw;
+  left: -25vw;
   z-index: -1;
   pointer-events: none;
 }
@@ -898,5 +898,6 @@ z-index: -1;
 
 /* 125% zoom */
 @media screen and (min-width: 1025px) and (-webkit-min-device-pixel-ratio:1.25),screen and (min-width:1025px) and (min-resolution:120dpi) {
-
+.hero-pag-wrap{bottom: 60px;}
+.lion-logo-svg {max-width: min(45vw, 380px);}
 }
