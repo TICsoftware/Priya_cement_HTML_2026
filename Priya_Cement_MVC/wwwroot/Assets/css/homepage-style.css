@@ -67,7 +67,7 @@
   height:100%;
 }
 .hero-swiper .slide-content{
-  padding-bottom:3.25rem;
+  padding-bottom:0rem;
   transition: transform .85s var(--ease, cubic-bezier(.22,1,.36,1));
   will-change: transform;
 }
@@ -463,6 +463,11 @@
   filter:brightness(0) saturate(100%) invert(18%) sepia(99%) saturate(5054%) hue-rotate(349deg) brightness(97%) contrast(92%);
 }
 
+.product-slide-box-last .product-slide-inner{background-color: var(--color-primary);border-radius: 10px; overflow: hidden; display: flex; align-items: center; justify-content: center; padding: 20px;width: 100%;aspect-ratio: 1.05 / 1;}
+.product-slide-box-last .site-link {
+    --link-color: #fff;
+    --link-hover: #ED1C24;
+}
 
 .eyebrow-text {display: none;}
 
