@@ -159,8 +159,9 @@
     padding-block: clamp(1.75rem, 3.5vw, 2.5rem);
     padding-inline: clamp(1rem, 2.5vw, 1.75rem);
     padding-bottom: 4.5rem;
+    
   }
-
+.bg-parallax-section .outer-bg-wrap {overflow: hidden;}
   .bg-parallax-section .bg-parallax-content {
     max-width: min(26rem, 58%);
   }
