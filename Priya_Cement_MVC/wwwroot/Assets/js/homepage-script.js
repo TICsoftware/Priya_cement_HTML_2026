@@ -41,8 +41,6 @@ document.addEventListener("DOMContentLoaded", () => {
       if (heroSwiperReady) return;
       heroSwiperReady = true;
 
-      const section = document.querySelector('.hero-banner-section');
-
       applyParallaxAttrs();
 
       new Swiper(heroEl, {
@@ -88,12 +86,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 btn.appendChild(img);
               }
             });
-
-            if (section) {
-              requestAnimationFrame(() => {
-                section.classList.add('is-hero-ready');
-              });
-            }
           },
           progress(sw) {
             applyImageParallax(sw, 0);
@@ -105,11 +97,13 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     }
 
-    // Deferred until the splash preloader (homepage-preloader.js) hands off
-    // — see 'homepagePreloaderDone'. Timeout is a safety net in case that
-    // script is missing or fails; initHeroSwiper() itself is idempotent.
-    document.addEventListener('homepagePreloaderDone', initHeroSwiper, { once: true });
-    window.setTimeout(initHeroSwiper, 6000);
+    // Built immediately, hidden behind the preloader's opaque backdrop —
+    // so the slider is already fully laid out and running (autoplay armed,
+    // first slide positioned) by the time the preloader exits, instead of
+    // still being under construction the instant it becomes visible.
+    // homepage-preloader.js handles *revealing* the hero section on exit;
+    // this only builds it.
+    initHeroSwiper();
   }
 
 

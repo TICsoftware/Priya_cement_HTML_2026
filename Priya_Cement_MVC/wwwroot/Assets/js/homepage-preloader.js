@@ -50,6 +50,116 @@
     );
   }
 
+  // Hero is already fully built (Swiper initializes immediately, hidden
+  // behind this backdrop) by the time this runs — this only handles how
+  // it becomes visible. Settles in slightly after the header (0.12s
+  // delay) so the exit reads as one cascading sequence, not two things
+  // popping in at once.
+  function animateHeroIn() {
+    const hero = document.querySelector('.hero-banner-section');
+    if (!hero) return;
+
+    hero.style.transition = 'none';
+    hero.style.opacity = '0';
+    hero.style.transform = 'translateY(24px) scale(1.02)';
+    hero.style.filter = 'blur(6px)';
+    hero.style.willChange = 'opacity, transform, filter';
+    void hero.offsetHeight; // force reflow so the next line transitions
+
+    // Delay is folded into each entry of the shorthand itself — setting
+    // transition (shorthand) after transitionDelay would otherwise reset
+    // the delay back to 0s, since shorthand resets unlisted sub-values.
+    hero.style.transition =
+      'opacity 1s cubic-bezier(0.22, 1, 0.36, 1) 0.12s, ' +
+      'transform 1s cubic-bezier(0.22, 1, 0.36, 1) 0.12s, ' +
+      'filter 1s cubic-bezier(0.22, 1, 0.36, 1) 0.12s';
+
+    requestAnimationFrame(() => {
+      hero.style.opacity = '1';
+      hero.style.transform = 'translateY(0) scale(1)';
+      hero.style.filter = 'blur(0)';
+    });
+
+    hero.addEventListener(
+      'transitionend',
+      () => {
+        hero.style.transition = '';
+        hero.style.transitionDelay = '';
+        hero.style.opacity = '';
+        hero.style.transform = '';
+        hero.style.filter = '';
+        hero.style.willChange = '';
+      },
+      { once: true }
+    );
+  }
+
+  // Layered on top of animateHeroIn(): once the section itself is
+  // settling into focus, the active slide's title+paragraph rise up
+  // into place, then its CTA fades in last. Only touches transform on
+  // .slide-content itself (the wrapper, not the parallax-tagged title/
+  // paragraph inside it) and opacity-only on the button — its transform
+  // is already owned by Swiper's native parallax (data-swiper-parallax),
+  // so this never fights it for the same property.
+  function animateHeroContentIn() {
+    const activeSlide = document.querySelector('.hero-swiper .swiper-slide-active');
+    if (!activeSlide) return;
+
+    const content = activeSlide.querySelector('.slide-content');
+    const btnWrap = activeSlide.querySelector('.outer-hero-button');
+
+    if (content) {
+      content.style.transition = 'none';
+      content.style.opacity = '0';
+      content.style.transform = 'translateY(18px)';
+      content.style.willChange = 'opacity, transform';
+      void content.offsetHeight;
+
+      content.style.transition =
+        'opacity 0.85s cubic-bezier(0.22, 1, 0.36, 1) 0.35s, ' +
+        'transform 0.85s cubic-bezier(0.22, 1, 0.36, 1) 0.35s';
+
+      requestAnimationFrame(() => {
+        content.style.opacity = '1';
+        content.style.transform = 'translateY(0)';
+      });
+
+      content.addEventListener(
+        'transitionend',
+        () => {
+          content.style.transition = '';
+          content.style.opacity = '';
+          content.style.transform = '';
+          content.style.willChange = '';
+        },
+        { once: true }
+      );
+    }
+
+    if (btnWrap) {
+      btnWrap.style.transition = 'none';
+      btnWrap.style.opacity = '0';
+      btnWrap.style.willChange = 'opacity';
+      void btnWrap.offsetHeight;
+
+      btnWrap.style.transition = 'opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.55s';
+
+      requestAnimationFrame(() => {
+        btnWrap.style.opacity = '1';
+      });
+
+      btnWrap.addEventListener(
+        'transitionend',
+        () => {
+          btnWrap.style.transition = '';
+          btnWrap.style.opacity = '';
+          btnWrap.style.willChange = '';
+        },
+        { once: true }
+      );
+    }
+  }
+
   function init() {
     const html = document.documentElement;
     const preloader = document.getElementById('sitePreloader');
@@ -156,6 +266,8 @@
       html.classList.remove('site-preloader-pending');
       unlock();
       animateHeaderIn();
+      animateHeroIn();
+      animateHeroContentIn();
       announceDone();
 
       // Crossfade the backdrop out instead of yanking it away instantly —
