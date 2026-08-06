@@ -952,6 +952,11 @@ z-index: -1;
 }
 }
   
+/* 125% zoom */
+@media screen and (min-width: 1025px) and (-webkit-min-device-pixel-ratio:1.25),screen and (min-width:1025px) and (min-resolution:120dpi) {
+.hero-pag-wrap{bottom: 60px;}
+.lion-logo-svg {max-width: min(45vw, 380px);}
+}
 @media (min-width: 1200px) and (max-width: 1366px) {
 .hero-pag-wrap{bottom: 40px;}
 .site-link {font-size: 1rem;}
@@ -960,20 +965,20 @@ z-index: -1;
 .stat-sub {font-size:1rem;}
 .quote-card-para {font-size: 1rem;}
 .banner-extra-logo-wrap img {max-width: 120px;}
-.banner-extra-logo-wrap { top: -5vw;} 
+.banner-extra-logo-wrap { top: -7vw;} 
 .banner-logo-wrap img {max-width: 120px;}
 .sustainability-block {max-width: 30vw;}
  .lion-logo-svg {max-width: min(45vw, 320px);}
+ .hero-swiper .slide-content .hero-para {margin-top: 10px;}
+ .lion-logo-svg {max-width: min(45vw, 280px);}
+ .logo-lion-vector-outer {left: -20vw;}
+ .home-testimonials-section .testimonials-marquee-col {height: calc(130vh - var(--header-h, 0px) - 5rem);max-height: calc(130vh - var(--header-h, 0px) - 5rem);}
 }
+
 
 /* 150% zoom */
 @media screen and (min-width: 1025px) and (-webkit-min-device-pixel-ratio:1.5),screen and (min-width:1025px) and (min-resolution:144dpi) {
-
+.hero-pag-wrap{bottom: 40px;}
    
 }
 
-/* 125% zoom */
-@media screen and (min-width: 1025px) and (-webkit-min-device-pixel-ratio:1.25),screen and (min-width:1025px) and (min-resolution:120dpi) {
-.hero-pag-wrap{bottom: 60px;}
-.lion-logo-svg {max-width: min(45vw, 380px);}
-}
