@@ -1,4 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
+  if (typeof gsap === "undefined" || typeof ScrollTrigger === "undefined") return;
+
+  gsap.registerPlugin(ScrollTrigger);
 
   function splitText(el) {
     const chars = [];
@@ -60,30 +63,47 @@ document.addEventListener("DOMContentLoaded", () => {
     return { chars };
   }
 
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const splitTypes = document.querySelectorAll(".reveal-text");
 
   splitTypes.forEach((container) => {
     const { chars } = splitText(container);
     const total = chars.length;
+    if (!total) return;
 
-    ScrollTrigger.create({
-      trigger: container,
-      start: "top 80%",
-      end: "top 20%",
-      scrub: true,
-      markers: false,
-      onUpdate: (self) => {
-        const progress = self.progress; // 0 -> 1 as you scroll through the range
-        chars.forEach((c, i) => {
-          const charThreshold = i / total; // each char's own "turn" in sequence
-          if (progress >= charThreshold) {
-            c.classList.add("revealed");
-          } else {
-            c.classList.remove("revealed");
-          }
-        });
+    if (reduceMotion) {
+      chars.forEach((c) => c.classList.add("revealed"));
+      return;
+    }
+
+    // Keep total wave ~0.6–1.1s so headings finish while still in view
+  const stagger = total > 45 ? 0.028 : total > 25 ? 0.035 : 0.04;
+  const duration = Math.min(2.2, Math.max(1.4, total * stagger));
+
+    const syncChars = (progress) => {
+      chars.forEach((c, i) => {
+        if (progress > i / total) c.classList.add("revealed");
+        else c.classList.remove("revealed");
+      });
+    };
+
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: container,
+        start: "top 85%",
+        // onEnter / onLeave / onEnterBack / onLeaveBack
+        toggleActions: "play none none reverse",
+        markers: false,
+      },
+      onUpdate() {
+        syncChars(this.progress());
+      },
+      onReverseComplete() {
+        syncChars(0);
       },
     });
-  });
 
+    // Dummy tween gives the timeline a real duration for stagger fill
+    tl.to({}, { duration });
+  });
 });
