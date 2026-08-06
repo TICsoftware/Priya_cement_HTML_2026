@@ -364,6 +364,9 @@
   .left-0 {
     left: calc(var(--spacing) * 0);
   }
+  .left-1 {
+    left: calc(var(--spacing) * 1);
+  }
   .left-1\/2 {
     left: calc(1 / 2 * 100%);
   }
@@ -1046,6 +1049,9 @@
     width: calc(var(--spacing) * 2);
     height: calc(var(--spacing) * 2);
   }
+  .h-1 {
+    height: calc(var(--spacing) * 1);
+  }
   .h-1\.5 {
     height: calc(var(--spacing) * 1.5);
   }
@@ -1069,6 +1075,12 @@
   }
   .h-50 {
     height: calc(var(--spacing) * 50);
+  }
+  .h-56 {
+    height: calc(var(--spacing) * 56);
+  }
+  .h-72 {
+    height: calc(var(--spacing) * 72);
   }
   .h-75 {
     height: calc(var(--spacing) * 75);
@@ -1096,6 +1108,9 @@
   }
   .min-h-\[660px\] {
     min-height: 660px;
+  }
+  .w-1 {
+    width: calc(var(--spacing) * 1);
   }
   .w-1\.5 {
     width: calc(var(--spacing) * 1.5);
@@ -1220,6 +1235,10 @@
   .border-collapse {
     border-collapse: collapse;
   }
+  .-translate-x-1 {
+    --tw-translate-x: calc(var(--spacing) * -1);
+    translate: var(--tw-translate-x) var(--tw-translate-y);
+  }
   .-translate-x-1\/2 {
     --tw-translate-x: calc(calc(1 / 2 * 100%) * -1);
     translate: var(--tw-translate-x) var(--tw-translate-y);
@@ -1271,6 +1290,9 @@
   }
   .grid-cols-3 {
     grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .grid-cols-\[1fr_1fr_0fr\] {
+    grid-template-columns: 1fr 1fr 0fr;
   }
   .flex-col {
     flex-direction: column;
@@ -1338,11 +1360,21 @@
   .gap-7 {
     gap: calc(var(--spacing) * 7);
   }
+  .gap-7\.5 {
+    gap: calc(var(--spacing) * 7.5);
+  }
   .gap-8 {
     gap: calc(var(--spacing) * 8);
   }
   .gap-10 {
     gap: calc(var(--spacing) * 10);
+  }
+  .space-y-2 {
+    :where(& > :not(:last-child)) {
+      --tw-space-y-reverse: 0;
+      margin-block-start: calc(calc(var(--spacing) * 2) * var(--tw-space-y-reverse));
+      margin-block-end: calc(calc(var(--spacing) * 2) * calc(1 - var(--tw-space-y-reverse)));
+    }
   }
   .space-y-2\.5 {
     :where(& > :not(:last-child)) {
@@ -1418,6 +1450,11 @@
       border-bottom-width: calc(1px * calc(1 - var(--tw-divide-y-reverse)));
     }
   }
+  .divide-white {
+    :where(& > :not(:last-child)) {
+      border-color: var(--color-white);
+    }
+  }
   .divide-white\/40 {
     :where(& > :not(:last-child)) {
       border-color: color-mix(in srgb, #ffffff 40%, transparent);
@@ -1454,6 +1491,9 @@
   }
   .rounded {
     border-radius: 0.25rem;
+  }
+  .rounded-2xl {
+    border-radius: var(--radius-2xl);
   }
   .rounded-\[10px\] {
     border-radius: 10px;
@@ -2271,6 +2311,11 @@
       align-items: center;
     }
   }
+  .sm\:justify-between {
+    @media (width >= 40rem) {
+      justify-content: space-between;
+    }
+  }
   .sm\:justify-center {
     @media (width >= 40rem) {
       justify-content: center;
@@ -2289,6 +2334,11 @@
   .sm\:gap-6 {
     @media (width >= 40rem) {
       gap: calc(var(--spacing) * 6);
+    }
+  }
+  .sm\:gap-7\.5 {
+    @media (width >= 40rem) {
+      gap: calc(var(--spacing) * 7.5);
     }
   }
   .sm\:gap-12 {
@@ -2395,6 +2445,21 @@
       grid-column: span 2 / span 2;
     }
   }
+  .md\:h-64 {
+    @media (width >= 48rem) {
+      height: calc(var(--spacing) * 64);
+    }
+  }
+  .md\:h-\[calc\(50\%-10px\)\] {
+    @media (width >= 48rem) {
+      height: calc(50% - 10px);
+    }
+  }
+  .md\:h-auto {
+    @media (width >= 48rem) {
+      height: auto;
+    }
+  }
   .md\:w-\[52\%\] {
     @media (width >= 48rem) {
       width: 52%;
@@ -2413,6 +2478,16 @@
   .md\:grid-cols-3 {
     @media (width >= 48rem) {
       grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+  .md\:grid-cols-\[1fr_1\.1fr_1fr\] {
+    @media (width >= 48rem) {
+      grid-template-columns: 1fr 1.1fr 1fr;
+    }
+  }
+  .md\:grid-cols-\[1fr_1fr_1fr\] {
+    @media (width >= 48rem) {
+      grid-template-columns: 1fr 1fr 1fr;
     }
   }
   .md\:flex-row {
@@ -2547,6 +2622,11 @@
   .lg\:max-w-2xl {
     @media (width >= 64rem) {
       max-width: var(--container-2xl);
+    }
+  }
+  .lg\:max-w-4xl {
+    @media (width >= 64rem) {
+      max-width: var(--container-4xl);
     }
   }
   .lg\:max-w-5xl {

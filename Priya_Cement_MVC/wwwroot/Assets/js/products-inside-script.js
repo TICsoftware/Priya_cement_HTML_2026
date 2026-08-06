@@ -69,6 +69,7 @@
     const rail = document.querySelector('.product-float-rail');
     const cta = document.querySelector('.cta-band');
     const banner = document.querySelector('.inside-banner-outer');
+    const intro = document.querySelector('.page-intro-outer');
     if (!bag || !rail || !cta) return;
 
     gsap.set(bag, { autoAlpha: 0 });
@@ -121,9 +122,11 @@
       });
     };
 
+    // Show as soon as page intro reaches the first screen (not after banner
+    // fully exits — that kept the bag invisible while content was already peeking).
     const rangeST = ScrollTrigger.create({
-      trigger: banner || rail,
-      start: 'bottom 75%',
+      trigger: intro || rail || banner,
+      start: 'top bottom',
       endTrigger: cta,
       end: 'bottom bottom',
       invalidateOnRefresh: true,
@@ -135,11 +138,9 @@
         armFixed();
         show();
       },
-      // End at CTA — keep visible, park in CTA so it scrolls away (no fade out)
       onLeave: () => {
         releaseToCta();
       },
-      // Only hide when scrolling back up into the hero
       onLeaveBack: () => {
         if (bag.parentElement !== rail) rail.appendChild(bag);
         bag.classList.remove('is-released');
@@ -150,7 +151,19 @@
       },
     });
 
-    requestAnimationFrame(() => ScrollTrigger.refresh());
+    const syncBagVisibility = () => {
+      if (rangeST.progress >= 1) {
+        releaseToCta();
+      } else if (rangeST.isActive || rangeST.progress > 0) {
+        armFixed();
+        show();
+      }
+    };
+
+    requestAnimationFrame(() => {
+      ScrollTrigger.refresh();
+      syncBagVisibility();
+    });
 
     return () => {
       rangeST.kill();
