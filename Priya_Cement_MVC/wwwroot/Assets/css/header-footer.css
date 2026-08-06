@@ -1,6 +1,9 @@
 /* =========================
    HEADER
 ========================= */
+:root{
+  --header-h: 106px; /* expanded fallback until JS measures */
+}
   .site-header{position:fixed; top:0; left:0; right:0; z-index:200; background:rgba(255,255,255,0.92); backdrop-filter:blur(14px) saturate(1.4); -webkit-backdrop-filter:blur(14px) saturate(1.4); border-bottom:1px solid transparent;  transition:border-color .35s var(--ease), box-shadow .35s var(--ease), transform .45s var(--ease), padding .35s var(--ease); padding: 8px 0;}
   /* Intro: keep bar in place (no -100% slide = no blank top). GSAP only soft-fades. */
   .site-header.is-intro{

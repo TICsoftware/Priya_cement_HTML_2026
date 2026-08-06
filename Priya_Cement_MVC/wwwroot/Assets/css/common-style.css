@@ -98,8 +98,18 @@ background: linear-gradient(90deg, rgba(0, 0, 0, 0.90) -5.49%, rgba(0, 0, 0, 0.7
   height: 100%;
 }
 
- .inside-banner-outer{margin-top: var(--header-h, 0px);}
+ .inside-banner-outer{margin-top: var(--header-h, 106px);}
  .innerbanner-title {text-transform: uppercase;margin-bottom: 10px;}
+ .innerbanner-title .char {
+   color: rgba(255, 255, 255, 0.35);
+   transition: color 0.35s ease;
+ }
+ .innerbanner-title .char.revealed {
+   color: #fff;
+ }
+ .innerbanner-title .char.highlight.revealed {
+   color: #fff;
+ }
 
 /* ==========================================================
    Common Link/Button Style

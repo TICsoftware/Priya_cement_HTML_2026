@@ -222,9 +222,16 @@ if (yearFoot) yearFoot.innerHTML = String(new Date().getFullYear());
   }
 
   /* ---------- sync header height to CSS custom property ---------- */
+  /* Lock to EXPANDED height only. Compact is visual — remasuring on
+     scroll shrinks margin-top / offsets and flickers the banner. */
   const header = document.getElementById('siteHeader');
   function syncHeaderHeight() {
-    if (header) document.documentElement.style.setProperty('--header-h', header.offsetHeight + 'px');
+    if (!header) return;
+    const hadCompact = header.classList.contains('is-compact');
+    if (hadCompact) header.classList.remove('is-compact');
+    const h = Math.round(header.getBoundingClientRect().height);
+    if (hadCompact) header.classList.add('is-compact');
+    document.documentElement.style.setProperty('--header-h', `${h}px`);
   }
   syncHeaderHeight();
   window.addEventListener('resize', syncHeaderHeight, { passive: true });
@@ -360,26 +367,12 @@ if (yearFoot) yearFoot.innerHTML = String(new Date().getFullYear());
 
   /* ---------- scroll behavior: shadow, compact, hide-on-scroll-down ---------- */
   let lastY = window.scrollY;
-  let wasCompact = header.classList.contains('is-compact');
   window.addEventListener('scroll', ()=>{
     const y = window.scrollY;
     header.classList.toggle('is-scrolled', y > 4);
-    const isCompact = y > 80;
-    header.classList.toggle('is-compact', isCompact);
-
-    // The compact state changes the header's actual rendered height (less
-    // padding, smaller logo) — --header-h only gets remeasured on load/
-    // resize otherwise, so anything pinned against it (e.g. the
-    // sustainability section) would lock its top against the *old, taller*
-    // height and leave a gap once the header has visually shrunk. Only
-    // fires on the edge (not every scroll tick), and only while this is
-    // still near the top of the page, well before any pinned section
-    // further down is anywhere close to engaging.
-    if (isCompact !== wasCompact) {
-      wasCompact = isCompact;
-      syncHeaderHeight();
-      if (typeof ScrollTrigger !== 'undefined') ScrollTrigger.refresh();
-    }
+    header.classList.toggle('is-compact', y > 80);
+    // Do NOT sync --header-h or ScrollTrigger.refresh() on compact —
+    // that changes layout offsets and flickers the top banner.
 
     const scrollingDown = y > lastY;
     const pastThreshold = y > 140;
