@@ -1,0 +1,14 @@
+.customerservice-block {
+    border-radius: 20px;
+border: 1px solid #EFEFEF;
+background: #FFF;
+box-shadow: 0 4px 12px 2px rgba(0, 0, 0, 0.05);
+padding: 16px 16px;
+display: flex;
+justify-content: center;
+flex-direction: column;
+ transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+.customerservice-block:hover {box-shadow: 0 12px 24px 4px rgba(0, 0, 0, 0.12);}
+.customerservice-block p {margin-bottom:0;}
+.time-txt {font-size: var(--text-p) !important; font-weight: 500;}
