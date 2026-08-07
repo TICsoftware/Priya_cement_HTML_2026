@@ -88,7 +88,12 @@
 .product-float-sticky {
   position: fixed;
   top: calc(var(--header-h, 80px) + 10vw);
-  right: clamp(0.75rem, 5vw, 8.5rem);
+  /*
+   * Align to .container right edge (width: 90%; max-width: 1680px).
+   * Below ~1867px gutter ≈ 5vw; on larger screens gutter grows with the
+   * centered container so the bag does not drift into the grey margin.
+   */
+  right: max(0.75rem, calc((100vw - min(78vw, 1680px)) / 2));
   left: auto;
   z-index: 30;
   width: min(30vw, 250px);
