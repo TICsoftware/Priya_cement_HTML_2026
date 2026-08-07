@@ -1,6 +1,9 @@
 /* =========================
    HEADER
 ========================= */
+:root{
+  --header-h: 106px; /* expanded fallback until JS measures */
+}
   .site-header{position:fixed; top:0; left:0; right:0; z-index:200; background:rgba(255,255,255,0.92); backdrop-filter:blur(14px) saturate(1.4); -webkit-backdrop-filter:blur(14px) saturate(1.4); border-bottom:1px solid transparent;  transition:border-color .35s var(--ease), box-shadow .35s var(--ease), transform .45s var(--ease), padding .35s var(--ease); padding: 8px 0;}
   /* Intro: keep bar in place (no -100% slide = no blank top). GSAP only soft-fades. */
   .site-header.is-intro{
@@ -148,7 +151,6 @@
    .mega-promo {display: none;}
     .primary-nav, .mega-stage, .mega-backdrop, .divider-v{display:none;}
     .header-inner{height:auto;gap:8px;}
-    .logo-link img{height:25px;}
     .site-header.is-compact {padding: 4px 0;}
     .mobile-toggle{ display:flex; align-items:center; justify-content:center; width:36px;height:36px; border-radius:9px;    background:none;border:none; cursor:pointer;  margin-left:2px; flex-shrink:0;}
     .mobile-toggle span{display:block;width:18px;height:2px;background:var(--color-primary);border-radius:2px; position:relative;    transition:background .2s ease; }
@@ -229,6 +231,10 @@
 .top-line-wrapper p{font-size: 1rem !important; color: #fff;}
 .linkcolumns-block h4 {font-size: 1.125rem; text-transform: uppercase; color: #fff;}
 
+
+@media all and (max-width: 1023px) {
+    .logo-link img{height:50px;}
+}
 
 @media all and (max-width: 767px) {
    .tic-text {position: relative;}

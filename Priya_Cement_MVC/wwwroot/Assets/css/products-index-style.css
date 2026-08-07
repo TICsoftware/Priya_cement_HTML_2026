@@ -154,13 +154,14 @@
   }
 
   .bg-parallax-section .bg-parallax-frame {
-    min-height: 420px;
+    min-height: 380px;
     justify-content: center;
     padding-block: clamp(1.75rem, 3.5vw, 2.5rem);
     padding-inline: clamp(1rem, 2.5vw, 1.75rem);
     padding-bottom: 4.5rem;
+    
   }
-
+.bg-parallax-section .outer-bg-wrap {overflow: hidden; margin-right: 20px;}
   .bg-parallax-section .bg-parallax-content {
     max-width: min(26rem, 58%);
   }
@@ -180,6 +181,8 @@
   .man-image-wrap {
     width: min(46%, 300px);
   }
+  .products-landing-section {padding-top: 0;}
+  .logo-lion-vector-outer {display: none;}
 }
 
 @media (max-width: 767px) {
@@ -234,7 +237,7 @@
   .our-products-img { align-items: start; }
   .our-products-cards { padding: 30px 20px; }
   .logo-lion-vector-outer {display: none;}
-  .bg-parallax-section .outer-bg-wrap {overflow: hidden;}
+  .bg-parallax-section .outer-bg-wrap {overflow: hidden;margin-right: 20px;}
   .products-landing-section {padding-top: 0;}
 }
 

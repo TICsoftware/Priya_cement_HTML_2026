@@ -48,6 +48,11 @@
     --font-weight-medium: 500;
     --font-weight-semibold: 600;
     --font-weight-bold: 700;
+<<<<<<< HEAD
+=======
+    --font-weight-extrabold: 800;
+    --tracking-tight: -0.025em;
+>>>>>>> 0abe604d227ccb229c5a08ef295112dee4611bc2
     --tracking-wide: 0.025em;
     --tracking-widest: 0.1em;
     --leading-snug: 1.375;
@@ -345,6 +350,9 @@
   }
   .top-100 {
     top: calc(var(--spacing) * 100);
+  }
+  .top-\[6\.5vh\] {
+    top: 6.5vh;
   }
   .right-5 {
     right: calc(var(--spacing) * 5);
@@ -1088,6 +1096,9 @@
   .h-px {
     height: 1px;
   }
+  .h-screen {
+    height: 100vh;
+  }
   .max-h-\[320px\] {
     max-height: 320px;
   }
@@ -1166,6 +1177,9 @@
   .max-w-5xl {
     max-width: var(--container-5xl);
   }
+  .max-w-6xl {
+    max-width: var(--container-6xl);
+  }
   .max-w-\[290px\] {
     max-width: 290px;
   }
@@ -1177,9 +1191,6 @@
   }
   .min-w-0 {
     min-width: calc(var(--spacing) * 0);
-  }
-  .min-w-\[900px\] {
-    min-width: 900px;
   }
   .min-w-full {
     min-width: 100%;
@@ -1220,6 +1231,7 @@
   .border-collapse {
     border-collapse: collapse;
   }
+<<<<<<< HEAD
   .border-separate {
     border-collapse: separate;
   }
@@ -1227,6 +1239,11 @@
     --tw-border-spacing-x: calc(var(--spacing) * 0);
     --tw-border-spacing-y: calc(var(--spacing) * 0);
     border-spacing: var(--tw-border-spacing-x) var(--tw-border-spacing-y);
+=======
+  .-translate-x-1 {
+    --tw-translate-x: calc(var(--spacing) * -1);
+    translate: var(--tw-translate-x) var(--tw-translate-y);
+>>>>>>> 0abe604d227ccb229c5a08ef295112dee4611bc2
   }
   .-translate-x-1\/2 {
     --tw-translate-x: calc(calc(1 / 2 * 100%) * -1);
@@ -1512,17 +1529,9 @@
     border-style: var(--tw-border-style);
     border-width: 5px;
   }
-  .border-x {
-    border-inline-style: var(--tw-border-style);
-    border-inline-width: 1px;
-  }
   .border-t {
     border-top-style: var(--tw-border-style);
     border-top-width: 1px;
-  }
-  .border-r {
-    border-right-style: var(--tw-border-style);
-    border-right-width: 1px;
   }
   .border-b {
     border-bottom-style: var(--tw-border-style);
@@ -1885,6 +1894,10 @@
     --tw-font-weight: var(--font-weight-bold);
     font-weight: var(--font-weight-bold);
   }
+  .font-extrabold {
+    --tw-font-weight: var(--font-weight-extrabold);
+    font-weight: var(--font-weight-extrabold);
+  }
   .font-light {
     --tw-font-weight: var(--font-weight-light);
     font-weight: var(--font-weight-light);
@@ -1900,6 +1913,10 @@
   .font-thin {
     --tw-font-weight: var(--font-weight-thin);
     font-weight: var(--font-weight-thin);
+  }
+  .tracking-tight {
+    --tw-tracking: var(--tracking-tight);
+    letter-spacing: var(--tracking-tight);
   }
   .tracking-wide {
     --tw-tracking: var(--tracking-wide);
@@ -1922,6 +1939,9 @@
   }
   .text-\[\#767676\] {
     color: #767676;
+  }
+  .text-\[\#E21E28\] {
+    color: #E21E28;
   }
   .text-black {
     color: var(--color-black);
@@ -2415,6 +2435,11 @@
       width: 52%;
     }
   }
+  .md\:max-w-\[50\%\] {
+    @media (width >= 48rem) {
+      max-width: 50%;
+    }
+  }
   .md\:grid-cols-2 {
     @media (width >= 48rem) {
       grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -2562,11 +2587,6 @@
   .lg\:max-w-5xl {
     @media (width >= 64rem) {
       max-width: var(--container-5xl);
-    }
-  }
-  .lg\:max-w-6xl {
-    @media (width >= 64rem) {
-      max-width: var(--container-6xl);
     }
   }
   .lg\:max-w-\[38\%\] {
@@ -2842,15 +2862,9 @@ body {
 }
 @layer componants {
   .container {
-    padding-left: 1.25rem;
-    padding-right: 1.25rem;
     width: 90%;
     max-width: 1680px;
     margin-inline: auto;
-  }
-  .container-fluid {
-    padding-left: 1.25rem;
-    padding-right: 1.25rem;
   }
 }
 @layer utilities {
@@ -2891,17 +2905,13 @@ body {
 @media (max-width: 992px) {
   .container {
     width: 100%;
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
   }
-}
-@property --tw-border-spacing-x {
-  syntax: "<length>";
-  inherits: false;
-  initial-value: 0;
-}
-@property --tw-border-spacing-y {
-  syntax: "<length>";
-  inherits: false;
-  initial-value: 0;
+  .container-fluid {
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+  }
 }
 @property --tw-translate-x {
   syntax: "*";
@@ -3155,8 +3165,6 @@ body {
 @layer properties {
   @supports ((-webkit-hyphens: none) and (not (margin-trim: inline))) or ((-moz-orient: inline) and (not (color:rgb(from red r g b)))) {
     *, ::before, ::after, ::backdrop {
-      --tw-border-spacing-x: 0;
-      --tw-border-spacing-y: 0;
       --tw-translate-x: 0;
       --tw-translate-y: 0;
       --tw-translate-z: 0;

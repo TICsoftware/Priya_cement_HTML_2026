@@ -148,16 +148,13 @@ img, picture, video, canvas {
 ------------------------------------------------- */
 @layer componants  {
   .container {    
-    padding-left: 1.25rem;
-    padding-right: 1.25rem;
+ 
        
   width: 90%;
   max-width: 1680px;
   margin-inline: auto; /* centers it */
 }
-
-
-  .container-fluid{padding-left: 1.25rem; padding-right: 1.25rem;}
+  
   
 }
 
@@ -189,5 +186,6 @@ img, picture, video, canvas {
 }
 
 @media (max-width: 992px) {
-  .container { width: 100%;}
+  .container {width: 100%;padding-left: 1.25rem;padding-right: 1.25rem;}
+  .container-fluid{padding-left: 1.25rem; padding-right: 1.25rem;}
 }

@@ -174,7 +174,7 @@ document.querySelectorAll('input[name="serviceType"]').forEach(radio => {
   });
 });
 
-document.getElementById("enquiry-form").addEventListener("submit", e => e.preventDefault());
+//document.getElementById("enquiry-form").addEventListener("submit", e => e.preventDefault());
 
 /* ---------------------------------------
    PARALLAX IMAGE

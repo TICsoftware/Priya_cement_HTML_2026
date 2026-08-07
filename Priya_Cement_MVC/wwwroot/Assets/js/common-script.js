@@ -222,9 +222,16 @@ if (yearFoot) yearFoot.innerHTML = String(new Date().getFullYear());
   }
 
   /* ---------- sync header height to CSS custom property ---------- */
+  /* Lock to EXPANDED height only. Compact is visual — remasuring on
+     scroll shrinks margin-top / offsets and flickers the banner. */
   const header = document.getElementById('siteHeader');
   function syncHeaderHeight() {
-    if (header) document.documentElement.style.setProperty('--header-h', header.offsetHeight + 'px');
+    if (!header) return;
+    const hadCompact = header.classList.contains('is-compact');
+    if (hadCompact) header.classList.remove('is-compact');
+    const h = Math.round(header.getBoundingClientRect().height);
+    if (hadCompact) header.classList.add('is-compact');
+    document.documentElement.style.setProperty('--header-h', `${h}px`);
   }
   syncHeaderHeight();
   window.addEventListener('resize', syncHeaderHeight, { passive: true });
@@ -364,6 +371,8 @@ if (yearFoot) yearFoot.innerHTML = String(new Date().getFullYear());
     const y = window.scrollY;
     header.classList.toggle('is-scrolled', y > 4);
     header.classList.toggle('is-compact', y > 80);
+    // Do NOT sync --header-h or ScrollTrigger.refresh() on compact —
+    // that changes layout offsets and flickers the top banner.
 
     const scrollingDown = y > lastY;
     const pastThreshold = y > 140;

@@ -653,66 +653,96 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       };
 
-      // Entrance — video wrap fades/settles in as the section approaches,
-      // finishing before the pinned scrub takes over below.
-      const entranceTween = gsap.to(videoWrap, {
-        autoAlpha: 1,
-        y: 0,
-        ease: 'power2.out',
+      // Entrance — starts once the section is into the viewport (top 80% —
+      // was 70%, shortened so less scrolling is needed to reach it) and
+      // ends exactly where the pin below picks up, so there's no dead gap:
+      // video fades/settles in AND starts traveling (0.5→0.78 scale) while
+      // still unpinned. Content stays hidden through this phase — it only
+      // starts revealing once the video has visibly made progress in the
+      // pinned phase below, so text never sits fully legible while the
+      // video is still small mid-transform underneath it.
+      const entranceTl = gsap.timeline({
+        defaults: { force3D: true },
         scrollTrigger: {
           trigger: section,
-          start: 'top 85%',
-          end: 'top 60%',
-          scrub: 1,
+          start: 'top 80%',
+          end: () => `top top+=${getHeaderH()}`,
+          // true, not a lag number — Lenis already smooths the raw scroll
+          // input on desktop; stacking GSAP's own scrub lag on top of
+          // Lenis's already-smoothed value compounds into a delay long
+          // enough that normal-speed scrolling outruns the animation,
+          // leaving it visibly stuck mid-transition.
+          scrub: true,
           invalidateOnRefresh: true,
         },
       });
 
-   const tl = gsap.timeline({
-  defaults: { force3D: true },
-  scrollTrigger: {
-    trigger: section,
-    start: () => `top top+=${getHeaderH()}`,
-    end: '+=90%',        // was '+=110%' — pin releases much sooner
-    pin: true,
-    scrub: 1.2,          // was 1.6 — slightly snappier response to scroll
-    invalidateOnRefresh: true,
-    anticipatePin: 1,
-    onEnter: playVideo,
-    onEnterBack: playVideo,
-    onLeaveBack: resetOdometers,
-  },
-});
+      entranceTl.to(videoWrap, {
+        autoAlpha: 1,
+        y: 0,
+        scale: 0.78,
+        ease: 'power2.out',
+      }, 0);
 
-      // Pinned flush to the header first (no gap) — video holds at 50% for
-      // the first 30% of the pinned scroll, then travels to full bleed.
-      tl.to(videoWrap, {
-        scale: 1,
-        borderRadius: 0,
-        duration: 0.7,
-        ease: 'power1.inOut',
-      }, 0.3);
+      const settleDesktop = () => {
+        gsap.set(videoWrap, {
+          autoAlpha: 1,
+          y: 0,
+          scale: 1,
+          borderRadius: 0,
+        });
+        gsap.set(contentEls, { autoAlpha: 1, y: 0 });
+      };
 
-      // Content rides the same scroll — appears as video nears full size
+      const tl = gsap.timeline({
+        defaults: { force3D: true },
+        scrollTrigger: {
+          trigger: section,
+          start: () => `top top+=${getHeaderH()}`,
+          end: '+=55%',
+          pin: true,
+          // Same reasoning as the entrance timeline above — no extra GSAP
+          // lag stacked on top of Lenis's own smoothing.
+          scrub: true,
+          invalidateOnRefresh: true,
+          anticipatePin: 1,
+          onEnter: playVideo,
+          onEnterBack: playVideo,
+          // Scrub lag can leave mid-scale + visible copy — lock end state
+          onLeave: () => {
+            settleDesktop();
+            playOdometers();
+          },
+          onLeaveBack: resetOdometers,
+        },
+      });
+
+      // 0.78 → full bleed first. Copy must stay hidden until scale ≈ 1,
+      // otherwise white text sits on the white gutters and looks clipped.
+      tl.to(
+        videoWrap,
+        {
+          scale: 1,
+          borderRadius: 0,
+          duration: 0.65,
+          ease: 'power1.inOut',
+        },
+        0
+      );
+
       if (title) {
         tl.to(
           title,
-          { autoAlpha: 1, y: 0, duration: 0.35, ease: 'power2.out' },
-          0.55
+          { autoAlpha: 1, y: 0, duration: 0.28, ease: 'power2.out' },
+          0.62
         );
       }
       if (stats) {
         tl.to(
           stats,
-          {
-            autoAlpha: 1,
-            y: 0,
-            duration: 0.35,
-            ease: 'power2.out',
-          },
-          0.65
+          { autoAlpha: 1, y: 0, duration: 0.28, ease: 'power2.out' },
+          0.72
         );
-        // After stats are visible — run odometer (scrub-safe)
         tl.call(
           () => {
             if (tl.scrollTrigger && tl.scrollTrigger.direction === 1) {
@@ -722,14 +752,14 @@ document.addEventListener("DOMContentLoaded", () => {
             }
           },
           null,
-          0.95
+          0.74
         );
       }
       if (cta) {
         tl.to(
           cta,
-          { autoAlpha: 1, y: 0, duration: 0.3, ease: 'power2.out' },
-          0.75
+          { autoAlpha: 1, y: 0, duration: 0.25, ease: 'power2.out' },
+          0.8
         );
       }
 
@@ -740,15 +770,15 @@ document.addEventListener("DOMContentLoaded", () => {
         resetOdometers();
         if (tl.scrollTrigger) tl.scrollTrigger.kill();
         tl.kill();
-        if (entranceTween.scrollTrigger) entranceTween.scrollTrigger.kill();
-        entranceTween.kill();
+        if (entranceTl.scrollTrigger) entranceTl.scrollTrigger.kill();
+        entranceTl.kill();
         gsap.set([videoWrap, ...contentEls], {
           clearProps: 'transform,opacity,visibility,borderRadius',
         });
       };
     });
 
-    // Mobile: lighter scrub, no pin — still 50% → full + content
+    // Mobile / tablet: full-bleed video (no scale — that clips copy), fade content in
     mmSustain.add('(max-width: 1023px)', () => {
       const section = document.querySelector('.home-sustainability-section');
       if (!section) return;
@@ -763,15 +793,17 @@ document.addEventListener("DOMContentLoaded", () => {
       const contentEls = [title, stats, cta].filter(Boolean);
       section.classList.add('is-sustain-anim');
 
+      // Full bleed from the start — do not scale (overflow + scale clips text on mobile)
       gsap.set(videoWrap, {
-        scale: 0.5,
+        scale: 1,
+        x: 0,
+        y: 0,
         transformOrigin: '50% 50%',
         force3D: true,
-        borderRadius: '0.625rem',
+        borderRadius: 0,
         autoAlpha: 0,
-        y: 24,
       });
-      gsap.set(contentEls, { autoAlpha: 0, y: 28, force3D: true });
+      gsap.set(contentEls, { autoAlpha: 0, x: 0, y: 24, force3D: true });
 
       const playVideo = () => {
         if (!video) return;
@@ -791,48 +823,53 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       };
 
-      // Entrance — video wrap fades/settles in as the section approaches,
-      // finishing before the scrub timeline starts below.
-      const entranceTween = gsap.to(videoWrap, {
-        autoAlpha: 1,
-        y: 0,
-        ease: 'power2.out',
-        scrollTrigger: {
-          trigger: section,
-          start: 'top 100%',
-          end: 'top 55%',
-          scrub: 1,
-          invalidateOnRefresh: true,
-        },
-      });
+      const settleContent = () => {
+        gsap.set(videoWrap, { autoAlpha: 1, x: 0, y: 0, scale: 1, borderRadius: 0 });
+        gsap.set(contentEls, { autoAlpha: 1, x: 0, y: 0 });
+      };
 
       const tl = gsap.timeline({
         defaults: { force3D: true },
         scrollTrigger: {
           trigger: section,
-          start: 'top 50%',
-          end: 'top 20%',
-          scrub: 1.4,
+          start: 'top 80%',
+          end: 'top 35%',
+          scrub: 1.1,
           invalidateOnRefresh: true,
           onEnter: playVideo,
+          onEnterBack: playVideo,
+          onLeave: () => {
+            settleContent();
+            playOdometers();
+          },
           onLeaveBack: resetOdometers,
         },
       });
 
-      tl.to(videoWrap, {
-        scale: 1,
-        borderRadius: 0,
-        duration: 1,
-        ease: 'power1.inOut',
-      })
-        .to(contentEls, {
+      tl.to(
+        videoWrap,
+        {
           autoAlpha: 1,
-          y: 0,
-          duration: 0.35,
-          stagger: 0.08,
-          ease: 'power2.out',
-        }, 0.55)
-        .call(
+          duration: 0.45,
+          ease: 'power1.out',
+        },
+        0
+      );
+
+      if (title) {
+        tl.to(
+          title,
+          { autoAlpha: 1, y: 0, duration: 0.4, ease: 'power2.out' },
+          0.2
+        );
+      }
+      if (stats) {
+        tl.to(
+          stats,
+          { autoAlpha: 1, y: 0, duration: 0.4, ease: 'power2.out' },
+          0.35
+        );
+        tl.call(
           () => {
             if (tl.scrollTrigger && tl.scrollTrigger.direction === 1) {
               playOdometers();
@@ -841,8 +878,16 @@ document.addEventListener("DOMContentLoaded", () => {
             }
           },
           null,
-          0.95
+          0.4
         );
+      }
+      if (cta) {
+        tl.to(
+          cta,
+          { autoAlpha: 1, y: 0, duration: 0.35, ease: 'power2.out' },
+          0.5
+        );
+      }
 
       return () => {
         section.classList.remove('is-sustain-anim');
