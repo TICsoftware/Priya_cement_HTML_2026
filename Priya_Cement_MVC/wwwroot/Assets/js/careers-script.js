@@ -2,14 +2,62 @@ document.addEventListener("DOMContentLoaded", () => {
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 /* ---------------------------------------
+   Sections below #life-inside must wait for its pinned ScrollTrigger
+   (created asynchronously in lifeinside-script.js, after the 120-frame
+   sequence preloads) before THEY create their own ScrollTriggers.
+   Otherwise these get measured against the page's pre-pin height and
+   ScrollTrigger.refresh() afterwards does not correct them — the CTA
+   parallax, culture tile parallax and man-cutout reveal all end up
+   scrubbing against stale start/end offsets (looks frozen/broken on
+   both desktop and mobile). Creating them fresh once the pin exists
+   always measures correctly, so we simply delay creation instead.
+--------------------------------------- */
+  function initSectionScrollFx() {
+
+/* ---------------------------------------
    PARALLAX IMAGE
 --------------------------------------- */
   if (!reduceMotion && typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+    /* CTA band — same travel as site-wide parallax (height:130% CSS) */
+    const ctaSection = document.querySelector('.bg-parallax-section');
+    const ctaWrap = ctaSection && ctaSection.querySelector('.parallax-wrap');
+    const ctaImg = ctaWrap && ctaWrap.querySelector('.parallax-img');
+
+    if (ctaImg && ctaWrap) {
+      gsap.fromTo(
+        ctaImg,
+        { yPercent: -12 },
+        {
+          yPercent: 12,
+          ease: 'none',
+          force3D: true,
+          scrollTrigger: {
+            trigger: ctaSection,
+            start: 'top bottom',
+            end: 'bottom top',
+            scrub: 0.8,
+            invalidateOnRefresh: true,
+          },
+        }
+      );
+
+      /* Re-measure after the lazy bg image loads (start/end can be wrong before) */
+      if (!ctaImg.complete) {
+        ctaImg.addEventListener(
+          'load',
+          () => ScrollTrigger.refresh(),
+          { once: true }
+        );
+      }
+    }
+
     gsap.utils.toArray('.parallax-wrap').forEach((wrap) => {
       // Enlarge section owns motion on desktop — skip y-parallax there
       if (wrap.classList.contains('enlarge-wrapper')) return;
       // Culture collage: keep photos static (no crop/scale on scroll)
       if (wrap.closest('.workplaceculture-section')) return;
+      // CTA handled above with a stronger range
+      if (wrap.closest('.bg-parallax-section')) return;
 
       const img = wrap.querySelector('.parallax-img');
       if (!img) return;
@@ -26,7 +74,7 @@ document.addEventListener("DOMContentLoaded", () => {
             trigger: wrap,
             start: 'top bottom',
             end: 'bottom top',
-            scrub: 0.8, // smoother with Lenis than scrub:true
+            scrub: 0.8,
             invalidateOnRefresh: true,
           },
         }
@@ -110,16 +158,21 @@ document.addEventListener("DOMContentLoaded", () => {
     const section = document.querySelector('.bg-parallax-section');
 
     if (manWrap && section) {
-      if (reduceMotion) {
-        gsap.set(manWrap, { clearProps: 'transform,opacity,visibility' });
-      } else {
+      const manMm = gsap.matchMedia();
+
+      manMm.add('(min-width: 768px)', () => {
+        if (reduceMotion) {
+          gsap.set(manWrap, { clearProps: 'transform,opacity,visibility' });
+          return;
+        }
+
         gsap.set(manWrap, {
           y: 100,
           autoAlpha: 0.95,
           force3D: true,
         });
 
-        gsap.to(manWrap, {
+        const tween = gsap.to(manWrap, {
           y: 0,
           autoAlpha: 1,
           duration: 1.15,
@@ -132,9 +185,41 @@ document.addEventListener("DOMContentLoaded", () => {
             invalidateOnRefresh: true,
           },
         });
-      }
+
+        return () => {
+          if (tween.scrollTrigger) tween.scrollTrigger.kill();
+          tween.kill();
+          gsap.set(manWrap, { clearProps: 'transform,opacity,visibility' });
+        };
+      });
+
+      /* Mobile: no rise offset — it left a gap above the people */
+      manMm.add('(max-width: 767px)', () => {
+        gsap.set(manWrap, { clearProps: 'transform,opacity,visibility' });
+      });
     }
   }
+
+  } // end initSectionScrollFx
+
+  (function scheduleSectionScrollFx() {
+    let started = false;
+    function start() {
+      if (started) return;
+      started = true;
+      initSectionScrollFx();
+    }
+
+    if (document.getElementById('life-inside')) {
+      window.addEventListener('lifeinside:ready', start, { once: true });
+      // Safety net in case the frame sequence never resolves (e.g. every
+      // frame request fails) so the CTA/culture/man-cutout effects still
+      // end up correctly measured rather than never initializing at all.
+      window.setTimeout(start, 4000);
+    } else {
+      start();
+    }
+  })();
 
 /* ---------------------------------------
    PRODUCTS LION — scale up + stroke draw → fill

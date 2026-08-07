@@ -1,5 +1,5 @@
 /* ══════════════════════════════
-   CAREERS — CTA parallax + man cutout (breaks out above card)
+   CAREERS — CTA parallax + people cutout (breaks out above card)
 ══════════════════════════════ */
 .bg-parallax-section .outer-bg-wrap {
   position: relative;
@@ -9,7 +9,8 @@
 .bg-parallax-section .bg-parallax-stage {
   position: relative;
   overflow: visible;
-  padding-top: clamp(3.5rem, 6vw, 10rem);
+  /* Room above the card for head breakout */
+  padding-top: clamp(3.5rem, 7vw, 10rem);
   padding-right: 0;
 }
 
@@ -19,6 +20,7 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
+  min-height: 660px;
   padding-block: clamp(2.5rem, 5vw, 4.5rem);
   padding-inline: clamp(1.25rem, 3vw, 2.5rem);
   box-sizing: border-box;
@@ -34,11 +36,12 @@
   pointer-events: none;
 }
 
-.bg-parallax-section .parallax-img {
+.bg-parallax-section .parallax-wrap .parallax-img {
   position: absolute;
   left: 0;
   top: 0;
   width: 100%;
+  /* Slightly taller than frame so yPercent scrub never shows gaps */
   height: 130%;
   max-width: none;
   object-fit: cover;
@@ -56,7 +59,7 @@
 .bg-parallax-section .bg-parallax-content {
   position: relative;
   z-index: 2;
-  max-width: min(42rem, 58%);
+  max-width: min(42rem, 48%);
   pointer-events: none;
 }
 
@@ -78,13 +81,13 @@
   z-index: 3;
 }
 
-/* Dual CTAs — stay clear of the man cutout */
+/* Dual CTAs — one continuous white bar (no dark gap), clear of people */
 .bg-parallax-cta-row {
   display: flex;
   flex-wrap: nowrap;
   align-items: stretch;
-  gap: 0.5rem;
-  max-width: min(100%, 62%);
+  gap: 0;
+  max-width: min(100%, 52%);
   pointer-events: auto;
 }
 
@@ -93,18 +96,25 @@
   min-width: 0;
 }
 
+.bg-parallax-cta-row .outer-btn-wrap + .outer-btn-wrap {
+  border-left: 1px solid rgba(35, 31, 32, 0.12);
+}
+
 .bg-parallax-cta-row .site-link {
   white-space: nowrap;
 }
 
-/* Man — sibling of the card, full stage height so head clears the top edge */
+/* People — sibling of the card, full stage height so heads clear the top edge.
+   Group shot is landscape (~1.21:1): wrap MUST be wide enough that
+   height:100% + object-fit:contain still paints at full stage height.
+   Too-narrow wrap shrinks the bitmap and heads fall inside the card. */
 .man-image-wrap {
   position: absolute;
   top: 0;
-  right: 2vw;
+  right: 0;
   bottom: 0;
   z-index: 5;
-  width: min(95%, 900px);
+  width: min(68%, 1000px);
   display: flex;
   align-items: flex-end;
   justify-content: flex-end;
@@ -114,9 +124,9 @@
 
 .man-image-img {
   display: block;
-  width: auto;
-  max-width: 100%;
   height: 100%;
+  width: auto;
+  max-width: none;
   object-fit: contain;
   object-position: right bottom;
   user-select: none;
@@ -141,33 +151,32 @@
   .our-products-img img { height: auto; }
 }
 
-/* —— Tablet —— */
+/* —— Tablet — same composition as desktop, scaled —— */
 @media (max-width: 991px) {
-  .bg-parallax-section .bg-parallax-stage {
-    padding-top: clamp(2rem, 4.5vw, 3.25rem);
-  }
-
-  .bg-parallax-section .bg-parallax-frame {
-    min-height: 350px;
-    justify-content: center;
-    padding-block: clamp(1.75rem, 3.5vw, 2.5rem);
-    padding-inline: clamp(1rem, 2.5vw, 1.75rem);
-    padding-bottom: 5.5rem;
-  }
-
   .bg-parallax-section .outer-bg-wrap {
     overflow: hidden;
     margin-right: 20px;
   }
 
+  .bg-parallax-section .bg-parallax-stage {
+    padding-top: clamp(2.25rem, 5vw, 3.5rem);
+  }
+
+  .bg-parallax-section .bg-parallax-frame {
+    min-height: 400px;
+    justify-content: center;
+    padding-block: clamp(1.75rem, 3.5vw, 2.5rem);
+    padding-inline: clamp(1rem, 2.5vw, 1.75rem);
+    padding-bottom: 5rem;
+  }
+
   .bg-parallax-section .bg-parallax-content {
-    max-width: min(26rem, 55%);
+    max-width: min(24rem, 50%);
   }
 
 
   .bg-parallax-cta-row {
-    max-width: 58%;
-    gap: 0.4rem;
+    max-width: 50%;
   }
 
   .bg-parallax-section .outer-btn-wrap.outer-btn-spacing {
@@ -180,22 +189,36 @@
   }
 
   .man-image-wrap {
-    width: min(46%, 300px);
+     width: min(46%, 300px);
+    right: 0;
   }
-
+.man-image-img {height: 75%;}
   .section-title-large .title-section {
     max-width: 100%;
   }
   .careers-intro { margin-top: 50px; margin-bottom: -60px; }
 }
 
-/* —— Mobile —— */
+/*
+ * Mobile — desktop composition (title left · people right · CTAs bottom-left).
+ * Cover + full-stage wrap puts faces in the padding-top breakout band.
+ */
 @media (max-width: 767px) {
+  .bg-parallax-section .outer-bg-wrap {
+    overflow: hidden;
+    margin-right: 20px;
+  }
+
+  .bg-parallax-section .bg-parallax-stage {
+    padding-top: 3.25rem;
+    overflow: visible;
+  }
+
   .bg-parallax-section .bg-parallax-frame {
-    min-height: 360px;
-    justify-content: flex-end;
-    padding-top: 1.5rem;
-    padding-bottom: 7.5rem; /* room for stacked CTAs */
+    min-height: 340px;
+    justify-content: center;
+    padding-top: 1.35rem;
+    padding-bottom: 5.75rem;
     padding-inline: 1rem;
   }
 
@@ -203,38 +226,35 @@
     background: linear-gradient(
       90deg,
       rgba(0, 0, 0, 0.92) -5%,
-      rgba(0, 0, 0, 0.72) 28%,
-      rgba(0, 0, 0, 0.35) 52%,
+      rgba(0, 0, 0, 0.78) 30%,
+      rgba(0, 0, 0, 0.4) 52%,
       rgba(0, 0, 0, 0) 78%
     );
   }
 
   .bg-parallax-section .bg-parallax-content {
-    max-width: 58%;
-    margin-bottom: auto;
-    padding-top: 0.5rem;
+    max-width: 52%;
   }
 
 
 
-  /* Stack CTAs so they stay readable beside the man */
   .bg-parallax-cta-row {
     flex-direction: column;
     align-items: stretch;
-    max-width: 58%;
-    gap: 0.35rem;
+    max-width: 52%;
   }
 
   .bg-parallax-cta-row .outer-btn-wrap {
     width: 100%;
   }
 
-  .bg-parallax-section .outer-btn-wrap.outer-btn-spacing {
-    padding: 0.75rem 0.9rem;
+  .bg-parallax-cta-row .outer-btn-wrap + .outer-btn-wrap {
+    border-left: 0;
+    border-top: 1px solid rgba(35, 31, 32, 0.12);
   }
 
-    .bg-parallax-section .bg-parallax-content {
-    max-width: 60%;
+  .bg-parallax-section .outer-btn-wrap.outer-btn-spacing {
+    padding: 0.8rem 0.9rem;
   }
 
   .bg-parallax-section .outer-btn-wrap .site-link {
@@ -245,32 +265,49 @@
   }
 
   .man-image-wrap {
-    width: min(48%, 200px);
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: auto;
+    width: 55%;
+    height: auto;
   }
 
-  .bg-parallax-section .outer-bg-wrap {
-    overflow: hidden;
-    margin-right: 16px;
+  .man-image-img {
+    width: 100%;
+    height: auto;
+    max-width: none;
+    object-fit: cover;
+    object-position: 68% 8%;
   }
-  .careers-intro {margin-bottom: -40px;}
+
+  .bg-parallax-section .parallax-wrap .parallax-img {
+    height: 130%;
+  }
+
+  .careers-intro { margin-bottom: -40px; }
 }
 
 @media (max-width: 393px) {
+  .bg-parallax-section .bg-parallax-stage {
+    padding-top: 3rem;
+  }
+
   .bg-parallax-section .bg-parallax-frame {
-    min-height: 300px;
-    padding-bottom: 7rem;
+    min-height: 320px;
+    padding-bottom: 5.5rem;
   }
 
   .bg-parallax-section .bg-parallax-content {
-    max-width: 60%;
+    max-width: 50%;
   }
 
   .bg-parallax-cta-row {
-    max-width: 54%;
+    max-width: 50%;
   }
 
   .bg-parallax-section .outer-btn-wrap.outer-btn-spacing {
-    padding: 0.65rem 0.75rem;
+    padding: 0.7rem 0.8rem;
   }
 
   .bg-parallax-section .outer-btn-wrap .site-link {
@@ -278,7 +315,7 @@
   }
 
   .man-image-wrap {
-    width: min(50%, 170px);
+    width: 56%;
   }
 }
 
@@ -291,9 +328,10 @@
 }
 
 @media (min-width: 1200px) and (max-width: 1366px) {
-  .bg-parallax-section .bg-parallax-frame { min-height: 475px; }
-  .bg-parallax-section .bg-parallax-content { max-width: min(35rem, 58%); }
-  .bg-parallax-cta-row { max-width: 58%; }
+  .bg-parallax-section .bg-parallax-frame { min-height: 520px; }
+  .bg-parallax-section .bg-parallax-content { max-width: min(35rem, 45%); }
+  .bg-parallax-cta-row { max-width: 48%; }
+  .man-image-wrap { width: min(70%, 900px); }
 }
 
 /* ══════════════════════════════
@@ -530,23 +568,10 @@
 
 
 /* ══════════════════════════════
-   LIFE INSIDE
+   LIFE INSIDE (shared helpers — main layout in lifeinside-style.css)
 ══════════════════════════════ */
 .bg-outside-section {
   isolation: isolate;
-}
-
-
-.bg-inside-wrap .in-bg-img {
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  max-width: none;
-  object-fit: cover;
-  object-position: center;
-  z-index: -1;
 }
 
 

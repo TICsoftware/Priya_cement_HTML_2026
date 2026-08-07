@@ -3,7 +3,8 @@
 }
 
 @section Styles {
-    <link rel="stylesheet" href="~/Assets/css/careers-style.css" />
+   <link rel="stylesheet" href="~/Assets/css/careers-style.css" asp-append-version="true" />
+   <link rel="stylesheet" href="~/Assets/css/lifeinside-style.css" asp-append-version="true" />
 }
 
     <!-- HERO BANNER END-->
@@ -102,14 +103,56 @@
       </div>
     </section>
 
-      <section class="lifeinside-section section-spacing relative bg-outside-section">
-         <div class="bg-inside-wrap" aria-hidden="true">
-            <img src="Assets/images/bg-image-dark.webp" alt="" class="w-full h-full object-cover in-bg-img">
+     <section
+        id="life-inside"
+        class="lifeinside-section relative w-full bg-outside-section"
+        aria-label="Life inside Priya Cement"
+        data-frames-base="@Url.Content("~/Assets/images/careers/images/")">
+
+         <div class="sticky-stage relative w-full">
+            <div class="lifeinside-bg" id="lifeinside-bg" aria-hidden="true">
+               <img src="~/Assets/images/bg-image-dark.webp" alt="" class="lifeinside-bg-img">
+            </div>
+
+            <!-- Section title -->
+            <div class="section-title-outer section-title-outer-start section-title-left" id="section-title">
+               <h2 class="text-h2 title-section reveal-text">
+                  Life Inside <span> Priya Cement </span>
+               </h2>
+            </div>
+
+            <!-- Flower canvas + icons (square stage) -->
+            <div class="stage" id="stage">
+               <canvas id="flower" class="flower-canvas" role="img"
+                  aria-label="Red petal flower revealing clockwise"></canvas>
+
+               <div id="center-logo" class="node logo center-logo" role="img" aria-label="Priya Cement lion emblem">
+                  <img src="~/Assets/images/careers/icons/logo.png" alt="" class="center-logo-img" draggable="false" />
+               </div>
+
+               <img class="node icon" data-key="wellness"   src="~/Assets/images/careers/icons/wellness.png"   alt="Wellness" />
+               <img class="node icon" data-key="learning"   src="~/Assets/images/careers/icons/learning.png"   alt="Learning" />
+               <img class="node icon" data-key="leadership" src="~/Assets/images/careers/icons/leadership.png" alt="Leadership" />
+               <img class="node icon" data-key="recognition" src="~/Assets/images/careers/icons/recognition.png" alt="Recognition" />
+               <img class="node icon" data-key="purpose"    src="~/Assets/images/careers/icons/purpose.png"    alt="Purpose" />
+               <img class="node icon" data-key="culture"    src="~/Assets/images/careers/icons/culture.png"    alt="Culture" />
+               <img class="node icon" data-key="safety"     src="~/Assets/images/careers/icons/safety.png"     alt="Safety" />
+            </div>
+
+            <!-- Labels live on sticky-stage so overflow on .stage cannot clip them -->
+            <div class="lifeinside-labels" id="lifeinside-labels">
+               <div class="label label-txt" data-key="wellness"   data-side="right"><h2>Wellness</h2><p>care that goes<br />beyond the basics</p></div>
+               <div class="label label-txt" data-key="learning"   data-side="right"><h2>Learning</h2><p>growth that keeps pace<br />with your ambition</p></div>
+               <div class="label label-txt" data-key="leadership" data-side="right"><h2>Leadership</h2><p>empowering<br />you to lead</p></div>
+               <div class="label label-txt" data-key="recognition" data-side="right"><h2>Recognition</h2><p>appreciation for<br />your contributions</p></div>
+               <div class="label label-txt" data-key="purpose"    data-side="left"><h2>Purpose</h2><p>belonging to<br />something bigger</p></div>
+               <div class="label label-txt" data-key="culture"    data-side="left"><h2>Culture</h2><p>a workplace<br />worth celebrating</p></div>
+               <div class="label label-txt" data-key="safety"     data-side="left"><h2>Safety</h2><p>a way of life,<br />not a policy</p></div>
+            </div>
+
+
          </div>
-         <div>
-            
-         </div>
-     </section>
+      </section>
 
     <section class="relative section-spacing workplaceculture-section">
       <div class="container">
@@ -165,8 +208,6 @@
          </div>
       </div>
     </section>
-
-
 
    <section class="home-testimonials-section section-spacing bg-light-gray relative bg-testimonials-section">
       <div class="testimonials-outer-wrap" aria-hidden="true">
@@ -353,13 +394,13 @@
          <div class="container relative z-1 bg-parallax-stage">
 
             <!-- Clipped card (bg stays inside rounded frame) -->
-            <div class="bg-parallax-frame relative min-h-[660px] rounded-sm overflow-hidden">
+            <div class="bg-parallax-frame relative rounded-sm overflow-hidden">
                <div class="parallax-wrap rounded-sm" aria-hidden="true">
                   <img
                      src="~/Assets/images/careers/image1.webp"
                      alt=""
                      class="parallax-img rounded-sm"
-                     loading="lazy"
+                     loading="eager"
                      decoding="async">
                </div>
                <div class="overlay-scrim rounded-sm" aria-hidden="true"></div>
@@ -372,7 +413,7 @@
                   </div>
                </div>
 
-               <div class="bg-parallax-cta-row absolute left-0 bottom-0 z-3 flex gap-2">
+               <div class="bg-parallax-cta-row absolute left-0 bottom-0 z-3">
                   <div class="outer-btn-wrap outer-bg-white outer-btn-spacing">
                      <a class="site-link" href="#">
                         See open roles
@@ -392,13 +433,13 @@
                </div>
             </div>
 
-            <!-- Man sits outside the card so the head can break out above -->
+            <!-- People sit outside the card so heads can break out above -->
             <div class="man-image-wrap" aria-hidden="true">
                <img
                   src="~/Assets/images/careers/image2.webp"
                   alt=""
                   class="man-image-img"
-                  loading="lazy"
+                  loading="eager"
                   decoding="async">
             </div>
 
@@ -410,9 +451,8 @@
 
 
 @section Scripts {
-    <script src="~/Assets/js/inner-banner-script.js"></script>
-    <script src="~/Assets/js/careers-script.js"></script>
-  
-    
+    <script src="~/Assets/js/inner-banner-script.js" asp-append-version="true"></script>
+    <script src="~/Assets/js/careers-script.js" asp-append-version="true"></script>
+    <script src="~/Assets/js/lifeinside-script.js" asp-append-version="true"></script>
 }
 
