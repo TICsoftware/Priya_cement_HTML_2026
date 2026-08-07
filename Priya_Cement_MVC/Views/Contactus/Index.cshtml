@@ -1,0 +1,153 @@
+@{
+    ViewData["Title"] = "Contact Us";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/Assets/css/contactus-style.css" />
+}
+
+    <!-- HERO BANNER END-->
+   <section class="relative inside-banner-outer overflow-hidden">
+         <div class="inside-banner-inner banner-animation relative ">
+
+            <!-- Banner -->
+            <div class="overflow-hidden h-[75vh] sm:h-131.25 relative innerbanner-image-wrapper">
+
+               <!-- Parallax Image -->
+               <picture>
+                  <!-- Desktop -->
+                  <source media="(min-width:1024px)"
+                     srcset="~/Assets/images/banners/contactus-banner-desktop.webp">
+
+                  <!-- Tablet -->
+                  <source media="(min-width:992px)"
+                     srcset="~/Assets/images/banners/contactus-banner-mob.webp">
+
+                  <!-- Mobile -->
+                  <img
+                     src="~/Assets/images/banners/contactus-banner-mob.webp"
+                     alt="About Bubble Food"
+                     class="innerbanner-image absolute left-0 top-0 w-full h-full object-cover"
+                     loading="eager"
+                     fetchpriority="high">
+               </picture>
+
+               <!-- Keep Existing Overlay -->
+               <div class="innerbanner-overlay"></div>
+
+
+            </div>
+
+            <!-- Content -->
+           
+               <div class="innerbanner-caption absolute inset-0 z-30 flex items-center">
+                  <div class="container">
+                     <div class="max-w-4xl text-left">
+
+                        <h1 class="innerbanner-title text-h1 text-white">
+                          Contact us
+                        </h1>
+
+                        <nav class="breadcrumb-nav" aria-label="Breadcrumb">
+                           <ol class="flex items-center gap-2 text-sm">
+                              <li>
+                                 <a href="/" class="text-white/70 hover:text-white transition">
+                                    Home
+                                 </a>
+                              </li>
+
+                              <li class="text-white/60">/</li>
+
+                              <li class="text-white">
+                                 Contact us
+                              </li>
+                           </ol>
+                        </nav>
+
+                     </div>
+                  </div>
+               </div>
+           
+
+         </div>
+   </section>
+    <!-- HERO BANNER END -->
+
+    <section class="relative overflow-hidden section-spacing">
+      <div class="container">
+         <div class="flex-col sm:flex-row flex gap-6 lg:gap-12 items-start">
+            <div class="intro-title-col md:max-w-[50%] lg:max-w-[62%]">
+               <div class="section-title-outer section-title-outer-start">
+                  <h2 class="text-h2 title-section reveal-text">
+                     Our <span>Footprint</span>
+                  </h2>
+                  <p>Priya Cement operates across Telangana, Andhra Pradesh, Tamil Nadu, Karnataka, Kerala, Maharashtra and Odisha through a distribution network of 2,000+ partners. Whether you are a homebuilder looking for your nearest stockist, a contractor enquiring about bulk supply, or a business exploring a dealership, our team is here to help.</p>
+               </div>
+            </div>
+         </div>
+      </div>
+    </section>
+
+   <section class="relative overflow-hidden section-spacing customerservice-section">
+      <div class="container">
+         <div class="customerservice-inner">
+               <div class="section-title-outer section-title-outer-start">
+                  <h2 class="text-h2 title-section reveal-text">
+                      Toll Free Customer Service  <span>Numbers</span>
+                  </h2>
+                   <p class="mt-1 time-txt">Time&nbsp; 9:00AM to 6:00PM</p>
+               </div>
+ 
+            <!-- Cards -->
+            <div class="mt-6 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-6 sm:gap-8">
+            
+               <div class="customerservice-block aspect-240/192">
+                  <div class="lang-icon"> <img src="~/Assets/images/contactus/telugu.svg" alt="" class="w-auto object-cover"></div>
+                  <div class="font-bold text-p mt-3">Telugu</div>
+                  <div class="text-p mt-2"> <a href="tel:+91 85529 85529">+91 85529 85529</a> </div>
+               </div>
+            
+               <div class="customerservice-block aspect-240/192">
+                  <div class="lang-icon"> <img src="~/Assets/images/contactus/tamil.svg" alt="" class="w-auto object-cover"></div>
+                  <div class="font-bold text-p mt-3">Tamil</div>
+                  <div class="text-p mt-2"> <a href="tel:+91 72629 72629">+91 72629 72629</a> </div>
+               </div>
+            
+               <div class="customerservice-block aspect-240/192">
+                  <div class="lang-icon"> <img src="~/Assets/images/contactus/kannada.svg" alt="" class="w-auto object-cover"></div>
+                  <div class="font-bold text-p mt-3">Kannada</div>
+                  <div class="text-p mt-2"> <a href="tel:+91 96239 96239">+91 96239 96239</a> </div>
+               </div>
+            
+               <div class="customerservice-block aspect-240/192">
+                  <div class="lang-icon"> <img src="~/Assets/images/contactus/malayalam.svg" alt="" class="w-auto object-cover"></div>
+                  <div class="font-bold text-p mt-3">Malayalam</div>
+                  <div class="text-p mt-2"> <a href="tel:+91 95769 95769">+91 95769 95769</a> </div>
+               </div>
+            
+               <div class="customerservice-block aspect-240/192">
+                  <div class="lang-icon"> <img src="~/Assets/images/contactus/marathi.svg" alt="" class="w-auto object-cover"></div>
+                  <div class="font-bold text-p mt-3">Marathi</div>
+                  <div class="text-p mt-2"> <a href="+91 76929 76929">+91 76929 76929</a> </div>
+               </div>
+            
+               <div class="customerservice-block aspect-240/192">
+                  <div class="lang-icon"> <img src="~/Assets/images/contactus/odiya.svg" alt="" class="w-auto object-cover"></div>
+                  <div class="font-bold text-p mt-3">Odiya</div>
+                  <div class="text-p mt-2"> <a href="+91 78949 78949">+91 78949 78949</a> </div>
+               </div>
+            
+            </div>
+         </div>
+      </div>
+   </section>
+
+
+
+@section Scripts {
+    <script src="~/Assets/js/inner-banner-script.js"></script>
+    <script src="~/Assets/js/contactus-script.js"></script>
+  
+    
+}
+
