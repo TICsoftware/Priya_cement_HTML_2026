@@ -54,8 +54,11 @@
     --font-weight-medium: 500;
     --font-weight-semibold: 600;
     --font-weight-bold: 700;
+<<<<<<< HEAD
+=======
     --font-weight-extrabold: 800;
     --tracking-tight: -0.025em;
+>>>>>>> 0abe604d227ccb229c5a08ef295112dee4611bc2
     --tracking-wide: 0.025em;
     --tracking-widest: 0.1em;
     --leading-snug: 1.375;
@@ -1228,6 +1231,10 @@
   .border-collapse {
     border-collapse: collapse;
   }
+  .-translate-x-1 {
+    --tw-translate-x: calc(var(--spacing) * -1);
+    translate: var(--tw-translate-x) var(--tw-translate-y);
+  }
   .-translate-x-1\/2 {
     --tw-translate-x: calc(calc(1 / 2 * 100%) * -1);
     translate: var(--tw-translate-x) var(--tw-translate-y);
@@ -1559,6 +1566,9 @@
   }
   .bg-\[\#EDEDED\] {
     background-color: #EDEDED;
+  }
+  .bg-\[\#F4F4F4\] {
+    background-color: #F4F4F4;
   }
   .bg-black {
     background-color: var(--color-black);
