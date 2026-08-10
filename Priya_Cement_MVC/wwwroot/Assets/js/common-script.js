@@ -207,7 +207,13 @@ if (yearFoot) yearFoot.innerHTML = String(new Date().getFullYear());
     const el = document.createElement('div');
     el.className = 'nav-item';
     el.dataset.key = section.dataset.key;
-    el.innerHTML = `<button class="nav-trigger" aria-expanded="false">${section.dataset.label}${chevSVG}</button>`;
+    const href = section.dataset.href;
+    if (href) {
+      el.classList.add('is-link');
+      el.innerHTML = `<a class="nav-trigger" href="${href}">${section.dataset.label}</a>`;
+    } else {
+      el.innerHTML = `<button class="nav-trigger" aria-expanded="false">${section.dataset.label}${chevSVG}</button>`;
+    }
     primaryNav.appendChild(el);
   });
 
@@ -343,6 +349,10 @@ if (yearFoot) yearFoot.innerHTML = String(new Date().getFullYear());
   }
 
   navItems.forEach(el=>{
+    if (el.classList.contains('is-link')) {
+      el.addEventListener('mouseenter', ()=> closeMenu());
+      return;
+    }
     el.addEventListener('mouseenter', ()=> openMenu(el.dataset.key));
     el.querySelector('.nav-trigger').addEventListener('focus', ()=> openMenu(el.dataset.key));
   });
@@ -461,6 +471,15 @@ if (yearFoot) yearFoot.innerHTML = String(new Date().getFullYear());
   function buildDrawerRoot(){
     drawerRoot.innerHTML = '';
     sections.forEach(section=>{
+      const href = section.dataset.href;
+      if (href) {
+        const row = document.createElement('a');
+        row.className = 'drawer-row';
+        row.href = href;
+        row.textContent = section.dataset.label;
+        drawerRoot.appendChild(row);
+        return;
+      }
       const row = document.createElement('button');
       row.className = 'drawer-row';
       row.innerHTML = `${section.dataset.label}${chevSVG}`;

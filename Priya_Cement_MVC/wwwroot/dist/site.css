@@ -1780,6 +1780,9 @@
   .pb-8 {
     padding-bottom: calc(var(--spacing) * 8);
   }
+  .pl-1 {
+    padding-left: calc(var(--spacing) * 1);
+  }
   .pl-4 {
     padding-left: calc(var(--spacing) * 4);
   }
@@ -2049,6 +2052,10 @@
     -webkit-backdrop-filter: var(--tw-backdrop-blur,) var(--tw-backdrop-brightness,) var(--tw-backdrop-contrast,) var(--tw-backdrop-grayscale,) var(--tw-backdrop-hue-rotate,) var(--tw-backdrop-invert,) var(--tw-backdrop-opacity,) var(--tw-backdrop-saturate,) var(--tw-backdrop-sepia,);
     backdrop-filter: var(--tw-backdrop-blur,) var(--tw-backdrop-brightness,) var(--tw-backdrop-contrast,) var(--tw-backdrop-grayscale,) var(--tw-backdrop-hue-rotate,) var(--tw-backdrop-invert,) var(--tw-backdrop-opacity,) var(--tw-backdrop-saturate,) var(--tw-backdrop-sepia,);
   }
+  .backdrop-filter {
+    -webkit-backdrop-filter: var(--tw-backdrop-blur,) var(--tw-backdrop-brightness,) var(--tw-backdrop-contrast,) var(--tw-backdrop-grayscale,) var(--tw-backdrop-hue-rotate,) var(--tw-backdrop-invert,) var(--tw-backdrop-opacity,) var(--tw-backdrop-saturate,) var(--tw-backdrop-sepia,);
+    backdrop-filter: var(--tw-backdrop-blur,) var(--tw-backdrop-brightness,) var(--tw-backdrop-contrast,) var(--tw-backdrop-grayscale,) var(--tw-backdrop-hue-rotate,) var(--tw-backdrop-invert,) var(--tw-backdrop-opacity,) var(--tw-backdrop-saturate,) var(--tw-backdrop-sepia,);
+  }
   .transition {
     transition-property: color, background-color, border-color, outline-color, text-decoration-color, fill, stroke, --tw-gradient-from, --tw-gradient-via, --tw-gradient-to, opacity, box-shadow, transform, translate, scale, rotate, filter, -webkit-backdrop-filter, backdrop-filter, display, content-visibility, overlay, pointer-events;
     transition-timing-function: var(--tw-ease, var(--default-transition-timing-function));
@@ -2292,11 +2299,6 @@
       gap: calc(var(--spacing) * 6);
     }
   }
-  .sm\:gap-8 {
-    @media (width >= 40rem) {
-      gap: calc(var(--spacing) * 8);
-    }
-  }
   .sm\:gap-12 {
     @media (width >= 40rem) {
       gap: calc(var(--spacing) * 12);
@@ -2421,9 +2423,9 @@
       grid-template-columns: repeat(3, minmax(0, 1fr));
     }
   }
-  .md\:grid-cols-6 {
+  .md\:grid-cols-4 {
     @media (width >= 48rem) {
-      grid-template-columns: repeat(6, minmax(0, 1fr));
+      grid-template-columns: repeat(4, minmax(0, 1fr));
     }
   }
   .md\:flex-row {
@@ -2434,6 +2436,11 @@
   .md\:gap-3 {
     @media (width >= 48rem) {
       gap: calc(var(--spacing) * 3);
+    }
+  }
+  .md\:gap-4 {
+    @media (width >= 48rem) {
+      gap: calc(var(--spacing) * 4);
     }
   }
   .md\:space-y-8 {
@@ -2611,6 +2618,11 @@
       grid-template-columns: repeat(3, minmax(0, 1fr));
     }
   }
+  .lg\:grid-cols-6 {
+    @media (width >= 64rem) {
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+    }
+  }
   .lg\:grid-cols-12 {
     @media (width >= 64rem) {
       grid-template-columns: repeat(12, minmax(0, 1fr));
@@ -2629,6 +2641,11 @@
   .lg\:items-start {
     @media (width >= 64rem) {
       align-items: flex-start;
+    }
+  }
+  .lg\:gap-6 {
+    @media (width >= 64rem) {
+      gap: calc(var(--spacing) * 6);
     }
   }
   .lg\:gap-8 {
@@ -2744,6 +2761,11 @@
       padding-left: calc(var(--spacing) * 16);
     }
   }
+  .xl\:col-span-3 {
+    @media (width >= 80rem) {
+      grid-column: span 3 / span 3;
+    }
+  }
   .xl\:mt-16 {
     @media (width >= 80rem) {
       margin-top: calc(var(--spacing) * 16);
@@ -2762,6 +2784,11 @@
   .xl\:gap-12 {
     @media (width >= 80rem) {
       gap: calc(var(--spacing) * 12);
+    }
+  }
+  .xl\:gap-x-\[36px\] {
+    @media (width >= 80rem) {
+      column-gap: 36px;
     }
   }
   .xl\:gap-x-\[42px\] {
