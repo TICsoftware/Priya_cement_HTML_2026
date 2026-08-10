@@ -8,6 +8,12 @@
   justify-content: center;
   flex-direction: column;
   transition: box-shadow 0.3s ease, transform 0.3s ease;
+  will-change: transform;
+  backface-visibility: hidden;
+}
+.customerservice-grid.is-rise-anim .customerservice-block {
+  /* GSAP owns translateY — don't fight it with CSS transition on transform */
+  transition: box-shadow 0.3s ease;
 }
 .customerservice-block:hover { box-shadow: 0 12px 24px 4px rgba(0, 0, 0, 0.12); }
 .customerservice-block p { margin-bottom: 0; }

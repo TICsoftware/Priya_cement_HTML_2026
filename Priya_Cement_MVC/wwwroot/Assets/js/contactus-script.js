@@ -119,6 +119,64 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* ---------------------------------------
+     CUSTOMER SERVICE CARDS — rise on scroll
+     Same feel as .our-products-cards, scaled for a 6-up row
+  --------------------------------------- */
+  if (typeof gsap !== "undefined" && typeof ScrollTrigger !== "undefined") {
+    const cardsGrid = document.querySelector(".customerservice-grid");
+    const cards = cardsGrid
+      ? gsap.utils.toArray(cardsGrid.querySelectorAll(".customerservice-block"))
+      : [];
+
+    if (cardsGrid && cards.length) {
+      if (reduceMotion) {
+        gsap.set(cards, { clearProps: "transform" });
+      } else {
+        cardsGrid.classList.add("is-rise-anim");
+
+        function getColCount() {
+          const w = window.innerWidth;
+          if (w >= 1024) return 6;
+          if (w >= 768) return 4;
+          if (w >= 640) return 3;
+          return 2;
+        }
+
+        cards.forEach((card, i) => {
+          gsap.fromTo(
+            card,
+            {
+              y: () => {
+                const col = i % getColCount();
+                return 28 + col * 14;
+              },
+              force3D: true,
+            },
+            {
+              y: 0,
+              ease: "none",
+              force3D: true,
+              scrollTrigger: {
+                trigger: card,
+                start: () => {
+                  const col = i % getColCount();
+                  return `top ${88 - col * 3}%`;
+                },
+                end: () => {
+                  const col = i % getColCount();
+                  return `top ${62 - col * 2}%`;
+                },
+                scrub: 1,
+                invalidateOnRefresh: true,
+              },
+            }
+          );
+        });
+      }
+    }
+  }
+
+  /* ---------------------------------------
      CUSTOM SELECTS (location / state)
   --------------------------------------- */
   function buildSelect(root) {

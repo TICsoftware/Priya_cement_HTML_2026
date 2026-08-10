@@ -62,6 +62,18 @@ document.addEventListener('DOMContentLoaded', () => {
   let activeInfoCard = null;
   let linkedState = null; // the .map-state currently carrying "hover-linked", kept in sync with the card
   let openItem = null; // the .map-item currently carrying "card-open", kept in sync with the card
+  let lastPointer = { x: 0, y: 0 };
+  // After X / click-close, ignore hover reopen until the pointer leaves
+  // that location (Odisha card sits over the state, so hide instantly
+  // re-fires mouseenter on the shape underneath).
+  let closeLockLocation = null;
+
+  if (mapInsideWrapper) {
+    mapInsideWrapper.addEventListener('mousemove', (e) => {
+      lastPointer.x = e.clientX;
+      lastPointer.y = e.clientY;
+    }, { passive: true });
+  }
 
   function getInfoCardByLocation(location) {
     return Array.from(infoCards).find(
@@ -82,24 +94,57 @@ document.addEventListener('DOMContentLoaded', () => {
     const pinX = svgRect.left - wrapRect.left + cx * scale;
     const pinY = svgRect.top - wrapRect.top + cy * scale;
 
-    const cardRect = card.getBoundingClientRect();
-    const cardWidth = cardRect.width || 240;
-    const cardHeight = cardRect.height || 200;
-    const gap = 16;
+    const cardWidth = card.offsetWidth || 240;
+    const cardHeight = card.offsetHeight || 200;
+    const pad = 12;
+    const gap = 40;
 
-    // Flip horizontally if the card would overflow the wrapper's right edge
-    let left = pinX + gap;
-    if (left + cardWidth > wrapRect.width) {
+    card.classList.remove(
+      'is-docked', 'is-dock-tr', 'is-dock-tl', 'is-dock-br', 'is-dock-bl',
+      'is-side-right', 'is-side-left', 'is-above', 'is-below'
+    );
+
+    const canRight = pinX + gap + cardWidth <= wrapRect.width - pad;
+    const canLeft = pinX - gap - cardWidth >= pad;
+
+    let left;
+    let side;
+
+    if (canRight) {
+      left = pinX + gap;
+      side = 'side-right';
+    } else if (canLeft) {
       left = pinX - cardWidth - gap;
-    }
-    left = Math.max(8, left);
-
-    // Prefer showing above the pin; flip below if too close to the top
-    let top = pinY - cardHeight - gap;
-    if (top < 8) {
-      top = pinY + gap;
+      side = 'side-left';
+    } else {
+      left = Math.max(pad, Math.min(pinX + gap, wrapRect.width - cardWidth - pad));
+      side = left >= pinX ? 'side-right' : 'side-left';
     }
 
+    // Pin sits just outside the top of the card — nearby, not covering it
+    let top = pinY - 40;
+    if (top < pad) top = pad;
+    if (top + cardHeight > wrapRect.height - pad) {
+      top = Math.max(pad, wrapRect.height - cardHeight - pad);
+    }
+
+    const coversPin =
+      pinX >= left && pinX <= left + cardWidth &&
+      pinY >= top && pinY <= top + cardHeight;
+
+    if (coversPin) {
+      if (pinY - gap - cardHeight >= pad) {
+        top = pinY - cardHeight - gap;
+        left = Math.max(pad, Math.min(pinX - 48, wrapRect.width - cardWidth - pad));
+        side = 'above';
+      } else {
+        top = Math.min(pinY + gap, Math.max(pad, wrapRect.height - cardHeight - pad));
+        left = Math.max(pad, Math.min(pinX - 48, wrapRect.width - cardWidth - pad));
+        side = 'below';
+      }
+    }
+
+    card.classList.add(`is-${side}`);
     card.style.left = left + 'px';
     card.style.top = top + 'px';
   }
@@ -132,12 +177,76 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     openItem = item;
     if (openItem) openItem.classList.add('card-open');
+    if (wrapper) wrapper.classList.toggle('has-open-card', !!openItem);
   }
 
   function unmarkItemOpen() {
-    if (!openItem) return;
-    openItem.classList.remove('card-open');
+    if (openItem) openItem.classList.remove('card-open');
     openItem = null;
+    if (wrapper) wrapper.classList.remove('has-open-card');
+  }
+
+  function eventTargetIsOpenUi(target) {
+    if (!target || target.nodeType !== 1) {
+      target = target && target.parentElement;
+    }
+    if (!target) return false;
+    if (activeInfoCard && (activeInfoCard === target || activeInfoCard.contains(target))) return true;
+    if (openItem && (openItem === target || openItem.contains(target))) return true;
+    if (linkedState && (linkedState === target || linkedState.contains(target))) return true;
+    return false;
+  }
+
+  function isPointerStillInside() {
+    try {
+      if (openItem && openItem.matches(':hover')) return true;
+      if (activeInfoCard && activeInfoCard.matches(':hover')) return true;
+      if (linkedState && linkedState.matches(':hover')) return true;
+    } catch (err) { /* :hover on detached/SVG is fine to ignore */ }
+    return false;
+  }
+
+  function rectContainsPoint(rect, x, y, pad) {
+    return (
+      x >= rect.left - pad &&
+      x <= rect.right + pad &&
+      y >= rect.top - pad &&
+      y <= rect.bottom + pad
+    );
+  }
+
+  function isPointerNearOpenUi() {
+    if (isPointerStillInside()) return true;
+    const x = lastPointer.x;
+    const y = lastPointer.y;
+    const pad = 44;
+    if (activeInfoCard && rectContainsPoint(activeInfoCard.getBoundingClientRect(), x, y, pad)) {
+      return true;
+    }
+    if (openItem) {
+      const hit = openItem.querySelector('.map-hit') || openItem.querySelector('.map-hover');
+      if (hit && rectContainsPoint(hit.getBoundingClientRect(), x, y, pad)) return true;
+    }
+    return false;
+  }
+
+  function hideInfoCardNow() {
+    clearTimeout(hideCardTimer);
+    if (activeInfoCard) {
+      activeInfoCard.classList.remove('is-visible');
+      activeInfoCard.setAttribute('aria-hidden', 'true');
+      activeInfoCard = null;
+    }
+    unlinkState();
+    unmarkItemOpen();
+  }
+
+  function lockClose(location) {
+    closeLockLocation = location || true;
+  }
+
+  function clearCloseLock() {
+    closeLockLocation = null;
   }
 
   function showInfoCard(item) {
@@ -145,6 +254,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const location = circle && circle.getAttribute('data-location');
     const card = location && getInfoCardByLocation(location);
     if (!card) return;
+
+    if (closeLockLocation) {
+      if (closeLockLocation === true || closeLockLocation === location) return;
+      clearCloseLock();
+    }
 
     // A different location is being shown (hover or click) — drop the
     // old sticky/default-open highlight so it doesn't stay lit up
@@ -160,31 +274,53 @@ document.addEventListener('DOMContentLoaded', () => {
 
     clearTimeout(hideCardTimer);
     activeInfoCard = card;
+    // Position while still invisible so the card never flashes at 0,0
+    // or gets is-visible with a wrong off-map top/left.
+    positionInfoCard(card, circle);
     card.classList.add('is-visible');
     card.setAttribute('aria-hidden', 'false');
     linkStateToCard(location);
     markItemOpen(item);
-    requestAnimationFrame(() => positionInfoCard(card, circle));
   }
 
-  function scheduleHideInfoCard() {
+  function scheduleHideInfoCard(e) {
+    if (e && eventTargetIsOpenUi(e.relatedTarget)) return;
     clearTimeout(hideCardTimer);
     hideCardTimer = setTimeout(() => {
-      if (activeInfoCard) {
-        activeInfoCard.classList.remove('is-visible');
-        activeInfoCard.setAttribute('aria-hidden', 'true');
-        activeInfoCard = null;
-      }
-      unlinkState();
-      unmarkItemOpen();
-    }, 150);
+      if (isPointerNearOpenUi()) return;
+      hideInfoCardNow();
+    }, 250);
   }
 
   if (infoCards.length) {
     infoCards.forEach((card) => {
+      const flag = card.querySelector('.map-info-flag');
+      if (flag && !flag.querySelector('.map-info-close')) {
+        const closeBtn = document.createElement('button');
+        closeBtn.type = 'button';
+        closeBtn.className = 'map-info-close';
+        closeBtn.setAttribute('aria-label', 'Close');
+        closeBtn.innerHTML = '<svg viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M1 1l10 10M11 1L1 11" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>';
+        closeBtn.addEventListener('click', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          lockClose(card.getAttribute('data-location'));
+          clearAllActive();
+          hideInfoCardNow();
+        });
+        flag.appendChild(closeBtn);
+      }
+
       card.addEventListener('mouseenter', () => clearTimeout(hideCardTimer));
       card.addEventListener('mouseleave', scheduleHideInfoCard);
     });
+
+    if (mapInsideWrapper && !isTouchDevice) {
+      mapInsideWrapper.addEventListener('mouseleave', (e) => {
+        clearCloseLock();
+        scheduleHideInfoCard(e);
+      });
+    }
 
     // Tap outside (mobile) closes the open card
     document.addEventListener('click', (e) => {
@@ -194,11 +330,7 @@ document.addEventListener('DOMContentLoaded', () => {
         e.target.closest('.map-item') ||
         e.target.closest('.map-state')
       ) return;
-      activeInfoCard.classList.remove('is-visible');
-      activeInfoCard.setAttribute('aria-hidden', 'true');
-      activeInfoCard = null;
-      unlinkState();
-      unmarkItemOpen();
+      hideInfoCardNow();
     });
 
     items.forEach((item) => {
@@ -249,6 +381,26 @@ items.forEach((item) => {
   labelText.setAttribute('y', labelHeight / 2);
 });
 
+  // Stable hit target: pulse animates stroke-width on .map-hover, which
+  // would otherwise fire spurious mouseleave. Visual circle ignores
+  // pointer events; this transparent circle does not animate.
+  items.forEach((item) => {
+    const circle = item.querySelector('.map-hover');
+    if (!circle) return;
+    let hit = item.querySelector('.map-hit');
+    if (!hit) {
+      hit = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+      hit.classList.add('map-hit');
+      hit.setAttribute('fill', 'transparent');
+      item.insertBefore(hit, circle);
+    }
+    hit.setAttribute('cx', circle.getAttribute('cx'));
+    hit.setAttribute('cy', circle.getAttribute('cy'));
+    const svgW = svgEl ? svgEl.getBoundingClientRect().width : 689;
+    const scale = svgW / 689;
+    hit.setAttribute('r', String(Math.max(18, 22 / (scale || 1))));
+  });
+
   // ---------- 2. Pin hover -> highlight linked state ----------
   // (desktop/mouse only — see isTouchDevice note above)
   if (!isTouchDevice) items.forEach((item) => {
@@ -260,8 +412,9 @@ items.forEach((item) => {
       showInfoCard(item); // also links/unlinks the matching .map-state's hover-linked class
     });
 
-    item.addEventListener('mouseleave', () => {
-      scheduleHideInfoCard();
+    item.addEventListener('mouseleave', (e) => {
+      clearCloseLock();
+      scheduleHideInfoCard(e);
     });
   });
 
@@ -278,10 +431,11 @@ items.forEach((item) => {
       }
     });
 
-    state.addEventListener('mouseleave', () => {
+    state.addEventListener('mouseleave', (e) => {
       const item = getItemByLocation(location);
       if (item) item.classList.remove('linked-hover');
-      scheduleHideInfoCard();
+      clearCloseLock();
+      scheduleHideInfoCard(e);
     });
   });
 
@@ -292,9 +446,11 @@ items.forEach((item) => {
       const isAlreadyActive = state.classList.contains('active');
 
       if (isAlreadyActive) {
+        lockClose(location);
         clearAllActive();
-        scheduleHideInfoCard();
+        hideInfoCardNow();
       } else {
+        clearCloseLock();
         activateLocation(location);
         const item = getItemByLocation(location);
         if (item) showInfoCard(item);
@@ -307,15 +463,19 @@ items.forEach((item) => {
     const circle = item.querySelector('.map-hover');
     if (!circle) return;
 
-    circle.addEventListener('click', (e) => {
+    // Click on the item (hit circle), not .map-hover — that circle has
+    // pointer-events:none so the pulse stroke cannot steal hover.
+    item.addEventListener('click', (e) => {
       e.stopPropagation();
       const location = circle.getAttribute('data-location');
       const isAlreadyActive = item.classList.contains('linked-active');
 
       if (isAlreadyActive) {
+        lockClose(location);
         clearAllActive();
-        scheduleHideInfoCard();
+        hideInfoCardNow();
       } else {
+        clearCloseLock();
         activateLocation(location);
         showInfoCard(item);
         console.log('Selected:', location);
@@ -335,4 +495,10 @@ items.forEach((item) => {
       showInfoCard(defaultItem);
     }
   }
+
+  window.addEventListener('resize', () => {
+    if (!activeInfoCard || !openItem) return;
+    const circle = openItem.querySelector('.map-hover');
+    if (circle) positionInfoCard(activeInfoCard, circle);
+  }, { passive: true });
 });
