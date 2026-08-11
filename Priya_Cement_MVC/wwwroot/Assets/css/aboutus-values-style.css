@@ -192,7 +192,7 @@
     --aboutus-values-header: var(--header-h, 72px);
     /* Smaller flower so labels sit outside petals, not on top of them */
     --aboutus-values-stage: min(46vmin, 220px);
-    overflow: visible;
+    overflow: hidden;
   }
 
   #aboutus-values .aboutus-values-sticky {
