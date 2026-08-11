@@ -18,17 +18,24 @@ document.addEventListener("DOMContentLoaded", () => {
    PARALLAX IMAGE
 --------------------------------------- */
   if (!reduceMotion && typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
-    /* CTA band — same travel as site-wide parallax (height:130% CSS) */
+    /* CTA band — wrap bleed parallax (no image zoom / 130%) */
     const ctaSection = document.querySelector('.bg-parallax-section');
     const ctaWrap = ctaSection && ctaSection.querySelector('.parallax-wrap');
     const ctaImg = ctaWrap && ctaWrap.querySelector('.parallax-img');
 
     if (ctaImg && ctaWrap) {
+      const frame = ctaSection.querySelector('.bg-parallax-frame') || ctaSection;
+      const bleed = () => {
+        const raw = getComputedStyle(frame).getPropertyValue('--cta-parallax-bleed');
+        const value = parseFloat(raw);
+        return Number.isFinite(value) ? value : 40;
+      };
+
       gsap.fromTo(
-        ctaImg,
-        { yPercent: -12 },
+        ctaWrap,
+        { y: () => bleed() },
         {
-          yPercent: 12,
+          y: () => -bleed(),
           ease: 'none',
           force3D: true,
           scrollTrigger: {

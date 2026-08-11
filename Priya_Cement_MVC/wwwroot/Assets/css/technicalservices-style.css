@@ -129,6 +129,12 @@
 }
 .technicalsupport-outer-grid {max-width: 85%; margin-left:auto;}
 
+[data-rail-scope] article > img {
+  height: auto;
+  object-fit: contain;
+  object-position: center center;
+}
+
 /* Support cards: sit a little into the right-hand image */
 @media (min-width: 1024px) {
   .inner-content-box {

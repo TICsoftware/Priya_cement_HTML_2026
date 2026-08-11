@@ -119,13 +119,18 @@ function resetOdometerSlots(slots) {
 /* ---------------------------------------------
    ANIMATE DIGITS TO TARGET
 --------------------------------------------- */
+function getDigitHeight(slots) {
+  const firstLine = slots[0] && slots[0].querySelector(".odometer-digit-line");
+  if (!firstLine) return 0;
+  // Stats cards scale while pinned — use layout height, not scaled rect
+  if (slots[0].closest("[data-stats-scope]")) return firstLine.offsetHeight;
+  return firstLine.getBoundingClientRect().height;
+}
+
 function animateOdometerSlots(slots) {
   if (!slots.length) return;
 
-  const firstLine = slots[0].querySelector(".odometer-digit-line");
-  const digitHeight = firstLine
-    ? firstLine.getBoundingClientRect().height
-    : 0;
+  const digitHeight = getDigitHeight(slots);
 
   slots.forEach((slot, idx) => {
     const column = slot.querySelector(".odometer-column");
@@ -156,10 +161,7 @@ function animateOdometerSlots(slots) {
 function snapOdometerSlotsToFinal(slots) {
   if (!slots.length) return;
 
-  const firstLine = slots[0].querySelector(".odometer-digit-line");
-  const digitHeight = firstLine
-    ? firstLine.getBoundingClientRect().height
-    : 0;
+  const digitHeight = getDigitHeight(slots);
 
   slots.forEach(slot => {
     const column = slot.querySelector(".odometer-column");
@@ -202,6 +204,7 @@ window.addEventListener("scroll", function() {
 const counters = document.querySelectorAll(".counter");
 const slotsMap = new WeakMap(); // el -> built digit slots
 const playedMap = new WeakMap(); // el -> has played this pass
+const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 function ensureSlots(el) {
   let slots = slotsMap.get(el);
@@ -260,12 +263,21 @@ if (counters.length) {
         if (window.PriyaOdometer.isDeferred(el)) return;
 
         if (entry.isIntersecting) {
-          if (scrollDirection === "down") {
-            playCounter(el, { animate: true });
-          } else {
+          if (reduceMotion || scrollDirection !== "down") {
             playCounter(el, { animate: false });
+          } else {
+            playCounter(el, { animate: true });
           }
-        } else {
+        } else if (!reduceMotion) {
+          const statsSection = el.closest("[data-stats-scope]");
+          if (statsSection) {
+            const rect = statsSection.getBoundingClientRect();
+            const stillInView = rect.bottom > 0 && rect.top < window.innerHeight;
+            if (stillInView) {
+              playCounter(el, { animate: false });
+              return;
+            }
+          }
           resetCounter(el);
         }
       });
