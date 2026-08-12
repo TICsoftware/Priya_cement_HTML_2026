@@ -290,6 +290,46 @@ document.addEventListener("DOMContentLoaded", () => {
   prevBtn.addEventListener('click', () => goTo(activeIndex - 1));
   nextBtn.addEventListener('click', () => goTo(activeIndex + 1));
 
+  /* Mobile / tablet touch: swipe media → same goTo() as arrows (no separate logic) */
+  (function bindMediaSwipe() {
+    const swipeTarget = mediaViewport;
+    if (!swipeTarget) return;
+
+    const SWIPE_MIN = 48;
+    let startX = 0;
+    let startY = 0;
+    let tracking = false;
+
+    swipeTarget.style.touchAction = 'pan-y';
+
+    swipeTarget.addEventListener('touchstart', (e) => {
+      if (mqDesktop.matches || e.touches.length !== 1) {
+        tracking = false;
+        return;
+      }
+      tracking = true;
+      startX = e.touches[0].clientX;
+      startY = e.touches[0].clientY;
+    }, { passive: true });
+
+    swipeTarget.addEventListener('touchend', (e) => {
+      if (!tracking || mqDesktop.matches) return;
+      tracking = false;
+      const t = e.changedTouches[0];
+      if (!t) return;
+      const dx = t.clientX - startX;
+      const dy = t.clientY - startY;
+      if (Math.abs(dx) < SWIPE_MIN) return;
+      if (Math.abs(dx) <= Math.abs(dy)) return; /* mostly vertical → page scroll */
+      if (dx < 0) goTo(activeIndex + 1);
+      else goTo(activeIndex - 1);
+    }, { passive: true });
+
+    swipeTarget.addEventListener('touchcancel', () => {
+      tracking = false;
+    }, { passive: true });
+  })();
+
   let resizeTimer;
   window.addEventListener('resize', () => {
     clearTimeout(resizeTimer);

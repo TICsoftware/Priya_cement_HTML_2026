@@ -21,6 +21,9 @@ TITLE ANIMATION
 .section-with-intro .title-section{margin-bottom: 20px;}
 .section-title-nonintro p {font-size: var(--text-p); max-width: 100%;}
 .no-p-width p {max-width: 100%;}
+.section-with-intro .color-text {color: var(--color-secondary);}
+.section-with-intro .bold-text {font-weight: 700;}
+
 
 body{overflow-x: hidden;}
 
@@ -428,6 +431,47 @@ table .bg-brand-row th:last-child {
 z-index: -1;
 }
 
+/**=====================================
+BULLET LIST CSS
+=====================================**/
+.common-bullet-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.common-bullet-list li {
+  position: relative;
+  padding-left: 1.35rem;
+  color: var(--color-primary, #231f20);
+  font-size: var(--text-p, 1rem);
+  line-height: 1.5;
+  font-weight: 500;
+}
+
+.common-bullet-list li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.45em;
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 9999px;
+  background: var(--color-secondary, #ed1c24);
+}
+
+
+
+/* Image on the right, content on the left — no HTML reorder */
+@media (min-width: 1024px) {
+  .leftright-grid-section.leftright-grid-reverse {
+    flex-direction: row-reverse !important;
+  }
+}
+
 
 @media (prefers-reduced-motion: reduce) {
   .parallax-img {
@@ -473,7 +517,10 @@ z-index: -1;
 
 @media (min-width: 1200px) and (max-width: 1366px) {
   .counter-wrap .counter, .counter-wrap .counter-no{font-size: 2.875rem;}
-
+  .cta-band {height: calc(90vh - var(--header-h, 0px)); min-height: calc(90vh - var(--header-h, 0px));}
+  .spec-table th, .spec-table td, .spec-table td p {font-size: 1rem;}
+  .spec-table th, .spec-table td {padding: 14px 10px;}
+  .fill-site-link{font-size: 1rem;padding: 4px 4px 4px 14px;}
 }
 
 /* 150% zoom */

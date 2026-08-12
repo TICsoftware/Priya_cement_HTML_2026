@@ -326,7 +326,7 @@
   transition: background 0.3s ease, transform 0.3s ease;
 }
 .product-float-button img {
-  width: 22px;
+  width: 20px;
   height: 22px;
   transition: transform 0.3s ease;
 }
@@ -482,4 +482,16 @@
   .whyexperts-article {gap: 15px;}
   .bestfor-grid-outer {align-items: end;}
   .bestfor-grid { text-align: start; align-items: start;}
+}
+@media (min-width: 1200px) and (max-width: 1366px) {
+  .cta-band .logo-lion-vector-outer{width: min(72vw, 420px);max-width: 420px;}
+  .product-content-max {max-width: 55rem;}
+  .spec-table {max-width: 52rem;}
+  .whyexperts-article .whyexperts-icon {height: 90px;width: 90px;}
+  .whyexperts-content p {font-size: 1rem;}
+  .whyexperts-article {gap:20px;}
+  .product-float-sticky {width: min(30vw, 200px);right: max(0.75rem, calc((100vw - min(90vw, 1680px)) / 2));}
+  .product-float-button {width: 46px;height: 46px;}
+  .product-float-button img {width: 16px;height: 17px;}
+  .product-download-fab {right: 0.75rem;}
 }

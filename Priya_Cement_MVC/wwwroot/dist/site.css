@@ -2625,6 +2625,11 @@
       max-width: 50%;
     }
   }
+  .lg\:max-w-\[55\%\] {
+    @media (width >= 64rem) {
+      max-width: 55%;
+    }
+  }
   .lg\:max-w-\[60\%\] {
     @media (width >= 64rem) {
       max-width: 60%;
