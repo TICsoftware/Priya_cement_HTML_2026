@@ -122,6 +122,7 @@
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+  max-width: 75%;
 }
 
 .search-list-group,
@@ -199,4 +200,8 @@
 .dark-mode .search-result-item,
 .dark-mode .search-no-results {
   background: var(--dark-bglight, #1f1f1f);
+}
+@media (max-width: 1023px) {
+.search_list {max-width: 75%;}
+
 }
