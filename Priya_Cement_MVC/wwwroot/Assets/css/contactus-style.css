@@ -7,9 +7,18 @@
   display: flex;
   justify-content: center;
   flex-direction: column;
+  height: 100%;
   transition: box-shadow 0.3s ease, transform 0.3s ease;
   will-change: transform;
   backface-visibility: hidden;
+}
+
+.customerservice-grid {
+  align-items: stretch;
+}
+
+.customerservice-block .call-txt {
+  margin-top: auto; /* pushes phone line to the bottom for equal heights */
 }
 .customerservice-grid.is-rise-anim .customerservice-block {
   /* GSAP owns translateY — don't fight it with CSS transition on transform */

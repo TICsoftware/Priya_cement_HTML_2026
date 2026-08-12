@@ -120,7 +120,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   /* ---------------------------------------
      CUSTOMER SERVICE CARDS — rise on scroll
-     Same feel as .our-products-cards, scaled for a 6-up row
+     Match whypartner-card feel (progressive fromY + autoAlpha)
   --------------------------------------- */
   if (typeof gsap !== "undefined" && typeof ScrollTrigger !== "undefined") {
     const cardsGrid = document.querySelector(".customerservice-grid");
@@ -130,7 +130,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (cardsGrid && cards.length) {
       if (reduceMotion) {
-        gsap.set(cards, { clearProps: "transform" });
+        gsap.set(cards, { clearProps: "transform,opacity" });
       } else {
         cardsGrid.classList.add("is-rise-anim");
 
@@ -143,29 +143,21 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         cards.forEach((card, i) => {
+          const col = i % getColCount();
+          const fromY = 60 * (i + 1);
+
           gsap.fromTo(
             card,
-            {
-              y: () => {
-                const col = i % getColCount();
-                return 28 + col * 14;
-              },
-              force3D: true,
-            },
+            { y: fromY, autoAlpha: 0, force3D: true },
             {
               y: 0,
+              autoAlpha: 1,
               ease: "none",
               force3D: true,
               scrollTrigger: {
                 trigger: card,
-                start: () => {
-                  const col = i % getColCount();
-                  return `top ${88 - col * 3}%`;
-                },
-                end: () => {
-                  const col = i % getColCount();
-                  return `top ${62 - col * 2}%`;
-                },
+                start: `top ${90 - col * 4}%`,
+                end: `top ${58 - col * 3}%`,
                 scrub: 1,
                 invalidateOnRefresh: true,
               },
