@@ -267,4 +267,5 @@
 @media (min-width: 1200px) and (max-width: 1366px) {
     .bg-parallax-section .bg-parallax-frame {min-height: 475px;}
     .bg-parallax-section .bg-parallax-content { max-width: min(35rem, 65%);}
+    .our-products-cards {padding: 22px 22px;}
 }
