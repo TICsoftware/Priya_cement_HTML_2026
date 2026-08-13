@@ -521,6 +521,7 @@ BULLET LIST CSS
   .spec-table th, .spec-table td, .spec-table td p {font-size: 1rem;}
   .spec-table th, .spec-table td {padding: 14px 10px;}
   .fill-site-link{font-size: 1rem;padding: 4px 4px 4px 14px;}
+  .inside-banner-outer .innerbanner-caption .max-w-5xl{max-width: 46rem;}
 }
 
 /* 150% zoom */

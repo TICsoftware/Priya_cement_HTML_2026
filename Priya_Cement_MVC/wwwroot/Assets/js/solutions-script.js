@@ -387,4 +387,5 @@ document.addEventListener("DOMContentLoaded", () => {
       enquiryForm.addEventListener("submit", (e) => e.preventDefault());
     }
   }
+  
 });

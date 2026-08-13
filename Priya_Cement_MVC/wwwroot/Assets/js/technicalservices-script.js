@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", () => {
+﻿document.addEventListener("DOMContentLoaded", () => {
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   (() => {
@@ -89,92 +89,152 @@ document.addEventListener("DOMContentLoaded", () => {
 })();
 
 /* ---------------------------------------
-   CUSTOM SELECTS
+   CUSTOM SELECTS — enhance native <select>
+   Keeps asp-for select for submit / validation / cascade
 --------------------------------------- */
 
-function buildSelect(root) {
-  const name = root.dataset.name;
-  const placeholder = root.dataset.placeholder;
-  const options = (root.dataset.options || "").split("|").filter(Boolean);
-  const id = "cs-" + name;
+function enhanceNativeCselect(root, scopeSelector) {
+  const select = root.querySelector("select");
+  if (!select || root.dataset.cselectReady === "1") return;
+  root.dataset.cselectReady = "1";
 
-  root.innerHTML = `
-    <input type="hidden" name="${name}" value="" />
+  select.classList.add("cselect-native");
+
+  const id = "cs-" + (select.id || select.name || Math.random().toString(36).slice(2));
+
+  function getPlaceholder() {
+    const first = select.options[0];
+    return first && !first.value ? first.textContent.trim() : "Select";
+  }
+
+  const ui = document.createElement("div");
+  ui.className = "cselect-ui";
+  ui.innerHTML = `
     <button type="button" class="f-field cselect-btn" data-empty="true" role="combobox"
-            aria-haspopup="listbox" aria-expanded="false" aria-controls="${id}" aria-label="${placeholder}">
-      <span class="cselect-value">${placeholder}</span>
+            aria-haspopup="listbox" aria-expanded="false" aria-controls="${id}" aria-label="${getPlaceholder()}">
+      <span class="cselect-value">${getPlaceholder()}</span>
       <svg class="cselect-chevron" width="14" height="8" viewBox="0 0 14 8" fill="none" aria-hidden="true">
         <path d="M1 1l6 6 6-6" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
     </button>
-    <div class="cselect-menu" id="${id}" role="listbox" aria-label="${placeholder}">
-      ${options.map(o => `<button type="button" class="cselect-option" role="option" aria-selected="false" data-value="${o}">${o}</button>`).join("")}
-    </div>`;
+    <div class="cselect-menu" id="${id}" role="listbox" aria-label="${getPlaceholder()}"></div>`;
 
-  const btn = root.querySelector(".cselect-btn");
-  const menu = root.querySelector(".cselect-menu");
-  const hidden = root.querySelector("input[type=hidden]");
-  const label = root.querySelector(".cselect-value");
+  select.insertAdjacentElement("afterend", ui);
+
+  const btn = ui.querySelector(".cselect-btn");
+  const menu = ui.querySelector(".cselect-menu");
+  const label = ui.querySelector(".cselect-value");
+
+  function syncFromSelect() {
+    const empty = !select.value;
+    const selected = select.selectedOptions[0];
+    label.textContent = empty ? getPlaceholder() : (selected ? selected.textContent.trim() : getPlaceholder());
+    btn.dataset.empty = empty ? "true" : "false";
+    btn.setAttribute("aria-label", label.textContent);
+    menu.querySelectorAll(".cselect-option").forEach((o) => {
+      o.setAttribute("aria-selected", String(o.dataset.value === select.value));
+    });
+  }
+
+  function rebuildMenu() {
+    const opts = [...select.options].filter((o) => o.value !== "");
+    menu.innerHTML = opts
+      .map(
+        (o) =>
+          `<button type="button" class="cselect-option" role="option" aria-selected="${
+            o.value === select.value
+          }" data-value="${o.value}">${o.textContent.trim()}</button>`
+      )
+      .join("");
+    syncFromSelect();
+  }
 
   function close() {
     if (!root.classList.contains("is-open")) return;
     root.classList.remove("is-open");
     btn.setAttribute("aria-expanded", "false");
-    gsap.to(menu, { autoAlpha: 0, y: -6, duration: .18, ease: "power2.in" });
+    if (typeof gsap !== "undefined") {
+      gsap.to(menu, { autoAlpha: 0, y: -6, duration: 0.18, ease: "power2.in" });
+    } else {
+      menu.style.opacity = "0";
+      menu.style.visibility = "hidden";
+    }
   }
+
   function open() {
-    document.querySelectorAll("[data-cselect].is-open").forEach(el => el !== root && el._close && el._close());
+    document.querySelectorAll(`${scopeSelector} .cselect.is-open`).forEach((el) => {
+      if (el !== root && el._close) el._close();
+    });
     root.classList.add("is-open");
     btn.setAttribute("aria-expanded", "true");
-    gsap.fromTo(menu, { autoAlpha: 0, y: -6 }, { autoAlpha: 1, y: 0, duration: .22, ease: "power2.out" });
+    if (typeof gsap !== "undefined") {
+      gsap.fromTo(
+        menu,
+        { autoAlpha: 0, y: -6 },
+        { autoAlpha: 1, y: 0, duration: 0.22, ease: "power2.out" }
+      );
+    } else {
+      menu.style.opacity = "1";
+      menu.style.visibility = "visible";
+    }
   }
-  root._close = close;
 
-  btn.addEventListener("click", () => (root.classList.contains("is-open") ? close() : open()));
+  root._close = close;
+  root._rebuildCselect = rebuildMenu;
+  root._syncCselect = syncFromSelect;
+
+  btn.addEventListener("click", () =>
+    root.classList.contains("is-open") ? close() : open()
+  );
+
   menu.addEventListener("click", (e) => {
     const opt = e.target.closest(".cselect-option");
     if (!opt) return;
-    menu.querySelectorAll(".cselect-option").forEach(o => o.setAttribute("aria-selected", String(o === opt)));
-    hidden.value = opt.dataset.value;
-    label.textContent = opt.dataset.value;
-    btn.dataset.empty = "false";
+    select.value = opt.dataset.value;
+    select.dispatchEvent(new Event("change", { bubbles: true }));
+    syncFromSelect();
     close();
     btn.focus();
   });
+
   btn.addEventListener("keydown", (e) => {
     if (e.key === "Escape") close();
-    if (e.key === "ArrowDown" || e.key === "Enter" || e.key === " ") { e.preventDefault(); open(); menu.querySelector(".cselect-option")?.focus(); }
+    if (e.key === "ArrowDown" || e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      open();
+      menu.querySelector(".cselect-option")?.focus();
+    }
   });
 
-  root.setOptions = (list, ph) => {
-    hidden.value = "";
-    label.textContent = ph;
-    btn.dataset.empty = "true";
-    btn.setAttribute("aria-label", ph);
-    menu.innerHTML = list.map(o => `<button type="button" class="cselect-option" role="option" aria-selected="false" data-value="${o}">${o}</button>`).join("");
-  };
+  const mo = new MutationObserver(() => rebuildMenu());
+  mo.observe(select, { childList: true });
+
+  select.addEventListener("change", syncFromSelect);
+
+  const form = select.closest("form");
+  if (form && !form.dataset.cselectResetBound) {
+    form.dataset.cselectResetBound = "1";
+    form.addEventListener("reset", () => {
+      requestAnimationFrame(() => {
+        form.querySelectorAll(".cselect").forEach((el) => {
+          if (el._rebuildCselect) el._rebuildCselect();
+          else if (el._syncCselect) el._syncCselect();
+        });
+      });
+    });
+  }
+
+  rebuildMenu();
 }
-document.querySelectorAll("[data-cselect]").forEach(buildSelect);
-document.addEventListener("click", (e) => {
-  document.querySelectorAll("[data-cselect].is-open").forEach(el => { if (!el.contains(e.target)) el._close(); });
-});
 
-/* ---------- radio filter: swaps the requirement select ---------- */
-const requirementSelect = document.querySelector('[data-cselect][data-name="requirement"]');
-const REQUIREMENTS = {
-  onsite: { placeholder: "Type of tests required", options: ["Cement tests", "Aggregate tests", "Concrete tests", "Water quality testing", "Other tests"] },
-  support: { placeholder: "Type of support required", options: ["Concrete mix design", "Material selection and quality control", "Curing recommendations", "Construction troubleshooting", "Site personnel training"] },
-};
-document.querySelectorAll('input[name="serviceType"]').forEach(radio => {
-  radio.addEventListener("change", () => {
-    const cfg = REQUIREMENTS[radio.value];
-    if (!cfg || !requirementSelect) return;
-    requirementSelect.setOptions(cfg.options, cfg.placeholder);
-    gsap.fromTo(requirementSelect, { autoAlpha: .3, y: 6 }, { autoAlpha: 1, y: 0, duration: .3, ease: "power2.out" });
+document.querySelectorAll("#technicalSupportForm .cselect, .bg-brand-band .cselect").forEach((root) => {
+  enhanceNativeCselect(root, "#technicalSupportForm, .bg-brand-band");
+});
+document.addEventListener("click", (e) => {
+  document.querySelectorAll("#technicalSupportForm .cselect.is-open, .bg-brand-band .cselect.is-open").forEach((el) => {
+    if (!el.contains(e.target) && el._close) el._close();
   });
 });
-
-//document.getElementById("enquiry-form").addEventListener("submit", e => e.preventDefault());
 
 /* ---------------------------------------
    PARALLAX IMAGE

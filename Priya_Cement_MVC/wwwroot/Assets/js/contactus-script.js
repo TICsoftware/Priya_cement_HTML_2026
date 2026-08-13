@@ -1,8 +1,8 @@
-document.addEventListener("DOMContentLoaded", () => {
+﻿document.addEventListener("DOMContentLoaded", () => {
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   /* ---------------------------------------
-     ENQUIRY LION — stroke draw → fill
+     ENQUIRY LION â€” stroke draw â†’ fill
   --------------------------------------- */
   if (!reduceMotion && typeof gsap !== "undefined" && typeof ScrollTrigger !== "undefined") {
     const lionWrap =
@@ -88,10 +88,10 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* ---------------------------------------
-     FOOTPRINT RING GRAPHIC — scale/fade in on scroll,
+     FOOTPRINT RING GRAPHIC â€” scale/fade in on scroll,
      then settles into a slow idle breathing pulse
      (pulse itself is a CSS animation on the <img>, see
-     .circle-img-idle in map-style.css — kept off the wrapper
+     .circle-img-idle in map-style.css â€” kept off the wrapper
      so it never fights this scale/opacity tween's transform)
   --------------------------------------- */
   if (!reduceMotion && typeof gsap !== "undefined" && typeof ScrollTrigger !== "undefined") {
@@ -119,7 +119,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* ---------------------------------------
-     CUSTOMER SERVICE CARDS — rise on scroll
+     CUSTOMER SERVICE CARDS â€” rise on scroll
      Match whypartner-card feel (progressive fromY + autoAlpha)
   --------------------------------------- */
   if (typeof gsap !== "undefined" && typeof ScrollTrigger !== "undefined") {
@@ -168,32 +168,65 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  /* ---------------------------------------
-     CUSTOM SELECTS (location / state)
+/* ---------------------------------------
+     CUSTOM SELECTS — enhance native <select>
+     Keeps asp-for select for submit / validation / cascade
   --------------------------------------- */
-  function buildSelect(root) {
-    const name = root.dataset.name;
-    const placeholder = root.dataset.placeholder;
-    const options = (root.dataset.options || "").split("|").filter(Boolean);
-    const id = "cs-" + name;
+  function enhanceNativeCselect(root, scopeSelector) {
+    const select = root.querySelector("select");
+    if (!select || root.dataset.cselectReady === "1") return;
+    root.dataset.cselectReady = "1";
 
-    root.innerHTML = `
-    <input type="hidden" name="${name}" value="" />
-    <button type="button" class="f-field cselect-btn" data-empty="true" role="combobox"
-            aria-haspopup="listbox" aria-expanded="false" aria-controls="${id}" aria-label="${placeholder}">
-      <span class="cselect-value">${placeholder}</span>
-      <svg class="cselect-chevron" width="14" height="8" viewBox="0 0 14 8" fill="none" aria-hidden="true">
-        <path d="M1 1l6 6 6-6" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-    </button>
-    <div class="cselect-menu" id="${id}" role="listbox" aria-label="${placeholder}">
-      ${options.map((o) => `<button type="button" class="cselect-option" role="option" aria-selected="false" data-value="${o}">${o}</button>`).join("")}
-    </div>`;
+    select.classList.add("cselect-native");
 
-    const btn = root.querySelector(".cselect-btn");
-    const menu = root.querySelector(".cselect-menu");
-    const hidden = root.querySelector("input[type=hidden]");
-    const label = root.querySelector(".cselect-value");
+    const id = "cs-" + (select.id || select.name || Math.random().toString(36).slice(2));
+
+    function getPlaceholder() {
+      const first = select.options[0];
+      return first && !first.value ? first.textContent.trim() : "Select";
+    }
+
+    const ui = document.createElement("div");
+    ui.className = "cselect-ui";
+    ui.innerHTML = `
+      <button type="button" class="f-field cselect-btn" data-empty="true" role="combobox"
+              aria-haspopup="listbox" aria-expanded="false" aria-controls="${id}" aria-label="${getPlaceholder()}">
+        <span class="cselect-value">${getPlaceholder()}</span>
+        <svg class="cselect-chevron" width="14" height="8" viewBox="0 0 14 8" fill="none" aria-hidden="true">
+          <path d="M1 1l6 6 6-6" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      <div class="cselect-menu" id="${id}" role="listbox" aria-label="${getPlaceholder()}"></div>`;
+
+    select.insertAdjacentElement("afterend", ui);
+
+    const btn = ui.querySelector(".cselect-btn");
+    const menu = ui.querySelector(".cselect-menu");
+    const label = ui.querySelector(".cselect-value");
+
+    function syncFromSelect() {
+      const empty = !select.value;
+      const selected = select.selectedOptions[0];
+      label.textContent = empty ? getPlaceholder() : (selected ? selected.textContent.trim() : getPlaceholder());
+      btn.dataset.empty = empty ? "true" : "false";
+      btn.setAttribute("aria-label", label.textContent);
+      menu.querySelectorAll(".cselect-option").forEach((o) => {
+        o.setAttribute("aria-selected", String(o.dataset.value === select.value));
+      });
+    }
+
+    function rebuildMenu() {
+      const opts = [...select.options].filter((o) => o.value !== "");
+      menu.innerHTML = opts
+        .map(
+          (o) =>
+            `<button type="button" class="cselect-option" role="option" aria-selected="${
+              o.value === select.value
+            }" data-value="${o.value}">${o.textContent.trim()}</button>`
+        )
+        .join("");
+      syncFromSelect();
+    }
 
     function close() {
       if (!root.classList.contains("is-open")) return;
@@ -208,7 +241,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function open() {
-      document.querySelectorAll("#enquiry [data-cselect].is-open").forEach((el) => {
+      document.querySelectorAll(`${scopeSelector} .cselect.is-open`).forEach((el) => {
         if (el !== root && el._close) el._close();
       });
       root.classList.add("is-open");
@@ -226,22 +259,23 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     root._close = close;
+    root._rebuildCselect = rebuildMenu;
+    root._syncCselect = syncFromSelect;
 
     btn.addEventListener("click", () =>
       root.classList.contains("is-open") ? close() : open()
     );
+
     menu.addEventListener("click", (e) => {
       const opt = e.target.closest(".cselect-option");
       if (!opt) return;
-      menu
-        .querySelectorAll(".cselect-option")
-        .forEach((o) => o.setAttribute("aria-selected", String(o === opt)));
-      hidden.value = opt.dataset.value;
-      label.textContent = opt.dataset.value;
-      btn.dataset.empty = "false";
+      select.value = opt.dataset.value;
+      select.dispatchEvent(new Event("change", { bubbles: true }));
+      syncFromSelect();
       close();
       btn.focus();
     });
+
     btn.addEventListener("keydown", (e) => {
       if (e.key === "Escape") close();
       if (e.key === "ArrowDown" || e.key === "Enter" || e.key === " ") {
@@ -250,17 +284,39 @@ document.addEventListener("DOMContentLoaded", () => {
         menu.querySelector(".cselect-option")?.focus();
       }
     });
+
+    // Keep UI in sync when options are replaced (State -> City ajax)
+    const mo = new MutationObserver(() => rebuildMenu());
+    mo.observe(select, { childList: true });
+
+    select.addEventListener("change", syncFromSelect);
+
+    const form = select.closest("form");
+    if (form && !form.dataset.cselectResetBound) {
+      form.dataset.cselectResetBound = "1";
+      form.addEventListener("reset", () => {
+        requestAnimationFrame(() => {
+          form.querySelectorAll(".cselect").forEach((el) => {
+            if (el._rebuildCselect) el._rebuildCselect();
+            else if (el._syncCselect) el._syncCselect();
+          });
+        });
+      });
+    }
+
+    rebuildMenu();
   }
 
-  document.querySelectorAll("#enquiry [data-cselect]").forEach(buildSelect);
+  document.querySelectorAll("#enquiry .cselect, #contactForm .cselect").forEach((root) => {
+    enhanceNativeCselect(root, "#enquiry, #contactForm");
+  });
+
   document.addEventListener("click", (e) => {
-    document.querySelectorAll("#enquiry [data-cselect].is-open").forEach((el) => {
+    document.querySelectorAll("#enquiry .cselect.is-open, #contactForm .cselect.is-open").forEach((el) => {
       if (!el.contains(e.target) && el._close) el._close();
     });
   });
 
-  const enquiryForm = document.getElementById("enquiry-form");
-  if (enquiryForm) {
-    enquiryForm.addEventListener("submit", (e) => e.preventDefault());
-  }
+
+  
 });

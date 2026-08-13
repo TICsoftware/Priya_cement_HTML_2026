@@ -2380,11 +2380,6 @@
       padding-inline: calc(var(--spacing) * 0);
     }
   }
-  .sm\:px-6 {
-    @media (width >= 40rem) {
-      padding-inline: calc(var(--spacing) * 6);
-    }
-  }
   .sm\:px-7 {
     @media (width >= 40rem) {
       padding-inline: calc(var(--spacing) * 7);
@@ -2747,11 +2742,6 @@
   .lg\:p-\[21px\] {
     @media (width >= 64rem) {
       padding: 21px;
-    }
-  }
-  .lg\:px-8 {
-    @media (width >= 64rem) {
-      padding-inline: calc(var(--spacing) * 8);
     }
   }
   .lg\:px-16 {
