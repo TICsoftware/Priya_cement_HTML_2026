@@ -1,4 +1,4 @@
-.customerservice-block {
+﻿.customerservice-block {
   border-radius: 20px;
   border: 1px solid #EFEFEF;
   background: #FFF;
@@ -21,7 +21,7 @@
   margin-top: auto; /* pushes phone line to the bottom for equal heights */
 }
 .customerservice-grid.is-rise-anim .customerservice-block {
-  /* GSAP owns translateY — don't fight it with CSS transition on transform */
+  /* GSAP owns translateY â€” don't fight it with CSS transition on transform */
   transition: box-shadow 0.3s ease;
 }
 .customerservice-block:hover { box-shadow: 0 12px 24px 4px rgba(0, 0, 0, 0.12); }
@@ -34,9 +34,9 @@
 
 
 
-/* ══════════════════════════════
-   CONTACT US — enquiry band + form
-══════════════════════════════ */
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   CONTACT US â€” enquiry band + form
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 #enquiry .f-field {
   width: 100%;
   background-color: #5E1E21;
@@ -142,3 +142,20 @@
     width: min(50vw, 360px);
   }
 }
+
+/* Hide native select — kept in DOM for submit / validation / cascade */
+.cselect select.cselect-native {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+  opacity: 0;
+  pointer-events: none;
+}
+.cselect .cselect-ui { position: relative; width: 100%; }
+

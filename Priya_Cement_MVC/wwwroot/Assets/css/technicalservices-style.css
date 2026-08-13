@@ -1,4 +1,4 @@
- .hero-overlay { background-image: linear-gradient(90deg, rgba(26,26,30,.92) 0%, rgba(26,26,30,.6) 45%, rgba(26,26,30,.15) 100%); }
+﻿ .hero-overlay { background-image: linear-gradient(90deg, rgba(26,26,30,.92) 0%, rgba(26,26,30,.6) 45%, rgba(26,26,30,.15) 100%); }
 
  .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
  .no-scrollbar::-webkit-scrollbar { display: none; }
@@ -142,7 +142,7 @@
   .inner-content-box {
     position: absolute;
     inset: 0;
-    /* image is ~74% right-aligned → starts ~26%; nudge content onto it */
+    /* image is ~74% right-aligned â†’ starts ~26%; nudge content onto it */
     left: 8%;
     bottom: -10vw;
   }
@@ -217,3 +217,20 @@
   .grid-cols-content p{font-size: 1rem;}
   .outer-grid-cols {gap: 20px;}
 }
+
+/* Hide native select — kept in DOM for submit / validation / cascade */
+.cselect select.cselect-native {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+  opacity: 0;
+  pointer-events: none;
+}
+.cselect .cselect-ui { position: relative; width: 100%; }
+
