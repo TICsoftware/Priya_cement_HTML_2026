@@ -232,6 +232,7 @@
       if (!root.classList.contains("is-open")) return;
       root.classList.remove("is-open");
       btn.setAttribute("aria-expanded", "false");
+      if (!document.querySelector(".cselect.is-open") && window.lenis && typeof window.lenis.start === "function") window.lenis.start();
       if (typeof gsap !== "undefined") {
         gsap.to(menu, { autoAlpha: 0, y: -6, duration: 0.18, ease: "power2.in" });
       } else {
@@ -246,6 +247,7 @@
       });
       root.classList.add("is-open");
       btn.setAttribute("aria-expanded", "true");
+      if (window.lenis && typeof window.lenis.stop === "function") window.lenis.stop();
       if (typeof gsap !== "undefined") {
         gsap.fromTo(
           menu,
@@ -264,6 +266,15 @@
 
     btn.addEventListener("click", () =>
       root.classList.contains("is-open") ? close() : open()
+    );
+    menu.addEventListener(
+      "wheel",
+      (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        menu.scrollTop += e.deltaY;
+      },
+      { passive: false }
     );
 
     menu.addEventListener("click", (e) => {

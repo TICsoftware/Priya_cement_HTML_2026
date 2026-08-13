@@ -234,3 +234,26 @@
 }
 .cselect .cselect-ui { position: relative; width: 100%; }
 
+/* Enquiry form card: allow cselect dropdown to escape (was overflow-hidden) */
+.enquiry-form-card {
+  overflow: visible;
+}
+.enquiry-form-card .logo-lion-vector-outer {
+  overflow: hidden;
+  border-radius: inherit;
+  pointer-events: none;
+}
+#enquiry .cselect,
+.bg-brand-band .cselect {
+  z-index: 5;
+}
+#enquiry .cselect.is-open,
+.bg-brand-band .cselect.is-open {
+  z-index: 50;
+}
+#enquiry .cselect-menu,
+.bg-brand-band .cselect-menu {
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+}
+

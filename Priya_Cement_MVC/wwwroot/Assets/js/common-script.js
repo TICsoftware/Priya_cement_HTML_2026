@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", (event) => {
+﻿document.addEventListener("DOMContentLoaded", (event) => {
 
   // --------------------------------------------
   // GSAP + ScrollTrigger + Lenis Setup
@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
   
   const isMobile = window.matchMedia("(max-width: 992px)").matches;
   
-  /** Same scroll root as Lenis default (wrapper: window Ã¢â€ â€™ classes + scroll on documentElement). */
+  /** Same scroll root as Lenis default (wrapper: window ÃƒÂ¢Ã¢â‚¬ Ã¢â‚¬â„¢ classes + scroll on documentElement). */
   const scrollRootEl = document.documentElement;
   
   let lenis;
@@ -24,7 +24,10 @@ document.addEventListener("DOMContentLoaded", (event) => {
       normalizeWheel: true,
       syncTouch: false,
         prevent: (node) => {
-        return node.closest('.testimonial-content') || node.closest('#products-section');
+        return node.closest('.testimonial-content')
+          || node.closest('#products-section')
+          || node.closest('.cselect-menu')
+          || node.closest('.cselect');
       }
     });
   
@@ -35,6 +38,22 @@ document.addEventListener("DOMContentLoaded", (event) => {
     requestAnimationFrame(raf);
   
     window.lenis = lenis;
+
+    // Nested scrollables (cselect dropdown): Lenis steals wheel before bubble handlers.
+    // Capture on window, block Lenis, and scroll the menu ourselves.
+    window.addEventListener(
+      "wheel",
+      (e) => {
+        const menu = e.target && e.target.closest && e.target.closest(".cselect-menu");
+        if (!menu) return;
+        e.preventDefault();
+        e.stopPropagation();
+        if (typeof e.stopImmediatePropagation === "function") e.stopImmediatePropagation();
+        menu.scrollTop += e.deltaY;
+      },
+      { capture: true, passive: false }
+    );
+
   
     // ---- GSAP SYNC ----
     ScrollTrigger.scrollerProxy(scrollRootEl, {
@@ -53,7 +72,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
       }
     });
   
-    // ScrollTriggers must use the same element Lenis proxies Ã¢â‚¬â€ otherwise scrub/toggle use native scroll and wonÃ¢â‚¬â„¢t match smooth scroll.
+    // ScrollTriggers must use the same element Lenis proxies ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â otherwise scrub/toggle use native scroll and wonÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢t match smooth scroll.
     ScrollTrigger.defaults({ scroller: scrollRootEl });
   
     lenis.on("scroll", ScrollTrigger.update);
@@ -105,7 +124,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
       const show = getScrollTop() > SHOW_AFTER;
       // If the button currently holds focus and we're about to hide it,
-      // move focus away first — setting aria-hidden on a focused element
+      // move focus away first â€” setting aria-hidden on a focused element
       // is invalid (the browser blocks it and logs a console warning).
       if (!show && document.activeElement === btn) {
         btn.blur();
@@ -147,7 +166,7 @@ const yearFoot = document.getElementById("year-foot");
 if (yearFoot) yearFoot.innerHTML = String(new Date().getFullYear());
 
 // --------------------------------------------
-// FOOTER VECTOR — smooth scroll reveal
+// FOOTER VECTOR â€” smooth scroll reveal
 // --------------------------------------------
 (function initFooterVector() {
   const vector = document.querySelector('.footer-vector');
@@ -228,7 +247,7 @@ if (yearFoot) yearFoot.innerHTML = String(new Date().getFullYear());
   }
 
   /* ---------- sync header height to CSS custom property ---------- */
-  /* Lock to EXPANDED height only. Compact is visual — remasuring on
+  /* Lock to EXPANDED height only. Compact is visual â€” remasuring on
      scroll shrinks margin-top / offsets and flickers the banner. */
   const header = document.getElementById('siteHeader');
   function syncHeaderHeight() {
@@ -259,7 +278,7 @@ if (yearFoot) yearFoot.innerHTML = String(new Date().getFullYear());
     function playHeaderIntro() {
       const parts = header.querySelectorAll('.logo-link, .primary-nav, .header-actions');
 
-      // Whole bar fades in after loader — no empty header strip during load
+      // Whole bar fades in after loader â€” no empty header strip during load
       gsap.set(header, { autoAlpha: 0, y: -14, force3D: true });
       gsap.set(parts, { y: -8, autoAlpha: 0, force3D: true });
 
@@ -381,7 +400,7 @@ if (yearFoot) yearFoot.innerHTML = String(new Date().getFullYear());
     const y = window.scrollY;
     header.classList.toggle('is-scrolled', y > 4);
     header.classList.toggle('is-compact', y > 80);
-    // Do NOT sync --header-h or ScrollTrigger.refresh() on compact —
+    // Do NOT sync --header-h or ScrollTrigger.refresh() on compact â€”
     // that changes layout offsets and flickers the top banner.
 
     const scrollingDown = y > lastY;
@@ -501,7 +520,7 @@ if (langWrap && langBtn) {
         <span class="drawer-sub-title">${section.dataset.label}</span>
       </div>`;
 
-    // same source markup as desktop — links list + promo card, just cloned
+    // same source markup as desktop â€” links list + promo card, just cloned
     const linksClone = section.querySelector('.mega-links').cloneNode(true);
     linksClone.className = 'drawer-links';
     drawerSub.appendChild(linksClone);
