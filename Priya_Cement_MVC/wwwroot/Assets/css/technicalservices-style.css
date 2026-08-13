@@ -83,6 +83,8 @@
 .bg-border { background-color: #D3D3D3; }
 .border-border { border-color: #EAEAEA; }
 
+.technicalservices-intro-row .section-title-outer p{max-width: 100%;}
+
 /* Tabs: in-flow inside intro-copy; fixed full-width when docked */
 [data-tab-wrap].is-docked {
   position: fixed;
@@ -98,7 +100,7 @@
 }
 [data-tab-wrap].is-docked > * {
   pointer-events: auto;
-      width: 90%;
+      width: 95%;
     max-width: 1680px;
   margin-left: auto;
   margin-right: auto;
@@ -208,4 +210,10 @@
       width: min(50vw, 360px);
     }
     
+}
+@media (min-width: 1200px) and (max-width: 1366px) {
+  .onsite-ul-list img {max-width: 32px;}
+  .right-listcol li {font-size: 1rem;}
+  .grid-cols-content p{font-size: 1rem;}
+  .outer-grid-cols {gap: 20px;}
 }

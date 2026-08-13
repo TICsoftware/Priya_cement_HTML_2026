@@ -182,8 +182,8 @@
               <span data-rail-thumb class="absolute left-0 top-0 h-10 w-2 rounded-full bg-secondary"></span>
             </div>
             <div class="min-w-0 flex-1 space-y-16 sm:space-y-20 lg:space-y-28">
-              <article class="grid items-start gap-5 sm:gap-6 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)_minmax(220px,300px)] lg:gap-10">
-                <div class="flex min-w-0 gap-4 sm:gap-6">
+              <article class="grid items-start gap-5 sm:gap-6 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)_minmax(220px,300px)] lg:gap-10 outer-grid-cols">
+                <div class="flex min-w-0 gap-4 sm:gap-6 grid-cols-content">
                   <span data-count class="font-bold text-ghost text-big leading-none shrink-0">01</span>
                   <div data-fade class="min-w-0 pt-1">
                     <h4 class="text-h4">Cement tests</h4>
@@ -192,7 +192,7 @@
                   </div>
                 </div>
                 <img data-fade src="~/Assets/images/dummy-rectangle.webp" alt="" class="w-full h-auto rounded-md object-contain bg-[#E8E8E8]" />
-                <ul data-fade class="md:col-span-2 lg:col-span-1 lg:pt-2 list-none m-0 p-0">
+                <ul data-fade class="md:col-span-2 lg:col-span-1 lg:pt-2 list-none m-0 p-0 right-listcol">
                   <li class="flex items-start gap-3 border-b border-border py-3.5 text-p font-medium">
                     <span class="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary"></span>Fineness test
                   </li>
@@ -217,8 +217,8 @@
                 </ul>
               </article>
 
-              <article class="grid items-start gap-5 sm:gap-6 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)_minmax(220px,300px)] lg:gap-10">
-                <div class="flex min-w-0 gap-4 sm:gap-6">
+              <article class="grid items-start gap-5 sm:gap-6 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)_minmax(220px,300px)] lg:gap-10 outer-grid-cols">
+                <div class="flex min-w-0 gap-4 sm:gap-6 grid-cols-content">
                   <span data-count class="font-bold text-ghost text-big leading-none shrink-0">02</span>
                   <div data-fade class="min-w-0 pt-1">
                     <h4 class="text-h4">Aggregate tests</h4>
@@ -227,7 +227,7 @@
                   </div>
                 </div>
                 <img data-fade src="~/Assets/images/dummy-rectangle.webp" alt="" class="w-full h-auto rounded-md object-contain bg-[#E8E8E8]" />
-                <ul data-fade class="md:col-span-2 lg:col-span-1 lg:pt-2 list-none m-0 p-0">
+                <ul data-fade class="md:col-span-2 lg:col-span-1 lg:pt-2 list-none m-0 p-0 right-listcol">
                   <li class="flex items-start gap-3 border-b border-border py-3.5 text-p font-medium">
                     <span class="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary"></span>Sieve analysis
                   </li>
@@ -240,8 +240,8 @@
                 </ul>
               </article>
 
-              <article class="grid items-start gap-5 sm:gap-6 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)_minmax(220px,300px)] lg:gap-10">
-                <div class="flex min-w-0 gap-4 sm:gap-6">
+              <article class="grid items-start gap-5 sm:gap-6 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)_minmax(220px,300px)] lg:gap-10 outer-grid-cols">
+                <div class="flex min-w-0 gap-4 sm:gap-6 grid-cols-content">
                   <span data-count class="font-bold text-ghost text-big leading-none shrink-0">03</span>
                   <div data-fade class="min-w-0 pt-1">
                     <h4 class="text-h4">Other tests</h4>
@@ -250,7 +250,7 @@
                   </div>
                 </div>
                 <img data-fade src="~/Assets/images/dummy-rectangle.webp" alt="" class="w-full h-auto rounded-md object-contain bg-[#E8E8E8]" />
-                <ul data-fade class="md:col-span-2 lg:col-span-1 lg:pt-2 list-none m-0 p-0">
+                <ul data-fade class="md:col-span-2 lg:col-span-1 lg:pt-2 list-none m-0 p-0 right-listcol">
                   <li class="flex items-start gap-3 border-b border-border py-3.5 text-p font-medium">
                     <span class="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary"></span>Water quality testing
                   </li>
@@ -370,7 +370,7 @@
    
  <section id="enquiry" class="bg-brand-band relative overflow-hidden section-spacing">
     <div class="container">
-      <div class="px-4 sm:px-6 lg:px-8 relative">
+      <div class="relative form-wrapper-outer">
          <!-- second background layer: translucent dark panel -->
          <div class="rounded-[20px] bg-black/30 px-5 py-12 sm:px-10 lg:px-16 lg:py-[76px] relative overflow-hidden">
 
