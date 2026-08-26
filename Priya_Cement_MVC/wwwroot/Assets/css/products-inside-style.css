@@ -93,10 +93,13 @@
    * Below ~1867px gutter ≈ 5vw; on larger screens gutter grows with the
    * centered container so the bag does not drift into the grey margin.
    */
-  right: max(0.75rem, calc((100vw - min(78vw, 1680px)) / 2));
+  right: max(0.75rem, calc((100vw - min(85vw, 1680px)) / 2));
   left: auto;
   z-index: 30;
-  width: min(30vw, 250px);
+  /* Shared frame size so OPC / PPC / Bulk images occupy the same box */
+  --product-float-w: min(30vw, 320px);
+  --product-float-ratio: 3 / 4;
+  width: var(--product-float-w);
   margin: 0;
   pointer-events: none;
   will-change: opacity;
@@ -117,13 +120,18 @@
 .product-float-inner {
   position: relative;
   width: 100%;
-  max-width: 320px;
+  aspect-ratio: var(--product-float-ratio, 3 / 4);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
 }
 
 .product-float-inner .product-float-bag {
   display: block;
   width: 100%;
-  height: auto;
+  height: 100%;
+  object-fit: contain;
+  object-position: center bottom;
 }
 
 .product-float-inner .product-shadow-ellipse {
@@ -168,6 +176,23 @@
   pointer-events: auto;
   position: relative;
   z-index: 1;
+}
+
+/* Bulk cement only — truck float (white card + wider frame) */
+.product-float-sticky--bulk {
+  --product-float-w: min(36vw, 360px);
+  --product-float-ratio: 3 / 4;
+  width: var(--product-float-w);
+}
+.product-float-sticky--bulk .product-float-inner {
+  align-items: center;
+  aspect-ratio: inherit;
+}
+.product-float-sticky--bulk .product-float-bag {
+  object-position: center center;
+}
+.product-float-sticky--bulk .product-site-link {
+  margin-top: 0.85rem;
 }
 
 /* ---- Tables: sticky thead + right fade (mobile) ---- */
@@ -418,7 +443,8 @@
     top: auto;
     right: auto;
     z-index: 5;
-    width: min(58vw, 240px);
+    --product-float-w: min(58vw, 240px);
+    width: var(--product-float-w);
     max-width: 240px;
     margin-left: auto;
     margin-right: auto;
@@ -429,8 +455,14 @@
     visibility: visible;
   }
 
+  .product-float-sticky--bulk {
+    --product-float-w: min(72vw, 300px);
+    width: var(--product-float-w);
+    max-width: 300px;
+  }
+
   .product-float-inner {
-    max-width: 240px;
+    width: 100%;
     margin-inline: auto;
   }
 
@@ -459,13 +491,21 @@
 
 @media (max-width: 767px) {
   .product-float-sticky {
-    width: min(80vw, 180px);
+    --product-float-w: min(80vw, 180px);
+    width: var(--product-float-w);
     max-width: 180px;
-    margin-top: calc(-1 * min(12vh, 160px));
+    margin-top: calc(-1 * min(10vh, 160px));
+  }
+
+  .product-float-sticky--bulk {
+    --product-float-w: min(88vw, 260px);
+    width: var(--product-float-w);
+    max-width: 260px;
+    padding: 0.75rem 0.75rem 0.85rem;
   }
 
   .product-float-inner {
-    max-width: 200px;
+    width: 100%;
   }
 
   .cta-band .logo-lion-vector-outer {
@@ -480,18 +520,33 @@
     height: 35px;
   }
   .whyexperts-article {gap: 15px;}
-  .bestfor-grid-outer {align-items: end;}
+  .bestfor-grid-outer {align-items: baseline;}
   .bestfor-grid { text-align: start; align-items: start;}
 }
+@media (min-width: 1367px) and (max-width: 1536px) {
+.product-content-max {max-width: 58rem;}
+.spec-table {max-width: 58rem;}
+}
+
 @media (min-width: 1200px) and (max-width: 1366px) {
   .cta-band .logo-lion-vector-outer{width: min(72vw, 420px);max-width: 420px;}
   .product-content-max {max-width: 55rem;}
   .spec-table {max-width: 52rem;}
-  .whyexperts-article .whyexperts-icon {height: 90px;width: 90px;}
+  .whyexperts-article .whyexperts-icon {height: 80px;width: 80px;}
   .whyexperts-content p {font-size: 1rem;}
   .whyexperts-article {gap:20px;}
-  .product-float-sticky {width: min(30vw, 200px);right: max(0.75rem, calc((100vw - min(90vw, 1680px)) / 2));top: calc(var(--header-h, 80px) + 13vw);}
+  .product-float-sticky {
+    --product-float-w: min(30vw, 200px);
+    width: var(--product-float-w);
+    right: max(0.75rem, calc((100vw - min(90vw, 1680px)) / 2));
+    top: calc(var(--header-h, 80px) + 10vw);
+  }
+  .product-float-sticky--bulk {
+    --product-float-w: min(34vw, 280px);
+    width: var(--product-float-w);
+  }
   .product-float-button {width: 46px;height: 46px;}
   .product-float-button img {width: 16px;height: 17px;}
   .product-download-fab {right: 0.75rem;}
+    .whyexperts-article .whyexperts-icon img { max-height: 45px;}
 }

@@ -273,38 +273,70 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* ---------------------------------------
-     Enquiry form — custom selects + sqft
+     Enquiry form — native <select> cselect + sqft / occupation others
   --------------------------------------- */
   const enquiryRoot = document.getElementById("solutions-enquiry");
   if (enquiryRoot) {
-    function buildSelect(root) {
-      const name = root.dataset.name;
-      const placeholder = root.dataset.placeholder;
-      const options = (root.dataset.options || "").split("|").filter(Boolean);
-      const id = "solutions-cs-" + name;
+    function enhanceNativeCselect(root, scopeSelector) {
+      const select = root.querySelector("select");
+      if (!select || root.dataset.cselectReady === "1") return;
+      root.dataset.cselectReady = "1";
+      select.classList.add("cselect-native");
 
-      root.innerHTML = `
-    <input type="hidden" name="${name}" value="" />
-    <button type="button" class="f-field cselect-btn" data-empty="true" role="combobox"
-            aria-haspopup="listbox" aria-expanded="false" aria-controls="${id}" aria-label="${placeholder}">
-      <span class="cselect-value">${placeholder}</span>
-      <svg class="cselect-chevron" width="14" height="8" viewBox="0 0 14 8" fill="none" aria-hidden="true">
-        <path d="M1 1l6 6 6-6" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-    </button>
-    <div class="cselect-menu" id="${id}" role="listbox" aria-label="${placeholder}">
-      ${options.map((o) => `<button type="button" class="cselect-option" role="option" aria-selected="false" data-value="${o}">${o}</button>`).join("")}
-    </div>`;
+      const id = "solutions-cs-" + (select.id || select.name || Math.random().toString(36).slice(2));
 
-      const btn = root.querySelector(".cselect-btn");
-      const menu = root.querySelector(".cselect-menu");
-      const hidden = root.querySelector("input[type=hidden]");
-      const label = root.querySelector(".cselect-value");
+      function getPlaceholder() {
+        const first = select.options[0];
+        return first && !first.value ? first.textContent.trim() : "Select";
+      }
+
+      const ui = document.createElement("div");
+      ui.className = "cselect-ui";
+      ui.innerHTML = `
+        <button type="button" class="f-field cselect-btn" data-empty="true" role="combobox"
+                aria-haspopup="listbox" aria-expanded="false" aria-controls="${id}" aria-label="${getPlaceholder()}">
+          <span class="cselect-value">${getPlaceholder()}</span>
+          <svg class="cselect-chevron" width="14" height="8" viewBox="0 0 14 8" fill="none" aria-hidden="true">
+            <path d="M1 1l6 6 6-6" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+        <div class="cselect-menu" id="${id}" role="listbox" aria-label="${getPlaceholder()}"></div>`;
+
+      select.insertAdjacentElement("afterend", ui);
+
+      const btn = ui.querySelector(".cselect-btn");
+      const menu = ui.querySelector(".cselect-menu");
+      const label = ui.querySelector(".cselect-value");
+
+      function syncFromSelect() {
+        const empty = !select.value;
+        const selected = select.selectedOptions[0];
+        label.textContent = empty ? getPlaceholder() : (selected ? selected.textContent.trim() : getPlaceholder());
+        btn.dataset.empty = empty ? "true" : "false";
+        btn.setAttribute("aria-label", label.textContent);
+        menu.querySelectorAll(".cselect-option").forEach((o) => {
+          o.setAttribute("aria-selected", String(o.dataset.value === select.value));
+        });
+      }
+
+      function rebuildMenu() {
+        const opts = [...select.options].filter((o) => o.value !== "");
+        menu.innerHTML = opts
+          .map(
+            (o) =>
+              `<button type="button" class="cselect-option" role="option" aria-selected="${
+                o.value === select.value
+              }" data-value="${o.value}">${o.textContent.trim()}</button>`
+          )
+          .join("");
+        syncFromSelect();
+      }
 
       function close() {
         if (!root.classList.contains("is-open")) return;
         root.classList.remove("is-open");
         btn.setAttribute("aria-expanded", "false");
+        if (!document.querySelector(".cselect.is-open") && window.lenis && typeof window.lenis.start === "function") window.lenis.start();
         if (typeof gsap !== "undefined") {
           gsap.to(menu, { autoAlpha: 0, y: -6, duration: 0.18, ease: "power2.in" });
         } else {
@@ -314,17 +346,14 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       function open() {
-        enquiryRoot.querySelectorAll("[data-cselect].is-open").forEach((el) => {
+        document.querySelectorAll(`${scopeSelector} .cselect.is-open`).forEach((el) => {
           if (el !== root && el._close) el._close();
         });
         root.classList.add("is-open");
         btn.setAttribute("aria-expanded", "true");
+        if (window.lenis && typeof window.lenis.stop === "function") window.lenis.stop();
         if (typeof gsap !== "undefined") {
-          gsap.fromTo(
-            menu,
-            { autoAlpha: 0, y: -6 },
-            { autoAlpha: 1, y: 0, duration: 0.22, ease: "power2.out" }
-          );
+          gsap.fromTo(menu, { autoAlpha: 0, y: -6 }, { autoAlpha: 1, y: 0, duration: 0.22, ease: "power2.out" });
         } else {
           menu.style.opacity = "1";
           menu.style.visibility = "visible";
@@ -332,19 +361,27 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       root._close = close;
+      root._rebuildCselect = rebuildMenu;
+      root._syncCselect = syncFromSelect;
 
       btn.addEventListener("click", () =>
         root.classList.contains("is-open") ? close() : open()
       );
+      menu.addEventListener(
+        "wheel",
+        (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          menu.scrollTop += e.deltaY;
+        },
+        { passive: false }
+      );
       menu.addEventListener("click", (e) => {
         const opt = e.target.closest(".cselect-option");
         if (!opt) return;
-        menu
-          .querySelectorAll(".cselect-option")
-          .forEach((o) => o.setAttribute("aria-selected", String(o === opt)));
-        hidden.value = opt.dataset.value;
-        label.textContent = opt.dataset.value;
-        btn.dataset.empty = "false";
+        select.value = opt.dataset.value;
+        select.dispatchEvent(new Event("change", { bubbles: true }));
+        syncFromSelect();
         close();
         btn.focus();
       });
@@ -356,36 +393,132 @@ document.addEventListener("DOMContentLoaded", () => {
           menu.querySelector(".cselect-option")?.focus();
         }
       });
+
+      select.addEventListener("change", syncFromSelect);
+
+      const form = select.closest("form");
+      if (form && !form.dataset.cselectResetBound) {
+        form.dataset.cselectResetBound = "1";
+        form.addEventListener("reset", () => {
+          requestAnimationFrame(() => {
+            form.querySelectorAll(".cselect").forEach((el) => {
+              if (el._rebuildCselect) el._rebuildCselect();
+              else if (el._syncCselect) el._syncCselect();
+            });
+          });
+        });
+      }
+
+      rebuildMenu();
     }
 
-    enquiryRoot.querySelectorAll("[data-cselect]").forEach(buildSelect);
+    enquiryRoot.querySelectorAll(".cselect").forEach((root) => {
+      enhanceNativeCselect(root, "#solutionsEnquiryForm, #solutions-enquiry");
+    });
     document.addEventListener("click", (e) => {
-      enquiryRoot.querySelectorAll("[data-cselect].is-open").forEach((el) => {
+      enquiryRoot.querySelectorAll(".cselect.is-open").forEach((el) => {
         if (!el.contains(e.target) && el._close) el._close();
       });
     });
 
     const sqftField = enquiryRoot.querySelector("[data-sqft-field]");
-    const spaceRadios = enquiryRoot.querySelectorAll('input[name="hasStoreSpace"]');
+    const spaceRadios = enquiryRoot.querySelectorAll('input[name="HaveSpaceForStoreSetup"]');
     function syncSqft() {
       if (!sqftField) return;
-      const yes = enquiryRoot.querySelector('input[name="hasStoreSpace"][value="yes"]');
+      const yes = enquiryRoot.querySelector('input[name="HaveSpaceForStoreSetup"][value="Yes"]');
       const show = !!(yes && yes.checked);
       sqftField.classList.toggle("is-collapsed", !show);
-      const input = sqftField.querySelector('input[name="sqft"]');
+      const input = sqftField.querySelector("#StoreSizeSqFt");
       if (input) {
         input.disabled = !show;
-        input.required = show;
         if (!show) input.value = "";
       }
     }
     spaceRadios.forEach((radio) => radio.addEventListener("change", syncSqft));
     syncSqft();
 
-    const enquiryForm = document.getElementById("solutions-enquiry-form");
+    const othersField = enquiryRoot.querySelector("[data-occupation-others]");
+    const occupationSelect = enquiryRoot.querySelector("#CurrentOccupation");
+    function syncOccupationOthers() {
+      if (!othersField) return;
+      const show = occupationSelect && occupationSelect.value === "Other";
+      othersField.classList.toggle("is-collapsed", !show);
+      const input = othersField.querySelector("#CurrentOccupationOthers");
+      if (input) {
+        input.disabled = !show;
+        if (!show) input.value = "";
+      }
+    }
+    if (occupationSelect) occupationSelect.addEventListener("change", syncOccupationOthers);
+    syncOccupationOthers();
+
+    const enquiryForm = document.getElementById("solutionsEnquiryForm");
     if (enquiryForm) {
-      enquiryForm.addEventListener("submit", (e) => e.preventDefault());
+      enquiryForm.addEventListener("reset", () => {
+        requestAnimationFrame(() => {
+          syncSqft();
+          syncOccupationOthers();
+        });
+      });
     }
   }
-  
+
+  /* ---------------------------------------
+     Partner dock — right-edge sticky tab + panel
+  --------------------------------------- */
+  (function initPartnerDock() {
+    const root = document.getElementById("partner-dock");
+    if (!root) return;
+
+    const tab = document.getElementById("partner-dock-tab");
+    const panel = document.getElementById("partner-dock-panel");
+    const closeBtn = document.getElementById("partner-dock-close");
+    const backdrop = document.getElementById("partner-dock-backdrop");
+    if (!tab || !panel) return;
+
+    let open = false;
+
+    function setOpen(next) {
+      open = !!next;
+      tab.setAttribute("aria-expanded", open ? "true" : "false");
+      panel.setAttribute("aria-hidden", open ? "false" : "true");
+
+      if (open) {
+        panel.hidden = false;
+        if (backdrop) {
+          backdrop.hidden = false;
+          backdrop.setAttribute("aria-hidden", "false");
+        }
+        document.documentElement.classList.add("partner-dock-open");
+        requestAnimationFrame(() => {
+          root.classList.add("is-open");
+          const firstLink = panel.querySelector("a");
+          if (firstLink) firstLink.focus({ preventScroll: true });
+        });
+      } else {
+        root.classList.remove("is-open");
+        document.documentElement.classList.remove("partner-dock-open");
+        if (backdrop) backdrop.setAttribute("aria-hidden", "true");
+        const hide = () => {
+          if (open) return;
+          panel.hidden = true;
+          if (backdrop) backdrop.hidden = true;
+        };
+        if (reduceMotion) hide();
+        else window.setTimeout(hide, 360);
+        tab.focus({ preventScroll: true });
+      }
+    }
+
+    tab.addEventListener("click", () => setOpen(!open));
+    if (closeBtn) closeBtn.addEventListener("click", () => setOpen(false));
+    if (backdrop) backdrop.addEventListener("click", () => setOpen(false));
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && open) {
+        e.preventDefault();
+        setOpen(false);
+      }
+    });
+  })();
 });

@@ -161,16 +161,17 @@
 <!-- cmd-k style search overlay -->
 <div class="search-overlay" id="searchOverlay">
   <div class="search-modal" id="searchModal">
+    <button class="search-modal-close" id="searchModalClose" aria-label="Close search">
+      <svg viewBox="0 0 18 18" fill="none"><path d="M3.5 3.5l11 11M14.5 3.5l-11 11" stroke-width="1.7" stroke-linecap="round"/></svg>
+    </button>
     <div class="search-modal-input" id="searchInputWrap">
-    <img src="Assets/images/common-images/search-icon.svg" alt="search icon">
+    <img src="~/Assets/images/common-images/search-icon.svg" alt="search icon">
       <input type="text" placeholder="Search products, tools, dealers..." id="searchInput" autocomplete="off">
       <button class="search-clear" id="searchClear" aria-label="Clear search">
         <svg viewBox="0 0 12 12" fill="none"><path d="M1 1l10 10M11 1L1 11" stroke-width="1.6" stroke-linecap="round"/></svg>
-      </button>
-      <button class="search-modal-close" id="searchModalClose" aria-label="Close search">
-        <svg viewBox="0 0 18 18" fill="none"><path d="M3.5 3.5l11 11M14.5 3.5l-11 11" stroke-width="1.7" stroke-linecap="round"/></svg>
       </button>
     </div>
    
   </div>
 </div>
+

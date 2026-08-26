@@ -166,44 +166,86 @@ const yearFoot = document.getElementById("year-foot");
 if (yearFoot) yearFoot.innerHTML = String(new Date().getFullYear());
 
 // --------------------------------------------
-// FOOTER VECTOR â€” smooth scroll reveal
+// FOOTER VECTOR — animate every time footer enters viewport
 // --------------------------------------------
 (function initFooterVector() {
   const vector = document.querySelector('.footer-vector');
-  if (!vector || typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
+  const footer = document.querySelector('footer');
+  if (!vector || !footer) return;
 
-  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (reduceMotion) {
-    gsap.set(vector, { clearProps: 'all', opacity: 0.7, y: 0 });
+  // Always keep a visible fallback if motion libs are missing
+  if (typeof gsap === 'undefined') {
+    vector.style.opacity = '0.9';
+    vector.style.transform = 'none';
     return;
   }
 
-  gsap.set(vector, {
-    y: 140,
-    opacity: 0,
-    force3D: true,
-  });
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduceMotion) {
+    gsap.set(vector, { clearProps: 'transform', opacity: 0.9, y: 0 });
+    return;
+  }
 
-  gsap.to(vector, {
-    y: 0,
-    opacity: 0.7,
-    ease: 'none',
-    force3D: true,
-    overwrite: 'auto',
-    scrollTrigger: {
-      trigger: 'footer',
-      start: 'top 92%',
-      end: 'top 45%',
-      scrub: 1.1, // soft lag = smoother with Lenis than reverse play/pause
-      invalidateOnRefresh: true,
-    },
-  });
+  const anim = gsap.fromTo(
+    vector,
+    { y: 120, opacity: 0, force3D: true },
+    {
+      y: 0,
+      opacity: 0.9,
+      duration: 1.15,
+      ease: 'power3.out',
+      force3D: true,
+      paused: true,
+    }
+  );
 
-  const refresh = () => ScrollTrigger.refresh();
-  if (!vector.complete) {
-    vector.addEventListener('load', refresh, { once: true });
+  let inView = false;
+
+  const playIn = () => {
+    if (inView) return;
+    inView = true;
+    anim.restart();
+  };
+
+  const resetOut = () => {
+    if (!inView) return;
+    inView = false;
+    anim.pause(0);
+  };
+
+  // IntersectionObserver is reliable with Lenis + native scroll
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) playIn();
+          else resetOut();
+        });
+      },
+      { threshold: 0.12, rootMargin: '0px 0px -8% 0px' }
+    );
+    io.observe(footer);
+    return;
+  }
+
+  // Fallback without IO
+  if (typeof ScrollTrigger !== 'undefined') {
+    ScrollTrigger.create({
+      trigger: footer,
+      start: 'top 90%',
+      end: 'bottom top',
+      onEnter: playIn,
+      onEnterBack: playIn,
+      onLeave: resetOut,
+      onLeaveBack: resetOut,
+      onRefresh: (self) => {
+        if (self.isActive) playIn();
+        else resetOut();
+      },
+    });
+    requestAnimationFrame(() => ScrollTrigger.refresh());
   } else {
-    refresh();
+    gsap.set(vector, { y: 0, opacity: 0.9 });
   }
 })();
 
@@ -520,11 +562,18 @@ if (langWrap && langBtn) {
         <span class="drawer-sub-title">${section.dataset.label}</span>
       </div>`;
 
-    // same source markup as desktop â€” links list + promo card, just cloned
-    const linksClone = section.querySelector('.mega-links').cloneNode(true);
-    linksClone.className = 'drawer-links';
-    drawerSub.appendChild(linksClone);
-    drawerSub.appendChild(section.querySelector('.mega-promo').cloneNode(true));
+    // same source markup as desktop — links list + optional promo card
+    const links = section.querySelector('.mega-links');
+    if (links) {
+      const linksClone = links.cloneNode(true);
+      linksClone.className = 'drawer-links';
+      drawerSub.appendChild(linksClone);
+    }
+
+    const promo = section.querySelector('.mega-promo');
+    if (promo) {
+      drawerSub.appendChild(promo.cloneNode(true));
+    }
 
     drawerSub.querySelector('.drawer-back').addEventListener('click', closeSubmenu);
     drawerSub.scrollTop = 0;
@@ -583,7 +632,119 @@ if (langWrap && langBtn) {
     touchDeltaX = 0;
   });
 
+  // Footer link columns accordion (mobile only — one open at a time)
+  (function initFooterLinkAccordions() {
+    const outer = document.querySelector('.linkcolumns-outer');
+    if (!outer) return;
 
+    const blocks = Array.from(outer.querySelectorAll('.linkcolumns-block'));
+    if (!blocks.length) return;
 
-  
+    const mq = window.matchMedia('(max-width: 767px)');
+
+    function panel(block) {
+      return block.querySelector(':scope > ul');
+    }
+
+    function closeBlock(block) {
+      const ul = panel(block);
+      const title = block.querySelector('h4');
+      if (ul && block.classList.contains('is-open')) {
+        ul.style.maxHeight = ul.scrollHeight + 'px';
+        void ul.offsetHeight;
+        ul.style.maxHeight = '0px';
+      } else if (ul) {
+        ul.style.maxHeight = '0px';
+      }
+      block.classList.remove('is-open');
+      if (title) title.setAttribute('aria-expanded', 'false');
+    }
+
+    function openBlock(block) {
+      const ul = panel(block);
+      const title = block.querySelector('h4');
+      block.classList.add('is-open');
+      if (ul) {
+        // measure full open height (with spacing) then animate from 0
+        const transition = ul.style.transition;
+        ul.style.transition = 'none';
+        ul.style.maxHeight = 'none';
+        const fullHeight = ul.scrollHeight;
+        ul.style.maxHeight = '0px';
+        void ul.offsetHeight;
+        ul.style.transition = transition;
+        ul.style.maxHeight = fullHeight + 'px';
+      }
+      if (title) title.setAttribute('aria-expanded', 'true');
+    }
+
+    function clearInlineHeights() {
+      blocks.forEach(block => {
+        const ul = panel(block);
+        if (ul) ul.style.maxHeight = '';
+        block.classList.remove('is-open');
+        const title = block.querySelector('h4');
+        if (title) {
+          title.removeAttribute('role');
+          title.removeAttribute('tabindex');
+          title.removeAttribute('aria-expanded');
+        }
+      });
+    }
+
+    function syncA11y() {
+      if (!mq.matches) {
+        clearInlineHeights();
+        return;
+      }
+      blocks.forEach(block => {
+        const title = block.querySelector('h4');
+        const ul = panel(block);
+        if (title) {
+          title.setAttribute('role', 'button');
+          title.setAttribute('tabindex', '0');
+          title.setAttribute('aria-expanded', block.classList.contains('is-open') ? 'true' : 'false');
+        }
+        if (ul && !block.classList.contains('is-open')) {
+          ul.style.maxHeight = '0px';
+        }
+      });
+    }
+
+    blocks.forEach(block => {
+      const title = block.querySelector('h4');
+      if (!title) return;
+
+      title.addEventListener('click', () => {
+        if (!mq.matches) return;
+        const willOpen = !block.classList.contains('is-open');
+        blocks.forEach(b => {
+          if (b !== block) closeBlock(b);
+        });
+        if (willOpen) openBlock(block);
+        else closeBlock(block);
+      });
+
+      title.addEventListener('keydown', e => {
+        if (!mq.matches) return;
+        if (e.key !== 'Enter' && e.key !== ' ') return;
+        e.preventDefault();
+        title.click();
+      });
+    });
+
+    // keep open panel height correct on resize/orientation
+    window.addEventListener('resize', () => {
+      if (!mq.matches) return;
+      blocks.forEach(block => {
+        if (!block.classList.contains('is-open')) return;
+        const ul = panel(block);
+        if (ul) ul.style.maxHeight = ul.scrollHeight + 'px';
+      });
+    });
+
+    syncA11y();
+    if (mq.addEventListener) mq.addEventListener('change', syncA11y);
+    else mq.addListener(syncA11y);
+  })();
 });

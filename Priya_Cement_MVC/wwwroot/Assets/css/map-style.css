@@ -150,7 +150,7 @@
   visibility: hidden;
   pointer-events: none;
   transform: translateY(4px);
-  transition: opacity 0.18s ease, transform 0.18s ease, visibility 0.18s;
+  transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s;
 }
 
 .map-info-card.is-visible {
@@ -313,7 +313,7 @@
 
 @media (min-width: 1200px) and (max-width: 1366px) {
 .map-inside-wrapper {max-width: 40vw;}
-.map-title-section {max-width: 620px;}
+.map-title-section {max-width: 580px;}
 .circle-img { max-width: 55vw;}
 .map-outer-warapper {margin-top: -23vw;left: 15vw;}
 
@@ -321,12 +321,34 @@
 
 
 @media (max-width: 992px) {
-.map-outer-warapper {margin-top: 6vw; left:0;}
+  .map-outer-warapper {margin-top: 6vw; left:0;}
+
+  /* Center info card over the map on tablet/mobile — open/close from center */
+  .map-info-card.is-mobile-centered {
+    left: 50% !important;
+    top: 50% !important;
+    right: auto;
+    bottom: auto;
+    width: min(280px, calc(100% - 32px));
+    max-width: calc(100% - 32px);
+    /* Keep -50%/-50% always so open doesn't slide from the right */
+    transform: translate(-50%, -50%) scale(0.96);
+    transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s ease;
+  }
+  .map-info-card.is-mobile-centered.is-visible {
+    transform: translate(-50%, -50%) scale(1);
+  }
+  .map-info-card.is-mobile-centered.is-visible::before {
+    display: none;
+  }
 }
 
 
 @media (max-width: 480px) {
   .map-info-card {
     width: 220px;
+  }
+  .map-info-card.is-mobile-centered {
+    width: min(260px, calc(100% - 32px));
   }
 }

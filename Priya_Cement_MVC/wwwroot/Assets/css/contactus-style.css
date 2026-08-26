@@ -48,7 +48,7 @@
   line-height: 28px;
   color: #fff;
 }
-#enquiry .f-field::placeholder { color: rgba(255, 255, 255, 0.4); }
+#enquiry .f-field::placeholder {  color: rgba(255, 255, 255, 0.9); }
 #enquiry .f-field:focus,
 #enquiry .f-field:focus-within {
   outline: none;
@@ -65,7 +65,7 @@
   text-align: left;
 }
 #enquiry .cselect-btn[data-empty="true"] .cselect-value {
-  color: rgba(255, 255, 255, 0.4);
+  color: rgba(255, 255, 255, 0.9);
 }
 #enquiry .cselect-chevron {
   transition: transform 0.25s ease;
@@ -130,18 +130,7 @@
   max-width: none;
   height: auto;
 }
-@media (min-width: 1200px) and (max-width: 1366px) {
-.customerservice-block .call-txt a{font-size:1rem}
-.customerservice-grid {gap: 20px;}
-#enquiry .f-field { padding: 8px 13px;font-size: 0.875rem;}
-}
 
-
-@media (max-width: 767px) {
-  #enquiry .logo-lion-vector-outer {
-    width: min(50vw, 360px);
-  }
-}
 
 /* Hide native select — kept in DOM for submit / validation / cascade */
 .cselect select.cselect-native {
@@ -182,3 +171,16 @@
   -webkit-overflow-scrolling: touch;
 }
 
+@media (min-width: 1200px) and (max-width: 1366px) {
+.customerservice-block .call-txt a{font-size:1rem}
+.customerservice-grid {gap: 20px;}
+#enquiry .f-field { padding: 8px 13px;font-size: 0.875rem;}
+.customerservice-block a {font-size: 1rem;}
+}
+
+
+@media (max-width: 767px) {
+  #enquiry .logo-lion-vector-outer {
+    width: min(50vw, 360px);
+  }
+}

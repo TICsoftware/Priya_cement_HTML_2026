@@ -290,44 +290,78 @@ document.addEventListener("DOMContentLoaded", () => {
   prevBtn.addEventListener('click', () => goTo(activeIndex - 1));
   nextBtn.addEventListener('click', () => goTo(activeIndex + 1));
 
-  /* Mobile / tablet touch: swipe media → same goTo() as arrows (no separate logic) */
+  /* Media drag/swipe → same goTo() as arrows (touch + desktop pointer) */
   (function bindMediaSwipe() {
     const swipeTarget = mediaViewport;
     if (!swipeTarget) return;
 
     const SWIPE_MIN = 48;
+    const DECIDE_MIN = 10;
     let startX = 0;
     let startY = 0;
     let tracking = false;
+    let decided = false;
+    let isHorizontal = false;
+    let pointerId = null;
 
     swipeTarget.style.touchAction = 'pan-y';
+    swipeTarget.classList.add('legacy-media-draggable');
 
-    swipeTarget.addEventListener('touchstart', (e) => {
-      if (mqDesktop.matches || e.touches.length !== 1) {
-        tracking = false;
-        return;
-      }
-      tracking = true;
-      startX = e.touches[0].clientX;
-      startY = e.touches[0].clientY;
-    }, { passive: true });
-
-    swipeTarget.addEventListener('touchend', (e) => {
-      if (!tracking || mqDesktop.matches) return;
+    function resetDrag() {
       tracking = false;
-      const t = e.changedTouches[0];
-      if (!t) return;
-      const dx = t.clientX - startX;
-      const dy = t.clientY - startY;
+      decided = false;
+      isHorizontal = false;
+      pointerId = null;
+      swipeTarget.classList.remove('is-dragging');
+    }
+
+    swipeTarget.addEventListener('pointerdown', (e) => {
+      if (e.pointerType === 'mouse' && e.button !== 0) return;
+      tracking = true;
+      decided = false;
+      isHorizontal = false;
+      pointerId = e.pointerId;
+      startX = e.clientX;
+      startY = e.clientY;
+    });
+
+    swipeTarget.addEventListener('pointermove', (e) => {
+      if (!tracking || e.pointerId !== pointerId) return;
+      const dx = e.clientX - startX;
+      const dy = e.clientY - startY;
+
+      if (!decided) {
+        if (Math.abs(dx) < DECIDE_MIN && Math.abs(dy) < DECIDE_MIN) return;
+        decided = true;
+        isHorizontal = Math.abs(dx) > Math.abs(dy);
+        if (!isHorizontal) {
+          resetDrag();
+          return;
+        }
+        swipeTarget.classList.add('is-dragging');
+        try { swipeTarget.setPointerCapture(e.pointerId); } catch (_) {}
+      }
+    });
+
+    function endDrag(e) {
+      if (!tracking || (pointerId !== null && e.pointerId !== pointerId)) return;
+      const dx = e.clientX - startX;
+      const dy = e.clientY - startY;
+      const wasHorizontal = decided ? isHorizontal : Math.abs(dx) > Math.abs(dy);
+      const didDrag = decided && isHorizontal;
+      resetDrag();
+
+      if (!wasHorizontal) return;
       if (Math.abs(dx) < SWIPE_MIN) return;
-      if (Math.abs(dx) <= Math.abs(dy)) return; /* mostly vertical → page scroll */
+      /* Ignore tiny accidental clicks mistaken as drag */
+      if (!didDrag && e.pointerType === 'mouse' && Math.abs(dx) < SWIPE_MIN) return;
+
       if (dx < 0) goTo(activeIndex + 1);
       else goTo(activeIndex - 1);
-    }, { passive: true });
+    }
 
-    swipeTarget.addEventListener('touchcancel', () => {
-      tracking = false;
-    }, { passive: true });
+    swipeTarget.addEventListener('pointerup', endDrag);
+    swipeTarget.addEventListener('pointercancel', resetDrag);
   })();
 
   let resizeTimer;

@@ -9,6 +9,8 @@ document.addEventListener("DOMContentLoaded", () => {
   if (heroEl && typeof Swiper !== 'undefined') {
     const PARALLAX_MAX = 10;
     let heroSwiperReady = false;
+    let heroSwiper = null;
+    let heroAutoplayPausedByScroll = false;
 
     function applyImageParallax(swiper, duration) {
       swiper.slides.forEach((slide) => {
@@ -37,13 +39,54 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     }
 
+    function syncHeroAutoplayToScroll(progress) {
+      if (!heroSwiper || !heroSwiper.autoplay) return;
+      // Pause once the scale scrub is ≥80% through (scale ≈ 0.84 → 0.8)
+      const shouldPause = progress >= 0.8;
+      if (shouldPause === heroAutoplayPausedByScroll) return;
+      heroAutoplayPausedByScroll = shouldPause;
+      if (shouldPause) heroSwiper.autoplay.pause();
+      else heroSwiper.autoplay.resume();
+    }
+
+    function initHeroScrollScale() {
+      if (
+        reduceMotion ||
+        typeof gsap === 'undefined' ||
+        typeof ScrollTrigger === 'undefined'
+      ) {
+        return;
+      }
+
+      gsap.fromTo(
+        heroEl,
+        { scale: 1, transformOrigin: 'center center' },
+        {
+          scale: 0.8,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: heroEl,
+            start: 'top top',
+            end: 'bottom top',
+            scrub: true,
+            onUpdate(self) {
+              syncHeroAutoplayToScroll(self.progress);
+            },
+            onRefresh(self) {
+              syncHeroAutoplayToScroll(self.progress);
+            },
+          },
+        }
+      );
+    }
+
     function initHeroSwiper() {
       if (heroSwiperReady) return;
       heroSwiperReady = true;
 
       applyParallaxAttrs();
 
-      new Swiper(heroEl, {
+      heroSwiper = new Swiper(heroEl, {
         loop: true,
         speed: reduceMotion ? 0 : 1050,
         effect: 'slide',
@@ -95,6 +138,8 @@ document.addEventListener("DOMContentLoaded", () => {
           },
         },
       });
+
+      initHeroScrollScale();
     }
 
     // Built immediately, hidden behind the preloader's opaque backdrop —
@@ -778,7 +823,8 @@ document.addEventListener("DOMContentLoaded", () => {
       };
     });
 
-    // Mobile / tablet: full-bleed video (no scale — that clips copy), fade content in
+    // Mobile / tablet: play-once content entrance + gentle video ken-burns
+    // (full-bleed wrap — never scale the wrap; that clips copy)
     mmSustain.add('(max-width: 1023px)', () => {
       const section = document.querySelector('.home-sustainability-section');
       if (!section) return;
@@ -790,20 +836,32 @@ document.addEventListener("DOMContentLoaded", () => {
       const cta = section.querySelector('.outer-btn-wrap');
       if (!videoWrap) return;
 
-      const contentEls = [title, stats, cta].filter(Boolean);
+      const statRows = stats
+        ? gsap.utils.toArray(stats.querySelectorAll('.counter-wrap-outer'))
+        : [];
+      const contentEls = [title, ...(statRows.length ? statRows : stats ? [stats] : []), cta].filter(
+        Boolean
+      );
+
       section.classList.add('is-sustain-anim');
 
-      // Full bleed from the start — do not scale (overflow + scale clips text on mobile)
       gsap.set(videoWrap, {
         scale: 1,
         x: 0,
         y: 0,
-        transformOrigin: '50% 50%',
-        force3D: true,
         borderRadius: 0,
         autoAlpha: 0,
       });
-      gsap.set(contentEls, { autoAlpha: 0, x: 0, y: 24, force3D: true });
+      if (video) {
+        gsap.set(video, {
+          scale: 1,
+          xPercent: 0,
+          yPercent: 0,
+          transformOrigin: '50% 45%',
+          force3D: true,
+        });
+      }
+      gsap.set(contentEls, { autoAlpha: 0, y: 28, force3D: true });
 
       const playVideo = () => {
         if (!video) return;
@@ -823,78 +881,81 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       };
 
-      const settleContent = () => {
-        gsap.set(videoWrap, { autoAlpha: 1, x: 0, y: 0, scale: 1, borderRadius: 0 });
-        gsap.set(contentEls, { autoAlpha: 1, x: 0, y: 0 });
-      };
+      // Slow drift on the <video> (wrap stays transform:none via CSS)
+      const kenBurns = video
+        ? gsap.to(video, {
+            scale: 1.1,
+            xPercent: -2.5,
+            yPercent: 1.5,
+            duration: 16,
+            ease: 'sine.inOut',
+            repeat: -1,
+            yoyo: true,
+            paused: true,
+            force3D: true,
+          })
+        : null;
 
-      const tl = gsap.timeline({
-        defaults: { force3D: true },
-        scrollTrigger: {
-          trigger: section,
-          start: 'top 80%',
-          end: 'top 35%',
-          scrub: 1.1,
-          invalidateOnRefresh: true,
-          onEnter: playVideo,
-          onEnterBack: playVideo,
-          onLeave: () => {
-            settleContent();
-            playOdometers();
-          },
-          onLeaveBack: resetOdometers,
-        },
+      const entranceTl = gsap.timeline({
+        paused: true,
+        defaults: { force3D: true, ease: 'power3.out' },
+        onComplete: playOdometers,
+        onReverseComplete: resetOdometers,
       });
 
-      tl.to(
-        videoWrap,
-        {
-          autoAlpha: 1,
-          duration: 0.45,
-          ease: 'power1.out',
-        },
-        0
-      );
+      entranceTl.to(videoWrap, { autoAlpha: 1, duration: 0.75, ease: 'power2.out' }, 0);
 
       if (title) {
-        tl.to(
-          title,
-          { autoAlpha: 1, y: 0, duration: 0.4, ease: 'power2.out' },
-          0.2
-        );
+        entranceTl.to(title, { autoAlpha: 1, y: 0, duration: 0.8 }, 0.18);
       }
-      if (stats) {
-        tl.to(
-          stats,
-          { autoAlpha: 1, y: 0, duration: 0.4, ease: 'power2.out' },
-          0.35
+      if (statRows.length) {
+        entranceTl.to(
+          statRows,
+          { autoAlpha: 1, y: 0, duration: 0.7, stagger: 0.12 },
+          0.38
         );
-        tl.call(
-          () => {
-            if (tl.scrollTrigger && tl.scrollTrigger.direction === 1) {
-              playOdometers();
-            } else if (tl.scrollTrigger && tl.scrollTrigger.direction === -1) {
-              resetOdometers();
-            }
-          },
-          null,
-          0.4
-        );
+      } else if (stats) {
+        entranceTl.to(stats, { autoAlpha: 1, y: 0, duration: 0.7 }, 0.38);
       }
       if (cta) {
-        tl.to(
-          cta,
-          { autoAlpha: 1, y: 0, duration: 0.35, ease: 'power2.out' },
-          0.5
-        );
+        entranceTl.to(cta, { autoAlpha: 1, y: 0, duration: 0.6 }, 0.62);
       }
+
+      const st = ScrollTrigger.create({
+        trigger: section,
+        start: 'top 78%',
+        end: 'bottom 15%',
+        invalidateOnRefresh: true,
+        onEnter: () => {
+          playVideo();
+          entranceTl.play();
+          if (kenBurns) kenBurns.play();
+        },
+        onEnterBack: () => {
+          playVideo();
+          entranceTl.play();
+          if (kenBurns) kenBurns.play();
+        },
+        onLeave: () => {
+          if (kenBurns) kenBurns.pause();
+        },
+        onLeaveBack: () => {
+          entranceTl.reverse();
+          if (kenBurns) {
+            kenBurns.pause();
+            kenBurns.progress(0);
+          }
+          if (video) gsap.set(video, { scale: 1, xPercent: 0, yPercent: 0 });
+        },
+      });
 
       return () => {
         section.classList.remove('is-sustain-anim');
         resetOdometers();
-        if (tl.scrollTrigger) tl.scrollTrigger.kill();
-        tl.kill();
-        gsap.set([videoWrap, ...contentEls], {
+        st.kill();
+        entranceTl.kill();
+        if (kenBurns) kenBurns.kill();
+        gsap.set([videoWrap, ...contentEls, video].filter(Boolean), {
           clearProps: 'transform,opacity,visibility,borderRadius',
         });
       };
@@ -943,12 +1004,76 @@ document.addEventListener("DOMContentLoaded", () => {
   let mobileRevealedCount = 0;
   let marqueeObserver = null;
   const marqueeColumns = [];
+  let mobileQuoteRiseTriggers = [];
 
   function getOriginalQuoteCards() {
     if (!sectionMarquee) return [];
     return Array.from(
       sectionMarquee.querySelectorAll('.quote-card:not([aria-hidden="true"])')
     );
+  }
+
+  function killMobileQuoteRise() {
+    mobileQuoteRiseTriggers.forEach((st) => {
+      if (st && typeof st.kill === 'function') st.kill();
+    });
+    mobileQuoteRiseTriggers = [];
+    if (!sectionMarquee) return;
+    sectionMarquee.classList.remove('is-mobile-rise-anim');
+    getOriginalQuoteCards().forEach((card) => {
+      card.dataset.riseBound = '';
+      card.classList.remove('is-rise-anim-card');
+      if (typeof gsap !== 'undefined') gsap.set(card, { clearProps: 'transform' });
+    });
+  }
+
+  /** Same rise pattern as .our-products-cards — mobile quote list only */
+  function bindMobileQuoteRise() {
+    if (
+      reduceMotion ||
+      testimonialsDesktopMq.matches ||
+      !sectionMarquee ||
+      typeof gsap === 'undefined' ||
+      typeof ScrollTrigger === 'undefined'
+    ) {
+      return;
+    }
+
+    sectionMarquee.classList.add('is-mobile-rise-anim');
+    const cards = getOriginalQuoteCards().filter(
+      (card) => !card.classList.contains('is-collapsed')
+    );
+
+    cards.forEach((card, i) => {
+      if (card.dataset.riseBound === '1') return;
+      card.dataset.riseBound = '1';
+      card.classList.add('is-rise-anim-card');
+
+      const fromY = Math.min(60 * (i + 1), 200);
+      const col = i % 2;
+      const start = `top ${90 - col * 4}%`;
+      const end = `top ${58 - col * 3}%`;
+
+      const tween = gsap.fromTo(
+        card,
+        { y: fromY, force3D: true },
+        {
+          y: 0,
+          ease: 'none',
+          force3D: true,
+          scrollTrigger: {
+            trigger: card,
+            start,
+            end,
+            scrub: 1,
+            invalidateOnRefresh: true,
+          },
+        }
+      );
+      if (tween.scrollTrigger) mobileQuoteRiseTriggers.push(tween.scrollTrigger);
+    });
+
+    ScrollTrigger.refresh();
   }
 
   function getLoopHeight(track) {
@@ -1100,6 +1225,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function enableDesktopMarquee() {
     if (!sectionMarquee) return;
 
+    killMobileQuoteRise();
     sectionMarquee.classList.remove('is-mobile-static');
     getOriginalQuoteCards().forEach((card) => card.classList.remove('is-collapsed'));
     if (loadMoreBtn) loadMoreBtn.hidden = true;
@@ -1135,6 +1261,7 @@ document.addEventListener("DOMContentLoaded", () => {
     sectionMarquee.classList.remove('is-js-marquee');
     sectionMarquee.classList.add('is-mobile-static');
     stopDesktopMarqueeMotion();
+    killMobileQuoteRise();
 
     // Kill any in-progress drag so touch can scroll the page
     marqueeColumns.forEach((col) => {
@@ -1152,6 +1279,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (loadMoreBtn) {
         loadMoreBtn.hidden = mobileRevealedCount >= cards.length;
       }
+      requestAnimationFrame(() => bindMobileQuoteRise());
     }
 
     mobileRevealedCount = Math.min(MOBILE_BATCH_SIZE, cards.length);
@@ -1174,6 +1302,8 @@ document.addEventListener("DOMContentLoaded", () => {
     if (loadMoreBtn) {
       loadMoreBtn.hidden = mobileRevealedCount >= cards.length;
     }
+
+    requestAnimationFrame(() => bindMobileQuoteRise());
   }
 
   function syncTestimonialsLayout() {

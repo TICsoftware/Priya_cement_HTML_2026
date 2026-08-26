@@ -143,9 +143,13 @@
   z-index: -1;
   pointer-events: none;
 }
- 
+ .product-index-intro-outer .intro-title-col .section-title-outer .title-section{max-width: 80%;}
 
     @media (min-width: 1024px) {.our-products-img img {height: auto;}}
+
+@media (max-width: 1023px) {
+    .product-index-intro-outer .intro-title-col .section-title-outer .title-section{max-width: 100%;}
+  }
 
 @media (max-width: 991px) {
   /* Same composition as desktop — scaled down */

@@ -1,4 +1,4 @@
-
+﻿
 .logo-lion-vector-outer {
   position: absolute;
   top: 0;
@@ -15,9 +15,9 @@
     justify-content: center;
 }
 
-/* ══════════════════════════════
-   ABOUT US — Stats stack cards
-══════════════════════════════ */
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   ABOUT US â€” Stats stack cards
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 .aboutus-stats-section {
   --stats-gap: clamp(1.5rem, 3.5vw, 2.75rem);
   --stats-card-h: calc(100vh - var(--header-h, 106px) - var(--stats-gap));
@@ -111,6 +111,28 @@
   align-items: baseline;
 }
 
+/* Odometer clip hardening (150% zoom / scaled pin cards) */
+.aboutus-stats-value .odometer-digit {
+  overflow: hidden !important;
+  overflow: clip !important;
+  clip-path: inset(3px 0) !important;
+  -webkit-clip-path: inset(3px 0) !important;
+  contain: paint;
+  transform: translateZ(0);
+  -webkit-mask-image: linear-gradient(transparent 0, #000 3px, #000 calc(100% - 3px), transparent 100%);
+  mask-image: linear-gradient(transparent 0, #000 3px, #000 calc(100% - 3px), transparent 100%);
+}
+.aboutus-stats-value .odometer-digit-line {
+  line-height: 1;
+  height: 1em;
+  overflow: hidden;
+}
+.aboutus-stats-value .odometer-column {
+  backface-visibility: hidden;
+  transform: translate3d(0, 0, 0);
+}
+
+
 .aboutus-stats-value .odometer-separator {
   display: inline-block;
   font-weight: inherit;
@@ -161,9 +183,9 @@
   }
 }
 
-/* ══════════════════════════════
-   ABOUT US — Leadership message
-══════════════════════════════ */
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   ABOUT US â€” Leadership message
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 .aboutus-leadership-section {
   background: var(--color-light, #F3F3F3);
   padding-top: clamp(3.75rem, 8vw, 10vw);
@@ -202,7 +224,7 @@
 .aboutus-leadership-quote .quote-vector2 {
   position: relative;
   right: 0;
-  bottom: clamp(-9.375rem, -8.8vw, -5.5rem);
+  bottom: clamp(-9.375rem, -7vw, -5.5rem);
 }
 
 .aboutus-leadership-content {
@@ -212,6 +234,7 @@
 .aboutus-leadership-heading {
   margin-bottom: 0;
   margin-left: -16vw;
+  margin-top: -20px;
 }
 
 .aboutus-leadership-title {
@@ -221,7 +244,7 @@
 
 .aboutus-leadership-row {
   display: grid;
-  grid-template-columns: minmax(160px, 40%) minmax(0, 1fr);
+  /* grid-template-columns: minmax(160px, 40%) minmax(0, 1fr); */
   gap: clamp(1.25rem, 3vw, 2rem);
   align-items: start;
   margin-top: clamp(1.5rem, 3vw, 2.75rem);
@@ -271,7 +294,7 @@
   margin: 0;
 }
 
-/* Laptop + 125%/150% zoom — same desktop structure, scaled */
+/* Laptop + 125%/150% zoom â€” same desktop structure, scaled */
 @media (max-width: 1600px) {
   .aboutus-leadership-heading { margin-left: -13.5vw; }
   .aboutus-leadership-row {margin-top: clamp(1.5rem, 3vw, 0.75rem);}
@@ -280,7 +303,7 @@
 @media (max-width: 1366px) {
   .aboutus-leadership-heading { margin-left: -10vw; }
   .aboutus-leadership-row {
-    grid-template-columns: minmax(140px, 36%) minmax(0, 1fr);
+    /* grid-template-columns: minmax(140px, 36%) minmax(0, 1fr); */
   }
   .aboutus-leadership-quote img {width: clamp(6.75rem, 12.5vw, 18.3125rem);}
   .aboutus-leadership-quote .quote-vector1 {margin-top: clamp(-9.375rem, -1.4vw, 0rem);}
@@ -298,7 +321,7 @@
   }
 }
 
-/* Phone + tablet — title top, quotes on photo (no duplicate markup) */
+/* Phone + tablet â€” title top, quotes on photo (no duplicate markup) */
 @media (max-width: 1023px) {
   .aboutus-leadership-inner {
     display: grid;
@@ -358,9 +381,9 @@
   }
 }
 
-/* ══════════════════════════════
-   ABOUT US — What we stand for
-══════════════════════════════ */
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   ABOUT US â€” What we stand for
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 .aboutus-stand-section {
   --stand-visual-w: clamp(13rem, 24vw, 28.25rem);
   --stand-num-up: clamp(3.75rem, 9.5vw, 11.15rem);
@@ -385,7 +408,7 @@
   background: radial-gradient(88.81% 88.81% at 50% 50%, #ED1C24 0%, #231F20 100%);
   height: clamp(22rem, 42vw, 40.625rem);
   /* Clip left/top/bottom so the x-slide stays inside the frame.
-     Negative right inset keeps the snout pop-out — no overflow:hidden. */
+     Negative right inset keeps the snout pop-out â€” no overflow:hidden. */
   clip-path: inset(0 -40% 0 0 round 20px 20px 0 0);
   -webkit-clip-path: inset(0 -40% 0 0 round 20px 20px 0 0);
 }
@@ -516,7 +539,7 @@
   }
 }
 
-/* Laptop + 125%/150% zoom — keep desktop row, lion fully on-screen */
+/* Laptop + 125%/150% zoom â€” keep desktop row, lion fully on-screen */
 @media (max-width: 1440px) {
   .aboutus-stand-inner {
     gap: clamp(1.25rem, 2.2vw, 2rem);
@@ -566,7 +589,7 @@
   }
 }
 
-/* Phone — title, lion, cards stacked */
+/* Phone â€” title, lion, cards stacked */
 @media (max-width: 767px) {
   .aboutus-stand-inner {
     display: grid;
@@ -630,7 +653,7 @@
   }
 }
 
-/* Tablet — stacked like phone, but sized for iPad (no oversized empty cards) */
+/* Tablet â€” stacked like phone, but sized for iPad (no oversized empty cards) */
 @media (min-width: 768px) and (max-width: 1023px) {
   .aboutus-stand-section {
     --stand-num-up: 4.75rem;
@@ -711,9 +734,9 @@
 }
 
 
-/* ══════════════════════════════
-   ABOUT US — CTA parallax (no people cutout)
-══════════════════════════════ */
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   ABOUT US â€” CTA parallax (no people cutout)
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 .bg-parallax-section .outer-bg-wrap {
   position: relative;
   overflow: visible;
@@ -727,7 +750,8 @@
 }
 
 .bg-parallax-section .bg-parallax-frame {
-  --cta-parallax-bleed: clamp(28px, 5vh, 48px);
+  /* Travel budget for img y-parallax — must stay ≤ half of (img height - 100%) */
+  --cta-parallax-bleed: clamp(32px, 4vh, 64px);
   position: relative;
   isolation: isolate;
   display: flex;
@@ -742,25 +766,25 @@
 
 .bg-parallax-section .parallax-wrap {
   position: absolute;
-  left: 0;
-  right: 0;
-  top: calc(-1 * var(--cta-parallax-bleed));
-  height: calc(100% + (2 * var(--cta-parallax-bleed)));
+  inset: 0;
   z-index: 0;
   overflow: hidden;
   border-radius: inherit;
   pointer-events: none;
-  will-change: transform;
 }
 
 .bg-parallax-section .parallax-wrap .parallax-img {
   position: absolute;
-  inset: 0;
+  left: 0;
   width: 100%;
-  height: 100%;
+  /* Extra height so y-parallax never reveals empty gaps */
+  top: calc(-1 * var(--cta-parallax-bleed));
+  height: calc(100% + (2 * var(--cta-parallax-bleed)));
   max-width: none;
   object-fit: cover;
   object-position: center center;
+  will-change: transform;
+  backface-visibility: hidden;
 }
 
 .bg-parallax-section .overlay-scrim {
@@ -941,13 +965,15 @@
 
 @media (prefers-reduced-motion: reduce) {
   .bg-parallax-section .parallax-wrap {
-    top: 0;
+    inset: 0;
     height: 100%;
     will-change: auto;
     transform: none !important;
   }
 
-  .bg-parallax-section .parallax-img {
+  .bg-parallax-section .parallax-img,
+  .bg-parallax-section .parallax-wrap .parallax-img {
+    top: 0;
     height: 100%;
     will-change: auto;
     transform: none !important;
@@ -960,9 +986,9 @@
   .bg-parallax-cta-row { max-width: 70%; }
 }
 
-/* ══════════════════════════════
-   ABOUT US — Built on trust (TS timeline)
-══════════════════════════════ */
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   ABOUT US â€” Built on trust (TS timeline)
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 .aboutus-projects-section {
   position: relative;
   overflow: visible;
@@ -1007,7 +1033,7 @@
 .aboutus-projects-section .text-ghost,
 .aboutus-stand-section .text-ghost,
 #pageContainerLegacy .text-ghost {
-  background: linear-gradient(270deg, rgba(0, 0, 0, 0.10) 6.31%, rgba(255, 255, 255, 0.10) 89.81%);
+  background: linear-gradient(270deg, rgba(0, 0, 0, 0.25) 6.31%, rgba(255, 255, 255, 0.10) 89.81%);
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -1091,7 +1117,7 @@
 }
 }
 
-/* Sticky title: desktop only — not on phone/tablet */
+/* Sticky title: desktop only â€” not on phone/tablet */
 @media (min-width: 1024px) {
   .aboutus-projects-section .section-sticky-head {
     position: sticky;
@@ -1113,6 +1139,20 @@
   .aboutus-projects-grid {
     max-width: 100%;
   }
+}
+@media (max-width: 1600px) {
+  .bg-parallax-section .bg-parallax-frame {min-height: 515px;--cta-parallax-bleed: clamp(20px, 3vh, 64px);}
+}
+
+
+@media (min-width: 1367px) and (max-width: 1440px) {
+  #aboutus-values .aboutus-values-title {left: clamp(1rem, 6vw, 20rem)!important;top: clamp(1.25rem, 10vh, 8.5rem) !important;}
+  .aboutus-leadership-quote .quote-vector2 {bottom: clamp(-9.375rem, -7vw, -5.5rem);}
+  .aboutus-leadership-heading {margin-top: -25px;}
+}
+
+@media (min-width: 1200px) and (max-width: 1366px) {
+  .aboutus-projects-section .section-title-outer .section-sticky-title{max-width: 30vw;}
 }
 
 

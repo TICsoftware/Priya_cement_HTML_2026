@@ -72,7 +72,7 @@
     const intro = document.querySelector('.page-intro-outer');
     if (!bag || !rail || !cta) return;
 
-    gsap.set(bag, { autoAlpha: 0 });
+    gsap.set(bag, { autoAlpha: 1 });
 
     const show = () => {
       gsap.to(bag, {
@@ -85,7 +85,7 @@
 
     const hide = () => {
       gsap.to(bag, {
-        autoAlpha: 0,
+        autoAlpha: 1,
         duration: reduceMotion ? 0 : 0.25,
         ease: 'power1.in',
         overwrite: 'auto',

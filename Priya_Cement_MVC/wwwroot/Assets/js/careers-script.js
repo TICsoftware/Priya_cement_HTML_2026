@@ -361,6 +361,101 @@ document.addEventListener("DOMContentLoaded", () => {
     );
   }
 
+  let mobileQuoteRiseTriggers = [];
+  /* Life Inside pin changes document height; creating rise STs before
+     lifeinside:ready leaves stale start/end (refresh does not fix — same
+     as CTA/culture in initSectionScrollFx). */
+  let pinLayoutReady = !document.getElementById('life-inside');
+
+  function whenPinLayoutReady(fn) {
+    if (pinLayoutReady) {
+      fn();
+      return;
+    }
+    let done = false;
+    const run = () => {
+      if (done) return;
+      done = true;
+      pinLayoutReady = true;
+      fn();
+    };
+    window.addEventListener('lifeinside:ready', run, { once: true });
+    window.setTimeout(run, 4000);
+  }
+
+  function killMobileQuoteRise() {
+    mobileQuoteRiseTriggers.forEach((st) => {
+      if (st && typeof st.kill === 'function') st.kill();
+    });
+    mobileQuoteRiseTriggers = [];
+    if (!sectionMarquee) return;
+    sectionMarquee.classList.remove('is-mobile-rise-anim');
+    getOriginalQuoteCards().forEach((card) => {
+      card.dataset.riseBound = '';
+      card.classList.remove('is-rise-anim-card');
+      if (typeof gsap !== 'undefined') gsap.set(card, { clearProps: 'transform' });
+    });
+  }
+
+  /** Same rise pattern as homepage marquee / product cards — mobile quote list only */
+  function bindMobileQuoteRise() {
+    if (
+      reduceMotion ||
+      testimonialsDesktopMq.matches ||
+      !sectionMarquee ||
+      typeof gsap === 'undefined' ||
+      typeof ScrollTrigger === 'undefined'
+    ) {
+      return;
+    }
+
+    if (typeof gsap.registerPlugin === 'function') {
+      gsap.registerPlugin(ScrollTrigger);
+    }
+
+    sectionMarquee.classList.add('is-mobile-rise-anim');
+    const cards = getOriginalQuoteCards().filter(
+      (card) => !card.classList.contains('is-collapsed')
+    );
+
+    cards.forEach((card, i) => {
+      if (card.dataset.riseBound === '1') return;
+      card.dataset.riseBound = '1';
+      card.classList.add('is-rise-anim-card');
+
+      const fromY = Math.min(80 * (i + 1), 240);
+      const col = i % 2;
+      const start = `top ${92 - col * 4}%`;
+      const end = `top ${55 - col * 3}%`;
+
+      const tween = gsap.fromTo(
+        card,
+        { y: fromY, force3D: true },
+        {
+          y: 0,
+          ease: 'none',
+          force3D: true,
+          scrollTrigger: {
+            trigger: card,
+            start,
+            end,
+            scrub: 1,
+            invalidateOnRefresh: true,
+          },
+        }
+      );
+      if (tween.scrollTrigger) mobileQuoteRiseTriggers.push(tween.scrollTrigger);
+    });
+
+    ScrollTrigger.refresh();
+  }
+
+  function remountMobileQuoteRise() {
+    if (testimonialsDesktopMq.matches || !sectionMarquee) return;
+    killMobileQuoteRise();
+    requestAnimationFrame(() => bindMobileQuoteRise());
+  }
+
   function getLoopHeight(track) {
     return Math.max(1, track.scrollHeight / 2);
   }
@@ -508,6 +603,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function enableDesktopMarquee() {
     if (!sectionMarquee) return;
 
+    killMobileQuoteRise();
     sectionMarquee.classList.remove('is-mobile-static');
     getOriginalQuoteCards().forEach((card) => card.classList.remove('is-collapsed'));
     if (loadMoreBtn) loadMoreBtn.hidden = true;
@@ -543,6 +639,7 @@ document.addEventListener("DOMContentLoaded", () => {
     sectionMarquee.classList.remove('is-js-marquee');
     sectionMarquee.classList.add('is-mobile-static');
     stopDesktopMarqueeMotion();
+    killMobileQuoteRise();
 
     marqueeColumns.forEach((col) => {
       col.clearMotion();
@@ -559,6 +656,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (loadMoreBtn) {
         loadMoreBtn.hidden = mobileRevealedCount >= cards.length;
       }
+      whenPinLayoutReady(remountMobileQuoteRise);
     }
 
     mobileRevealedCount = Math.min(MOBILE_BATCH_SIZE, cards.length);
@@ -581,6 +679,10 @@ document.addEventListener("DOMContentLoaded", () => {
     if (loadMoreBtn) {
       loadMoreBtn.hidden = mobileRevealedCount >= cards.length;
     }
+
+    whenPinLayoutReady(() => {
+      requestAnimationFrame(() => bindMobileQuoteRise());
+    });
   }
 
   function syncTestimonialsLayout() {

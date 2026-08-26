@@ -15,7 +15,7 @@
    line-height: 28px;
    color: #fff;
  }
- .f-field::placeholder { color: rgba(255,255,255,.4); }
+ .f-field::placeholder { color: rgba(255, 255, 255, 0.9); }
  .f-field:focus, .f-field:focus-within { outline: none; border-color: rgba(255,255,255,.75); }
 
  .radio-opt { display: inline-flex; align-items: center; gap: .5rem; cursor: pointer; }
@@ -39,7 +39,7 @@
    width: 100%; display: flex; align-items: center; justify-content: space-between; gap: .75rem;
    text-align: left;
  }
- .cselect-btn[data-empty="true"] .cselect-value { color: rgba(255,255,255,.4); }
+ .cselect-btn[data-empty="true"] .cselect-value { color: rgba(255,255,255,.9); }
  .cselect-chevron { transition: transform .25s ease; flex: none; }
  .cselect.is-open .cselect-chevron { transform: rotate(180deg); }
  .cselect-menu {
@@ -91,7 +91,7 @@
   top: var(--tab-dock-top, 76px);
   left: 0;
   right: 0;
-  z-index: 40;
+  z-index: 80;
   width: 100%;
   max-width: none;
   padding-left: 1rem;
@@ -129,7 +129,7 @@
   z-index: 100;
   font-weight: 700;
 }
-.technicalsupport-outer-grid {max-width: 85%; margin-left:auto;}
+.technicalsupport-outer-grid {max-width: 85%; margin-left:auto;z-index: 50;}
 
 [data-rail-scope] article > img {
   height: auto;
@@ -215,7 +215,8 @@
   .onsite-ul-list img {max-width: 32px;}
   .right-listcol li {font-size: 1rem;}
   .grid-cols-content p{font-size: 1rem;}
-  .outer-grid-cols {gap: 20px;}
+  .outer-grid-cols {gap: 20px;grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(220px, 225px);}
+  .enquiry-form-card .section-title-outer{max-width: 65%;}
 }
 
 /* Hide native select — kept in DOM for submit / validation / cascade */

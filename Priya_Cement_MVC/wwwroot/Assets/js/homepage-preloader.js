@@ -1,16 +1,19 @@
 /* ---------------------------------------
    SITE PRELOADER
    Logo + progress bar + counter. On completion:
-     - only the logo shatters into particle tiles and fades (bar/counter
-       fade plainly, backdrop just disappears with the preloader)
-     - the header slides in (translateY -100px -> 0)
+     - logo shatters into particle tiles (original dissolve look)
+     - homepage header/hero fade in underneath while the loader crossfades out
      - dispatches 'homepagePreloaderDone', which homepage-script.js waits
        on before constructing the hero Swiper — that slider's own existing
        animation is untouched by this file.
 
    Skip: ?loader=0
+   Session: after first successful loader in this tab, skip on later
+   homepage navigations (About → Home). Refresh/hard refresh still shows it.
 --------------------------------------- */
 (function () {
+  const LOADER_SEEN_KEY = 'priyaHomepageLoaderSeen';
+
   function whenReady(fn) {
     if (document.readyState === 'loading') {
       document.addEventListener('DOMContentLoaded', fn, { once: true });
@@ -19,8 +22,39 @@
     }
   }
 
+  function isPageReload() {
+    try {
+      const nav = performance.getEntriesByType && performance.getEntriesByType('navigation')[0];
+      if (nav) return nav.type === 'reload';
+    } catch (e) { /* ignore */ }
+    try {
+      // Legacy API (Safari older): TYPE_RELOAD === 1
+      return !!(performance.navigation && performance.navigation.type === 1);
+    } catch (e) {
+      return false;
+    }
+  }
+
+  function hasSeenLoaderThisSession() {
+    try {
+      return sessionStorage.getItem(LOADER_SEEN_KEY) === '1';
+    } catch (e) {
+      return false;
+    }
+  }
+
+  function markLoaderSeen() {
+    try {
+      sessionStorage.setItem(LOADER_SEEN_KEY, '1');
+    } catch (e) { /* private mode / blocked */ }
+  }
+
   function skipLoader() {
-    return new URLSearchParams(window.location.search).get('loader') === '0';
+    if (new URLSearchParams(window.location.search).get('loader') === '0') return true;
+    // Explicit refresh always gets the loader again
+    if (isPageReload()) return false;
+    // Same-tab return from other pages → skip
+    return hasSeenLoaderThisSession();
   }
 
   function announceDone() {
@@ -32,11 +66,15 @@
     if (!header) return;
 
     header.style.transition = 'none';
-    header.style.transform = 'translateY(-100px)';
-    void header.offsetHeight; // force reflow so the next line transitions
-    header.style.transition = 'transform 0.6s cubic-bezier(0.22, 1, 0.36, 1)';
+    header.style.opacity = '0';
+    header.style.transform = 'translateY(-28px)';
+    void header.offsetHeight;
+    header.style.transition =
+      'opacity 0.85s cubic-bezier(0.22, 1, 0.36, 1), ' +
+      'transform 0.85s cubic-bezier(0.22, 1, 0.36, 1)';
 
     requestAnimationFrame(() => {
+      header.style.opacity = '1';
       header.style.transform = 'translateY(0)';
     });
 
@@ -44,6 +82,7 @@
       'transitionend',
       () => {
         header.style.transition = '';
+        header.style.opacity = '';
         header.style.transform = '';
       },
       { once: true }
@@ -52,27 +91,22 @@
 
   // Hero is already fully built (Swiper initializes immediately, hidden
   // behind this backdrop) by the time this runs — this only handles how
-  // it becomes visible. Settles in slightly after the header (0.12s
-  // delay) so the exit reads as one cascading sequence, not two things
-  // popping in at once.
+  // it becomes visible. Starts under the fading preloader for a soft crossfade.
   function animateHeroIn() {
     const hero = document.querySelector('.hero-banner-section');
     if (!hero) return;
 
     hero.style.transition = 'none';
     hero.style.opacity = '0';
-    hero.style.transform = 'translateY(24px) scale(1.02)';
-    hero.style.filter = 'blur(6px)';
+    hero.style.transform = 'translateY(16px) scale(1.01)';
+    hero.style.filter = 'blur(3px)';
     hero.style.willChange = 'opacity, transform, filter';
-    void hero.offsetHeight; // force reflow so the next line transitions
+    void hero.offsetHeight;
 
-    // Delay is folded into each entry of the shorthand itself — setting
-    // transition (shorthand) after transitionDelay would otherwise reset
-    // the delay back to 0s, since shorthand resets unlisted sub-values.
     hero.style.transition =
-      'opacity 1s cubic-bezier(0.22, 1, 0.36, 1) 0.12s, ' +
-      'transform 1s cubic-bezier(0.22, 1, 0.36, 1) 0.12s, ' +
-      'filter 1s cubic-bezier(0.22, 1, 0.36, 1) 0.12s';
+      'opacity 1.15s cubic-bezier(0.22, 1, 0.36, 1), ' +
+      'transform 1.15s cubic-bezier(0.22, 1, 0.36, 1), ' +
+      'filter 1.15s cubic-bezier(0.22, 1, 0.36, 1)';
 
     requestAnimationFrame(() => {
       hero.style.opacity = '1';
@@ -205,15 +239,29 @@
     let finished = false;
     let shatterStarted = false;
     let shatterHandle = null;
+    let revealStarted = false;
     const MIN_MS = 750;
     const MAX_MS = 3500;
     const SHATTER_AT = 80; // dissolve starts once the bar reaches this
-    const FAST_TIME_SCALE = 6; // speed multiplier applied the instant we hit 100%
+    // Gentle nudge only — hard ×6 made the dissolve look abrupt
+    const FAST_TIME_SCALE = 1.35;
     let pageLoaded = document.readyState === 'complete';
     window.addEventListener('load', () => { pageLoaded = true; }, { once: true });
 
     const startTime = performance.now();
     let shown = 0;
+
+    function beginPageReveal() {
+      if (revealStarted) return;
+      revealStarted = true;
+      html.classList.remove('site-preloader-pending');
+      unlock();
+      markLoaderSeen();
+      animateHeaderIn();
+      animateHeroIn();
+      animateHeroContentIn();
+      announceDone();
+    }
 
     function beginShatter() {
       if (shatterStarted) return;
@@ -227,16 +275,6 @@
 
       beginShatter(); // safety net if 100% was reached without passing 80% first
       if (shatterHandle) shatterHandle.fastForward();
-
-      const progressEl = preloader.querySelector('.site-preloader__progress');
-      if (progressEl) {
-        if (typeof gsap !== 'undefined') {
-          gsap.to(progressEl, { autoAlpha: 0, duration: 0.25, ease: 'power2.out' });
-        } else {
-          progressEl.style.transition = 'opacity .25s ease';
-          progressEl.style.opacity = '0';
-        }
-      }
     }
 
     function tick() {
@@ -262,38 +300,12 @@
       requestAnimationFrame(tick);
     }
 
-    function onTilesDone() {
-      html.classList.remove('site-preloader-pending');
-      unlock();
-      animateHeaderIn();
-      animateHeroIn();
-      animateHeroContentIn();
-      announceDone();
-
-      // Crossfade the backdrop out instead of yanking it away instantly —
-      // the tiles are already gone, but the solid background behind them
-      // was still fully opaque until now.
-      if (typeof gsap !== 'undefined') {
-        gsap.to(preloader, {
-          autoAlpha: 0,
-          duration: 0.25,
-          ease: 'power2.out',
-          onComplete: () => preloader.remove(),
-        });
-      } else {
-        preloader.style.transition = 'opacity .25s ease';
-        preloader.style.opacity = '0';
-        window.setTimeout(() => preloader.remove(), 260);
-      }
-    }
-
     function shatterLogo() {
       const rect = logo.getBoundingClientRect();
       const wrapRect = logoWrap.getBoundingClientRect();
       const w = rect.width;
       const h = rect.height;
-      // Fixed small tile size (not a fixed grid count) — keeps particles
-      // small and consistent no matter how large the logo/gif renders.
+      // Original shatter grid — small tiles, same look as before
       const TARGET_TILE = 16;
       const cols = Math.min(40, Math.max(4, Math.round(w / TARGET_TILE)));
       const rows = Math.min(40, Math.max(4, Math.round(h / TARGET_TILE)));
@@ -303,10 +315,7 @@
       const offsetY = rect.top - wrapRect.top;
       const src = logo.currentSrc || logo.src;
 
-      // Radial explosion: each tile's travel direction is derived from
-      // where it sat relative to the logo's own center, then scaled out
-      // far enough to clear the viewport in that direction — tiles near
-      // the top-left of the logo fly toward the screen's top-left, etc.
+      // Same radial explosion as before
       const centerX = w / 2;
       const centerY = h / 2;
       const travelDist = Math.hypot(window.innerWidth, window.innerHeight) * 0.65;
@@ -335,8 +344,8 @@
             vx /= mag;
             vy /= mag;
           }
-          tile.dataset.dx = vx * travelDist;
-          tile.dataset.dy = vy * travelDist;
+          tile.dataset.dx = String(vx * travelDist);
+          tile.dataset.dy = String(vy * travelDist);
 
           logoWrap.appendChild(tile);
           tiles.push(tile);
@@ -344,35 +353,75 @@
       }
       logo.style.visibility = 'hidden';
 
-      // stagger.amount spreads the delay across a FIXED total window no
-      // matter how many tiles there are (unlike stagger.each, which
-      // multiplies per-tile and can stretch a large logo's dissolve to
-      // several seconds) — keeps total time bounded and predictable.
+      const progressEl = preloader.querySelector('.site-preloader__progress');
+
       if (typeof gsap !== 'undefined') {
-        const tween = gsap.to(tiles, {
-          autoAlpha: 0,
-          x: (i, target) => parseFloat(target.dataset.dx) + gsap.utils.random(-20, 20),
-          y: (i, target) => parseFloat(target.dataset.dy) + gsap.utils.random(-20, 20),
-          rotate: () => gsap.utils.random(-45, 45),
-          scale: 0.6,
-          duration: 0.5,
-          ease: 'power2.out',
-          stagger: { amount: 0.15, from: 'random' },
-          onComplete: onTilesDone,
+        const tl = gsap.timeline({
+          onComplete: () => {
+            if (preloader && preloader.parentNode) preloader.remove();
+          },
         });
-        return { fastForward: () => tween.timeScale(FAST_TIME_SCALE) };
+
+        // Original dissolve motion — only timing eased for a smoother exit
+        tl.to(
+          tiles,
+          {
+            autoAlpha: 0,
+            x: (i, target) => parseFloat(target.dataset.dx) + gsap.utils.random(-20, 20),
+            y: (i, target) => parseFloat(target.dataset.dy) + gsap.utils.random(-20, 20),
+            rotate: () => gsap.utils.random(-45, 45),
+            scale: 0.6,
+            duration: 0.85,
+            ease: 'power2.out',
+            stagger: { amount: 0.28, from: 'random' },
+          },
+          0
+        );
+
+        if (progressEl) {
+          tl.to(progressEl, { autoAlpha: 0, duration: 0.5, ease: 'power2.out' }, 0);
+        }
+
+        // Homepage fades in under the loader while particles are still dissolving
+        tl.call(beginPageReveal, null, 0.3);
+
+        // Soft crossfade of the preloader backdrop
+        tl.to(
+          preloader,
+          { autoAlpha: 0, duration: 0.7, ease: 'power2.inOut' },
+          0.35
+        );
+
+        return { fastForward: () => tl.timeScale(FAST_TIME_SCALE) };
       }
 
+      // No-GSAP fallback
       tiles.forEach((t) => {
-        t.style.transition = 'opacity .3s ease';
+        t.style.transition = 'opacity .7s ease, transform .7s ease';
         t.style.opacity = '0';
+        t.style.transform = 'scale(0.6)';
       });
-      let fallbackTimer = window.setTimeout(onTilesDone, 320);
+      if (progressEl) {
+        progressEl.style.transition = 'opacity .5s ease';
+        progressEl.style.opacity = '0';
+      }
+      window.setTimeout(beginPageReveal, 280);
+      preloader.style.transition = 'opacity .7s ease';
+      window.setTimeout(() => {
+        preloader.style.opacity = '0';
+      }, 320);
+      let fallbackTimer = window.setTimeout(() => {
+        if (preloader && preloader.parentNode) preloader.remove();
+      }, 1100);
       return {
         fastForward: () => {
           window.clearTimeout(fallbackTimer);
-          tiles.forEach((t) => { t.style.transition = 'opacity .12s ease'; t.style.opacity = '0'; });
-          fallbackTimer = window.setTimeout(onTilesDone, 130);
+          beginPageReveal();
+          preloader.style.transition = 'opacity .45s ease';
+          preloader.style.opacity = '0';
+          fallbackTimer = window.setTimeout(() => {
+            if (preloader && preloader.parentNode) preloader.remove();
+          }, 480);
         },
       };
     }

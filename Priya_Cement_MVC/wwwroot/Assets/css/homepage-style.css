@@ -16,10 +16,11 @@
   position:relative;
   overflow:hidden;
   height:100%;
-  background:#0a0a08;
+  /* Soft band behind contain letterboxing / parallax peek — not black */
+  background:#ebe8e2;
 }
 
-/* Full-bleed frame — oversized so the drag parallax below never exposes an edge */
+/* Oversized media — same parallax bleed; JS still translates this layer */
 .hero-swiper .slide-media{
   position:absolute;
   top:0;
@@ -29,20 +30,25 @@
   z-index:0;
   will-change:transform;
 }
+/* Fit picture to the visible slide (100/130 of media) so the full image shows */
 .hero-swiper .bannerinner-picture{
   position:absolute;
-  inset:0;
-  width:100%;
+  inset:auto;
+  top:0;
+  left:50%;
+  width:calc(100% / 1);
   height:100%;
+  transform:translateX(-50%);
   display:block;
+  margin:0;
 }
-.slide-bg{
+.hero-swiper .slide-bg{
   position:absolute;
   inset:0;
   width:100%;
   height:100%;
-  object-fit:cover;
-  object-position:center;
+  object-fit:contain;
+  object-position:center center;
   display:block;
 }
 
@@ -51,14 +57,15 @@
   inset:0;
   z-index:1;
   pointer-events:none;
+  /* Side fade for text only — light vertical so letterboxing stays soft */
   background:
-    linear-gradient(90deg, rgba(10,10,8,0.15) 0%, rgba(10,10,8,0.05) 38%, rgba(10,10,8,0.55) 62%, rgba(10,10,8,0.75) 100%),
-    linear-gradient(0deg, rgba(6,6,5,0.65) 0%, rgba(6,6,5,0.05) 42%, rgba(6,6,5,0.15) 100%);
+    linear-gradient(90deg, rgba(10,10,8,0.08) 0%, rgba(10,10,8,0.02) 38%, rgba(10,10,8,0.35) 62%, rgba(10,10,8,0.5) 100%),
+    linear-gradient(0deg, rgba(6,6,5,0.12) 0%, rgba(6,6,5,0) 35%, rgba(6,6,5,0.04) 100%);
 }
 .swiper-slide:has(.slide-copy--left) .slide-scrim{
   background:
-    linear-gradient(270deg, rgba(10,10,8,0.15) 0%, rgba(10,10,8,0.05) 38%, rgba(10,10,8,0.55) 62%, rgba(10,10,8,0.75) 100%),
-    linear-gradient(0deg, rgba(6,6,5,0.65) 0%, rgba(6,6,5,0.05) 42%, rgba(6,6,5,0.15) 100%);
+    linear-gradient(270deg, rgba(10,10,8,0.08) 0%, rgba(10,10,8,0.02) 38%, rgba(10,10,8,0.35) 62%, rgba(10,10,8,0.5) 100%),
+    linear-gradient(0deg, rgba(6,6,5,0.12) 0%, rgba(6,6,5,0) 35%, rgba(6,6,5,0.04) 100%);
 }
 
 .hero-swiper .slide-copy{
@@ -85,7 +92,7 @@
 .hero-pag-wrap{
   position:absolute;
   left:50%;
-  bottom:120px;
+  bottom:70px;
   transform:translateX(-50%);
   z-index:20;
   display:flex;
@@ -252,15 +259,15 @@
   .slide-scrim { background:
   linear-gradient(
     180deg,
-    rgba(10, 10, 8, 0.45) 0%,
-    rgba(10, 10, 8, 0.20) 45%,
-    rgba(10, 10, 8, 0.05) 100%
+    rgba(10, 10, 8, 0.2) 0%,
+    rgba(10, 10, 8, 0.28) 45%,
+    rgba(10, 10, 8, 0.02) 100%
   ),
   linear-gradient(
     0deg,
-    rgba(6, 6, 5, 0.35) 0%,
-    rgba(6, 6, 5, 0.10) 50%,
-    rgba(6, 6, 5, 0.03) 100%
+    rgba(6, 6, 5, 0.14) 0%,
+    rgba(6, 6, 5, 0.08) 50%,
+    rgba(6, 6, 5, 0) 100%
   );
   }
 }
@@ -689,15 +696,19 @@
     bottom: 0 !important;
     width: 100% !important;
     height: 100% !important;
-    /* Kill scale / translate from GSAP — full bleed only on small screens */
+    /* Kill scale / translate on the WRAP — full bleed; ken-burns runs on .video-bg */
     transform: none !important;
     border-radius: 0 !important;
     will-change: opacity;
+    overflow: hidden;
   }
   .home-sustainability-section .video-bg {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    transform-origin: 50% 45%;
+    will-change: transform;
+    backface-visibility: hidden;
   }
   .home-sustainability-section .outer-btn-wrap {
     z-index: 2;
@@ -912,6 +923,14 @@ z-index: -1;
 .quote-card-content {padding: 40px 0 60px 0}
 .quote-card .site-link-arrow img { filter: brightness(0) saturate(100%) invert(69%) sepia(0%) saturate(0%) hue-rotate(180deg) brightness(102%) contrast(88%);}
 .quote-card .site-link:hover img {filter: brightness(0) saturate(100%) invert(11%) sepia(5%) saturate(538%) hue-rotate(314deg) brightness(94%) contrast(90%);}
+
+/* Mobile rise — same feel as .our-products-cards */
+@media (max-width: 1023px) {
+  #marquee-section.is-mobile-rise-anim .quote-card.is-rise-anim-card {
+    will-change: transform;
+    backface-visibility: hidden;
+  }
+}
 .bg-light-gray {background-color: #fcfcfc;}
 
 .logo-lion-vector-outer {
@@ -929,6 +948,8 @@ z-index: -1;
 }
 
 @media (max-width: 767px){
+.quote-card-content { padding: 40px 0 0px 0;}
+
   .sustainability-block { 
     max-width: 100%;
     position: relative;
@@ -939,12 +960,19 @@ z-index: -1;
   /* .hero-swiper .slide-media {left: 0;} */
   .hero-swiper {height: calc(90vh - var(--header-h, 0px));}
 .logo-lion-vector-outer {right: -5vw; left: auto;}
+.home-sustainability-section .section-title-outer .title-section{max-width: 65vw;}
+.hero-swiper .slide-bg {object-fit: cover;}
+}
+
+@media (max-width: 480px){
+/* .hero-swiper .slide-copy--right .slide-content {top: 25vw;} */
 }
 
 @media (max-width: 393px){
  .home-sustainability-section {
    min-height: calc(100svh - var(--header-h, 0px));
  }
+ /* .hero-swiper .slide-copy--right .slide-content {top: 0vw;} */
 }
 @media (max-width: 375px){
 .home-sustainability-section {

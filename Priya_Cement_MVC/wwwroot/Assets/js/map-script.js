@@ -84,6 +84,25 @@ document.addEventListener('DOMContentLoaded', () => {
   function positionInfoCard(card, circle) {
     if (!card || !svgEl || !mapInsideWrapper) return;
 
+    card.classList.remove(
+      'is-docked', 'is-dock-tr', 'is-dock-tl', 'is-dock-br', 'is-dock-bl',
+      'is-side-right', 'is-side-left', 'is-above', 'is-below',
+      'is-mobile-centered'
+    );
+
+    // Mobile: center card in the map area (not beside the pin)
+    if (window.matchMedia('(max-width: 992px)').matches) {
+      // Apply center transform without transitioning, or it slides in from the right
+      card.style.setProperty('transition', 'none', 'important');
+      card.classList.add('is-mobile-centered');
+      card.style.left = '';
+      card.style.top = '';
+      card.style.transform = '';
+      void card.offsetWidth;
+      card.style.removeProperty('transition');
+      return;
+    }
+
     const cx = parseFloat(circle.getAttribute('cx'));
     const cy = parseFloat(circle.getAttribute('cy'));
     const svgRect = svgEl.getBoundingClientRect();
@@ -98,11 +117,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const cardHeight = card.offsetHeight || 200;
     const pad = 12;
     const gap = 40;
-
-    card.classList.remove(
-      'is-docked', 'is-dock-tr', 'is-dock-tl', 'is-dock-br', 'is-dock-bl',
-      'is-side-right', 'is-side-left', 'is-above', 'is-below'
-    );
 
     const canRight = pinX + gap + cardWidth <= wrapRect.width - pad;
     const canLeft = pinX - gap - cardWidth >= pad;
@@ -147,6 +161,7 @@ document.addEventListener('DOMContentLoaded', () => {
     card.classList.add(`is-${side}`);
     card.style.left = left + 'px';
     card.style.top = top + 'px';
+    card.style.transform = '';
   }
 
   // Single source of truth: .map-state carries "hover-linked" exactly
@@ -233,9 +248,26 @@ document.addEventListener('DOMContentLoaded', () => {
   function hideInfoCardNow() {
     clearTimeout(hideCardTimer);
     if (activeInfoCard) {
-      activeInfoCard.classList.remove('is-visible');
-      activeInfoCard.setAttribute('aria-hidden', 'true');
+      const card = activeInfoCard;
+      // Keep is-mobile-centered during fade so the card doesn't jump to 0,0
+      card.classList.remove('is-visible');
+      card.setAttribute('aria-hidden', 'true');
       activeInfoCard = null;
+
+      let cleaned = false;
+      const cleanup = () => {
+        if (cleaned) return;
+        cleaned = true;
+        card.classList.remove('is-mobile-centered');
+        card.removeEventListener('transitionend', onEnd);
+      };
+      const onEnd = (e) => {
+        if (e.target !== card) return;
+        if (e.propertyName !== 'opacity') return;
+        cleanup();
+      };
+      card.addEventListener('transitionend', onEnd);
+      setTimeout(cleanup, 280);
     }
     unlinkState();
     unmarkItemOpen();
@@ -268,8 +300,13 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     if (activeInfoCard && activeInfoCard !== card) {
-      activeInfoCard.classList.remove('is-visible');
-      activeInfoCard.setAttribute('aria-hidden', 'true');
+      const prev = activeInfoCard;
+      prev.classList.remove('is-visible');
+      prev.setAttribute('aria-hidden', 'true');
+      // Drop center class after fade so it doesn't flash at 0,0
+      setTimeout(() => {
+        if (prev !== activeInfoCard) prev.classList.remove('is-mobile-centered');
+      }, 280);
     }
 
     clearTimeout(hideCardTimer);
@@ -277,10 +314,19 @@ document.addEventListener('DOMContentLoaded', () => {
     // Position while still invisible so the card never flashes at 0,0
     // or gets is-visible with a wrong off-map top/left.
     positionInfoCard(card, circle);
-    card.classList.add('is-visible');
-    card.setAttribute('aria-hidden', 'false');
     linkStateToCard(location);
     markItemOpen(item);
+
+    const reveal = () => {
+      card.classList.add('is-visible');
+      card.setAttribute('aria-hidden', 'false');
+    };
+    // Next frame so mobile center transform is settled before open transition
+    if (card.classList.contains('is-mobile-centered')) {
+      requestAnimationFrame(reveal);
+    } else {
+      reveal();
+    }
   }
 
   function scheduleHideInfoCard(e) {

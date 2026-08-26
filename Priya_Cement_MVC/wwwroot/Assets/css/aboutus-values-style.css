@@ -148,6 +148,12 @@
 }
 
 /* Tablet portrait/landscape — slightly smaller flower, more room for labels */
+
+@media (min-width: 1536px) and (max-width: 1680px) {
+  #aboutus-values .aboutus-values-title {left: clamp(1rem, 10vw, 20rem); top: clamp(1.25rem, 10vh, 8.5rem);}
+  .aboutus-stand-visual {height: clamp(22rem, 42vw, 35.625rem);}
+}
+
 @media (min-width: 768px) and (max-width: 1024px) {
   #aboutus-values {
     --aboutus-values-stage: min(50vmin, 400px);

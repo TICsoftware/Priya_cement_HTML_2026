@@ -147,6 +147,8 @@
 .section-title-large .title-section { max-width: 31vw; }
 .careers-intro { margin-top: 50px; margin-bottom: -80px; }
 
+.testimonials-left-part .section-title-outer p{max-width: 100%;}
+
 @media (min-width: 1024px) {
   .our-products-img img { height: auto; }
 }
@@ -282,6 +284,9 @@
   }
 
   .careers-intro { margin-bottom: -40px; }
+  .logo-lion-vector-outer {display: flex;justify-content: end;}
+
+
 }
 
 @media (max-width: 393px) {
@@ -332,9 +337,10 @@
 
 @media (min-width: 1200px) and (max-width: 1366px) {
   .bg-parallax-section .bg-parallax-frame { min-height: 520px; }
-  .bg-parallax-section .bg-parallax-content { max-width: min(35rem, 45%); }
+  .bg-parallax-section .bg-parallax-content { max-width: min(35rem, 42%); }
   .bg-parallax-cta-row { max-width: 48%; }
   .man-image-wrap { width: min(70%, 900px); }
+  .testimonials-left-part .section-title-outer .title-section{max-width: 88%;}
 }
 
 /* ══════════════════════════════
@@ -733,6 +739,10 @@
     top: auto;
   }
 
+  .home-testimonials-section .testimonials-marquee-col {
+    overflow: visible;
+  }
+
   #marquee-section {
     height: auto !important;
   }
@@ -768,6 +778,11 @@
 
   #marquee-section .quote-card.is-collapsed {
     display: none;
+  }
+
+  #marquee-section.is-mobile-rise-anim .quote-card.is-rise-anim-card {
+    will-change: transform;
+    backface-visibility: hidden;
   }
 }
 
@@ -813,6 +828,17 @@
   filter: brightness(0) saturate(100%) invert(11%) sepia(5%) saturate(538%) hue-rotate(314deg) brightness(94%) contrast(90%);
 }
 
+/* Mobile rise helpers live under the max-width:1023px marquee block */
+
+@media (max-width: 767px) {
+.quote-card-content {padding: 40px 0 0px 0;}
+}
+
+
+@media (max-width: 1680px) {
+.bg-parallax-section .bg-parallax-content {max-width: min(42rem, 40%);}
+}
+
 @media (min-width: 1200px) and (max-width: 1366px) {
   .quote-card-para {
     font-size: 1rem;
@@ -830,10 +856,10 @@
     grid-template-rows: minmax(9rem, 1fr) minmax(9rem, 1fr);
   }
 
-  .workplaceculture-section .culture-intro .title-section {
+  /* .workplaceculture-section .culture-intro .title-section {
     font-size: clamp(1.35rem, 2.2vw, 1.85rem);
     line-height: 1.2;
-  }
+  } */
 
   .workplaceculture-section .culture-intro p {
     font-size: 0.9375rem;
@@ -849,10 +875,10 @@
     grid-template-rows: minmax(17rem, 1fr) minmax(17rem, 1fr);
   }
 
-  .workplaceculture-section .culture-intro .title-section {
+  /* .workplaceculture-section .culture-intro .title-section {
     font-size: clamp(1.45rem, 2.4vw, 2.1rem);
     line-height: 1.2;
-  }
+  } */
 
   .workplaceculture-section .culture-intro p {
     font-size: 1rem;
@@ -868,10 +894,10 @@
     grid-template-rows: minmax(8rem, 1fr) minmax(8rem, 1fr);
   }
 
-  .workplaceculture-section .culture-intro .title-section {
+  /* .workplaceculture-section .culture-intro .title-section {
     font-size: clamp(1.25rem, 2.8vw, 1.65rem);
     line-height: 1.2;
-  }
+  } */
 
   .workplaceculture-section .culture-intro p {
     font-size: 0.875rem;

@@ -20,8 +20,10 @@ document.addEventListener("DOMContentLoaded", () => {
         return Number.isFinite(value) ? value : 40;
       };
 
+      // Move the image inside the frame (not the wrap) so cover always fills —
+      // avoids black/white gaps at top/bottom while scrolling.
       gsap.fromTo(
-        ctaWrap,
+        ctaImg,
         { y: () => bleed() },
         {
           y: () => -bleed(),
@@ -64,32 +66,37 @@ document.addEventListener("DOMContentLoaded", () => {
       );
     });
 
+    /* Use set + to (not from): Values pin / ScrollTrigger.refresh re-applies
+       from() start values and causes flicker. Avoid autoAlpha on .text-ghost
+       (background-clip text + visibility toggle flickers in Chromium). */
     gsap.utils.toArray('.aboutus-projects-section [data-fade]').forEach((el) => {
-      gsap.from(el, {
-        y: 42,
-        autoAlpha: 0,
+      gsap.set(el, { y: 42, autoAlpha: 0, force3D: true });
+      gsap.to(el, {
+        y: 0,
+        autoAlpha: 1,
         duration: 0.8,
         ease: 'power3.out',
+        force3D: true,
         scrollTrigger: {
           trigger: el,
           start: 'top 88%',
           toggleActions: 'play none none reverse',
-          invalidateOnRefresh: true,
         },
       });
     });
 
     gsap.utils.toArray('.aboutus-projects-section [data-count]').forEach((el) => {
-      gsap.from(el, {
-        x: -40,
-        autoAlpha: 0,
+      gsap.set(el, { x: -40, opacity: 0, force3D: true });
+      gsap.to(el, {
+        x: 0,
+        opacity: 1,
         duration: 0.9,
         ease: 'power3.out',
+        force3D: true,
         scrollTrigger: {
           trigger: el,
           start: 'top 85%',
           toggleActions: 'play none none reverse',
-          invalidateOnRefresh: true,
         },
       });
     });
@@ -97,19 +104,18 @@ document.addEventListener("DOMContentLoaded", () => {
     gsap.utils.toArray('.aboutus-projects-section .section-sticky-title').forEach((title) => {
       const scope = title.closest('[data-rail-scope]') || projectsScope;
       if (!scope) return;
-      gsap.set(title, { autoAlpha: 0, y: 24 });
-      gsap.to(title, {
-        autoAlpha: 1,
-        y: 0,
-        ease: 'power2.out',
-        scrollTrigger: { trigger: scope, start: 'top 80%', end: 'top 45%', scrub: 0.6, invalidateOnRefresh: true },
+      gsap.set(title, { autoAlpha: 0, y: 24, force3D: true });
+      const titleTl = gsap.timeline({
+        scrollTrigger: {
+          trigger: scope,
+          start: 'top 80%',
+          end: 'bottom 25%',
+          scrub: 0.6,
+        },
       });
-      gsap.to(title, {
-        autoAlpha: 0,
-        y: -24,
-        ease: 'power2.in',
-        scrollTrigger: { trigger: scope, start: 'bottom 55%', end: 'bottom 25%', scrub: 0.6, invalidateOnRefresh: true },
-      });
+      /* One timeline — two competing scrub tweens on the same node flicker */
+      titleTl.to(title, { autoAlpha: 1, y: 0, ease: 'power2.out', duration: 1 }, 0);
+      titleTl.to(title, { autoAlpha: 0, y: -24, ease: 'power2.in', duration: 1 }, 0.72);
     });
   }
 
