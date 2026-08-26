@@ -1,0 +1,283 @@
+/* ---------- Financial Information — Annual Reports + MGT-7 ---------- */
+.fi-reports-section .section-title-outer,
+.fi-mgt-section .section-title-outer {
+  margin-bottom: 1.75rem;
+}
+
+.fi-card-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1.5rem 1.35rem;
+}
+
+/* Annual report cards */
+.fi-report-card,
+.fi-mgt-card {
+  will-change: transform;
+  backface-visibility: hidden;
+}
+
+.fi-card-grid.is-rise-anim .fi-mgt-card {
+  /* GSAP owns translateY — don't fight it with CSS transition on transform */
+  transition: box-shadow 0.3s ease;
+}
+
+.fi-report-card {
+  display: flex;
+  flex-direction: column;
+  color: var(--color-primary, #231f20);
+  text-decoration: none;
+}
+
+.fi-report-cover {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: 1rem 1rem 1.1rem;
+  border-radius: 1rem;
+  background: #f8f8f8;
+}
+
+.fi-report-media {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  line-height: 0;
+}
+
+.fi-report-media > img {
+  display: block;
+  width: 108%;
+  max-width: none;
+  height: auto;
+  margin: -2% -4% -12% -4%;
+}
+
+.fi-report-dl {
+  position: absolute;
+  left: 50%;
+  bottom: 1rem;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 50%;
+  background: #231f20;
+  opacity: 0;
+  transform: translateX(-50%) translateY(8px);
+  transition: opacity 0.28s ease, transform 0.28s ease;
+  pointer-events: none;
+}
+
+.fi-report-dl img {
+  width: 0.9375rem;
+  height: auto;
+  box-shadow: none;
+  border-radius: 0;
+}
+
+.fi-report-card:hover .fi-report-dl,
+.fi-report-card:focus-visible .fi-report-dl {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+.fi-report-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  margin: 0;
+  padding: 0;
+}
+
+.fi-report-copy strong {
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.35;
+  color: var(--color-primary, #231f20);
+}
+
+.fi-report-copy span {
+  font-size: 0.9375rem;
+  font-weight: 400;
+  line-height: 1.4;
+  color: var(--color-primary, #231f20);
+}
+
+/* MGT-7 cards */
+.fi-mgt-card {
+  --fi-mgt-corner: 3.35rem;
+  position: relative;
+  display: flex;
+  aspect-ratio: 3 / 2.25;
+  padding: 1.4rem 1.5rem 2.75rem 1.35rem;
+  overflow: hidden;
+  border-radius: 1.25rem;
+  background: #fff;
+  box-shadow: 0 8px 24px rgba(35, 31, 32, 0.06);
+  color: var(--color-primary, #231f20);
+  text-decoration: none;
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.fi-mgt-card-body {
+  position: relative;
+  z-index: 1;
+  max-width: 100%;
+  font-size: var(--text-p);
+  font-weight: 700;
+  line-height: 1.4;
+  transition: opacity 0.28s ease;
+}
+
+.fi-mgt-card-corner {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  z-index: 3;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  width: var(--fi-mgt-corner);
+  height: var(--fi-mgt-corner);
+  padding: 0 0.7rem 0.65rem 0;
+  background: var(--color-secondary, #ed1c24);
+  border-top-left-radius: 100%;
+  color: #fff;
+  transition: opacity 0.22s ease;
+}
+
+.fi-mgt-card-corner img {
+  display: block;
+  width: 0.9375rem;
+  height: auto;
+}
+
+.fi-mgt-card-hover {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.fi-mgt-card-hover::before {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  z-index: 0;
+  width: calc(var(--fi-mgt-corner) * 2);
+  height: calc(var(--fi-mgt-corner) * 2);
+  border-radius: 50%;
+  background: var(--color-secondary, #ed1c24);
+  transform: translate(50%, 50%) scale(1);
+  transform-origin: center center;
+  transition: transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.fi-mgt-card-hover .site-link {
+  --link-color: #fff;
+  --link-hover: #fff;
+  position: relative;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.fi-mgt-card-hover .site-link img,
+.fi-mgt-card-hover .site-link:hover img,
+.fi-mgt-card:hover .fi-mgt-card-hover .site-link img,
+.fi-mgt-card:focus-visible .fi-mgt-card-hover .site-link img {
+  filter: none;
+  width: 0.9375rem;
+  height: auto;
+}
+
+.fi-mgt-card:hover .fi-mgt-card-hover .site-link::after,
+.fi-mgt-card:focus-visible .fi-mgt-card-hover .site-link::after {
+  transform: scaleX(1);
+}
+
+.fi-mgt-card:hover .fi-mgt-card-hover .site-link-arrow,
+.fi-mgt-card:focus-visible .fi-mgt-card-hover .site-link-arrow {
+  transform: translateX(6px);
+}
+
+.fi-mgt-card:hover,
+.fi-mgt-card:focus-visible {
+  box-shadow: 0 12px 28px rgba(237, 28, 36, 0.22);
+}
+
+.fi-mgt-card:hover .fi-mgt-card-body,
+.fi-mgt-card:focus-visible .fi-mgt-card-body {
+  opacity: 0;
+}
+
+.fi-mgt-card:hover .fi-mgt-card-corner,
+.fi-mgt-card:focus-visible .fi-mgt-card-corner {
+  opacity: 0;
+  transition-delay: 0.2s;
+}
+
+.fi-mgt-card:hover .fi-mgt-card-hover::before,
+.fi-mgt-card:focus-visible .fi-mgt-card-hover::before {
+  transform: translate(50%, 50%) scale(14);
+}
+
+.fi-mgt-card:hover .fi-mgt-card-hover .site-link,
+.fi-mgt-card:focus-visible .fi-mgt-card-hover .site-link {
+  opacity: 1;
+  transition-delay: 0.22s;
+}
+
+.bgimage-section .bgimage-outer-wrap {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.bgimage-section .bgimage-outer-wrap .bg-image {
+  z-index: 0;
+}
+@media (max-width: 991px) {
+  .fi-card-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+    .fi-report-card .fi-report-dl, .fi-report-card:focus-visible .fi-report-dl {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+}
+
+@media (max-width: 767px) {
+  .fi-card-grid {
+    grid-template-columns: 1fr;
+    max-width: 100%;
+  }
+
+  .fi-mgt-card {
+    min-height: 10.5rem;
+  }
+
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fi-report-dl,
+  .fi-mgt-card,
+  .fi-mgt-card-body,
+  .fi-mgt-card-corner,
+  .fi-mgt-card-hover,
+  .fi-mgt-card-hover::before,
+  .fi-mgt-card-hover .site-link {
+    transition: none;
+  }
+}
