@@ -1,0 +1,227 @@
+﻿@{
+    ViewData["Title"] = "Financial Information";
+}
+
+@section Styles {
+   <link rel="stylesheet" href="~/Assets/css/financialinformation-style.css" asp-append-version="true" />
+}
+
+   <!-- HERO BANNER -->
+   <section class="relative inside-banner-outer overflow-hidden">
+         <div class="inside-banner-inner banner-animation relative ">
+
+            <!-- Banner -->
+            <div class="overflow-hidden h-[75vh] sm:h-131.25 relative innerbanner-image-wrapper">
+
+               <!-- Parallax Image -->
+               <picture>
+                  <!-- Desktop -->
+                  <source media="(min-width:1024px)"
+                     srcset="~/Assets/images/banners/financialinformation-banner-desktop.webp">
+
+                  <!-- Tablet -->
+                  <source media="(min-width:992px)"
+                     srcset="~/Assets/images/banners/financialinformation-banner-mob.webp">
+
+                  <!-- Mobile -->
+                  <img
+                     src="~/Assets/images/banners/financialinformation-banner-mob.webp"
+                     alt=""
+                     class="innerbanner-image absolute left-0 top-0 w-full h-full object-cover"
+                     loading="eager"
+                     fetchpriority="high">
+               </picture>
+
+               <!-- Keep Existing Overlay -->
+               <div class="innerbanner-overlay"></div>
+
+
+            </div>
+
+            <!-- Content -->
+           
+               <div class="innerbanner-caption absolute inset-0 z-30 flex items-center">
+                  <div class="container">
+                     <div class="max-w-4xl text-left">
+
+                        <h1 class="innerbanner-title text-h1 text-white">
+                          Financial Information
+                        </h1>
+
+                        <nav class="breadcrumb-nav" aria-label="Breadcrumb">
+                           <ol class="flex items-center gap-2 text-sm">
+                              <li>
+                                 <a href="/" class="text-white/70 hover:text-white transition">
+                                    Home
+                                 </a>
+                              </li>
+
+                              <li class="text-white/60">/</li>
+
+                              <li class="text-white">
+                                 Financial Information
+                              </li>
+                           </ol>
+                        </nav>
+
+                     </div>
+                  </div>
+               </div>
+           
+
+         </div>
+   </section>
+   <!-- HERO BANNER END -->
+
+   <section class="section-spacing fi-reports-section" aria-labelledby="fi-reports-heading">
+      <div class="container">
+         <div class="section-title-outer section-title-outer-start section-title-md section-title-left">
+            <h2 class="text-h2 title-section reveal-text">
+               Annual <span>Reports</span>
+            </h2>
+         </div>
+
+         <div class="fi-card-grid fi-report-grid">
+            <a class="fi-report-card" href="#" download aria-label="Download 25th Annual Report for the year ended December 31, 2023">
+               <span class="fi-report-cover">
+                  <span class="fi-report-media">
+                     <img src="~/Assets/images/financialinformation/ar1.webp" alt="25th Annual Report 2023 cover" width="420" height="560" loading="lazy">
+                     <span class="fi-report-dl" aria-hidden="true">
+                        <img src="~/Assets/images/common-images/download-vector-btn-white.svg" alt="" width="15" height="20">
+                     </span>
+                  </span>
+                  <span class="fi-report-copy">
+                     <strong>25th Annual Report for the year ended</strong>
+                     <span>December 31, 2023</span>
+                  </span>
+               </span>
+            </a>
+
+            <a class="fi-report-card" href="#" download aria-label="Download 24th Annual Report for the year ended December 31, 2022">
+               <span class="fi-report-cover">
+                  <span class="fi-report-media">
+                     <img src="~/Assets/images/financialinformation/ar2.webp" alt="24th Annual Report 2022 cover" width="420" height="560" loading="lazy">
+                     <span class="fi-report-dl" aria-hidden="true">
+                        <img src="~/Assets/images/common-images/download-vector-btn-white.svg" alt="" width="15" height="20">
+                     </span>
+                  </span>
+                  <span class="fi-report-copy">
+                     <strong>24th Annual Report for the year ended</strong>
+                     <span>December 31, 2022</span>
+                  </span>
+               </span>
+            </a>
+
+            <a class="fi-report-card" href="#" download aria-label="Download 23rd Annual Report for the year ended December 31, 2021">
+               <span class="fi-report-cover">
+                  <span class="fi-report-media">
+                     <img src="~/Assets/images/financialinformation/ar3.webp" alt="23rd Annual Report 2021 cover" width="420" height="560" loading="lazy">
+                     <span class="fi-report-dl" aria-hidden="true">
+                        <img src="~/Assets/images/common-images/download-vector-btn-white.svg" alt="" width="15" height="20">
+                     </span>
+                  </span>
+                  <span class="fi-report-copy">
+                     <strong>23rd Annual Report for the year ended</strong>
+                     <span>December 31, 2021</span>
+                  </span>
+               </span>
+            </a>
+
+            <a class="fi-report-card" href="#" download aria-label="Download 22nd Annual Report for the year ended December 31, 2020">
+               <span class="fi-report-cover">
+                  <span class="fi-report-media">
+                     <img src="~/Assets/images/financialinformation/ar4.webp" alt="22nd Annual Report 2020 cover" width="420" height="560" loading="lazy">
+                     <span class="fi-report-dl" aria-hidden="true">
+                        <img src="~/Assets/images/common-images/download-vector-btn-white.svg" alt="" width="15" height="20">
+                     </span>
+                  </span>
+                  <span class="fi-report-copy">
+                     <strong>22nd Annual Report for the year ended</strong>
+                     <span>December 31, 2020</span>
+                  </span>
+               </span>
+            </a>
+         </div>
+      </div>
+   </section>
+
+   <section class="section-spacing fi-mgt-section relative overflow-hidden bgimage-section" aria-labelledby="fi-mgt-heading">
+       <div class="bgimage-outer-wrap" aria-hidden="true">
+         <img src="~/Assets/images/bg-image.webp" alt="" class="w-full h-full object-cover bg-image">
+      </div>
+
+      <div class="container relative z-1">
+         <div class="section-title-outer section-title-outer-start section-title-md section-title-left">
+            <h2 class="text-h2 title-section reveal-text">
+               Annual Return in <span>Form MGT-7</span>
+            </h2>
+         </div>
+
+         <div class="fi-card-grid fi-mgt-grid">
+            <a class="fi-mgt-card" href="#" download aria-label="Download Annual Return in Form MGT-7 for the financial year 2023">
+               <span class="fi-mgt-card-body">Annual Return in Form MGT-7 for the financial year 2023</span>
+               <span class="fi-mgt-card-corner" aria-hidden="true">
+                  <img src="~/Assets/images/common-images/download-vector-btn-white.svg" alt="" width="15" height="20">
+               </span>
+               <span class="fi-mgt-card-hover" aria-hidden="true">
+                  <span class="site-link">
+                     <span class="site-link-arrow">
+                        <img src="~/Assets/images/common-images/download-vector-btn-white.svg" alt="" width="15" height="20">
+                     </span>
+                     Download
+                  </span>
+               </span>
+            </a>
+
+            <a class="fi-mgt-card" href="#" download aria-label="Download Annual Return in Form MGT-7 for the financial year 2022">
+               <span class="fi-mgt-card-body">Annual Return in Form MGT-7 for the financial year 2022</span>
+               <span class="fi-mgt-card-corner" aria-hidden="true">
+                  <img src="~/Assets/images/common-images/download-vector-btn-white.svg" alt="" width="15" height="20">
+               </span>
+               <span class="fi-mgt-card-hover" aria-hidden="true">
+                  <span class="site-link">
+                     <span class="site-link-arrow">
+                        <img src="~/Assets/images/common-images/download-vector-btn-white.svg" alt="" width="15" height="20">
+                     </span>
+                     Download
+                  </span>
+               </span>
+            </a>
+
+            <a class="fi-mgt-card" href="#" download aria-label="Download Annual Return in Form MGT-7 for the financial year 2021">
+               <span class="fi-mgt-card-body">Annual Return in Form MGT-7 for the financial year 2021</span>
+               <span class="fi-mgt-card-corner" aria-hidden="true">
+                  <img src="~/Assets/images/common-images/download-vector-btn-white.svg" alt="" width="15" height="20">
+               </span>
+               <span class="fi-mgt-card-hover" aria-hidden="true">
+                  <span class="site-link">
+                     <span class="site-link-arrow">
+                        <img src="~/Assets/images/common-images/download-vector-btn-white.svg" alt="" width="15" height="20">
+                     </span>
+                     Download
+                  </span>
+               </span>
+            </a>
+
+            <a class="fi-mgt-card" href="#" download aria-label="Download Annual Return in Form MGT-7 for the financial year 2020">
+               <span class="fi-mgt-card-body">Annual Return in Form MGT-7 for the financial year 2020</span>
+               <span class="fi-mgt-card-corner" aria-hidden="true">
+                  <img src="~/Assets/images/common-images/download-vector-btn-white.svg" alt="" width="15" height="20">
+               </span>
+               <span class="fi-mgt-card-hover" aria-hidden="true">
+                  <span class="site-link">
+                     <span class="site-link-arrow">
+                        <img src="~/Assets/images/common-images/download-vector-btn-white.svg" alt="" width="15" height="20">
+                     </span>
+                     Download
+                  </span>
+               </span>
+            </a>
+         </div>
+      </div>
+   </section>
+
+@section Scripts {
+   <script src="~/Assets/js/inner-banner-script.js" asp-append-version="true"></script>
+   <script src="~/Assets/js/financialinformation-script.js" asp-append-version="true"></script>
+}
