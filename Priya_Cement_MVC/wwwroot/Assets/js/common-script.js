@@ -320,7 +320,7 @@ if (yearFoot) yearFoot.innerHTML = String(new Date().getFullYear());
     function playHeaderIntro() {
       const parts = header.querySelectorAll('.logo-link, .primary-nav, .header-actions');
 
-      // Whole bar fades in after loader â€” no empty header strip during load
+      // Whole bar fades in after loader — no empty header strip during load
       gsap.set(header, { autoAlpha: 0, y: -14, force3D: true });
       gsap.set(parts, { y: -8, autoAlpha: 0, force3D: true });
 
@@ -352,6 +352,22 @@ if (yearFoot) yearFoot.innerHTML = String(new Date().getFullYear());
         },
         '-=0.4'
       );
+    }
+
+    // Homepage preloader owns the header handoff — don't fight it with a second intro
+    if (document.documentElement.classList.contains('site-preloader-pending') ||
+        document.getElementById('sitePreloader')) {
+      const skipIntro = () => {
+        header.classList.remove('is-intro');
+        syncHeaderHeight();
+      };
+      document.addEventListener('homepagePreloaderDone', skipIntro, { once: true });
+      // Safety if preloader already gone / skipped
+      if (document.documentElement.classList.contains('site-preloader-skip') ||
+          !document.getElementById('sitePreloader')) {
+        skipIntro();
+      }
+      return;
     }
 
     playHeaderIntro();

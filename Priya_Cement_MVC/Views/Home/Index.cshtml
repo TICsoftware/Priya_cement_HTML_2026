@@ -7,12 +7,112 @@
 @section head {
     <title></title>
 
-    <script nonce="@(Context.Items["CSPNonce"])">document.documentElement.classList.add('site-preloader-pending');</script>
+    <script nonce="@(Context.Items["CSPNonce"])">
+      (function () {
+        var KEY = 'priyaHomepageLoaderSeen';
+        var isReload = false;
+        try {
+          var nav = performance.getEntriesByType && performance.getEntriesByType('navigation')[0];
+          if (nav) isReload = nav.type === 'reload';
+          else if (performance.navigation) isReload = performance.navigation.type === 1;
+        } catch (e) {}
+        var seen = false;
+        try { seen = sessionStorage.getItem(KEY) === '1'; } catch (e) {}
+        if (!isReload && seen) {
+          document.documentElement.classList.add('site-preloader-skip');
+        } else {
+          document.documentElement.classList.add('site-preloader-pending');
+          // Kick SVG fetch immediately so draw is ready ASAP (no long blank)
+          try {
+            window.__priyaLoaderSvgs = {
+              lion: fetch('/Assets/images/logo/lion-vector-loader.svg', { credentials: 'same-origin' }).then(function (r) { return r.text(); }),
+              wordmark: fetch('/Assets/images/logo/logo-vector-loader.svg', { credentials: 'same-origin' }).then(function (r) { return r.text(); })
+            };
+          } catch (e) {}
+        }
+      })();
+    </script>
+    <link rel="preload" href="~/Assets/images/logo/lion-vector-loader.svg" as="image" asp-append-version="true" />
+    <link rel="preload" href="~/Assets/images/logo/logo-vector-loader.svg" as="image" asp-append-version="true" />
+    <link rel="preload" href="~/Assets/css/homepage-preloader.css" as="style" asp-append-version="true">
+    <link rel="stylesheet" href="~/Assets/css/homepage-preloader.css" asp-append-version="true" />
     <style nonce="@(Context.Items["CSPNonce"])">
+      /* Gray cover from first paint — never pure white blank */
+      html.site-preloader-pending {
+        overflow-y: scroll !important;
+        background: #f5f5f5 !important;
+      }
+      html.site-preloader-pending body {
+        overflow: hidden !important;
+        height: 100% !important;
+        background: #f5f5f5 !important;
+      }
+      html.site-preloader-exiting body {
+        background: #f5f5f5 !important;
+      }
       html.site-preloader-pending .site-header {
         opacity:0 !important;
         visibility:hidden !important;
         pointer-events:none !important;
+      }
+      html.site-preloader-pending #sitePreloader,
+      html.site-preloader-lock #sitePreloader {
+        position: fixed !important;
+        inset: 0 !important;
+        z-index: 10500 !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
+        background: #f5f5f5 !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+      }
+      /* During logo travel — no gray/white sheet; banner shows under flyers */
+      html.site-preloader-travel #sitePreloader {
+        background: transparent !important;
+        background-color: transparent !important;
+        pointer-events: none !important;
+      }
+      html.site-preloader-travel body {
+        background: transparent !important;
+      }
+      /* Progress + logos visible from first paint (no blank wait) */
+      html.site-preloader-pending .site-preloader__logo-wrap,
+      html.site-preloader-pending .site-preloader__wordmark,
+      html.site-preloader-pending .site-preloader__progress {
+        opacity: 1 !important;
+        visibility: visible !important;
+      }
+      html.site-preloader-pending .site-preloader__progress {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+        width: 200px;
+        max-width: 60vw;
+      }
+      html.site-preloader-pending .site-preloader__bar {
+        width: 100%;
+        height: 3px;
+        border-radius: 999px;
+        background: rgba(0,0,0,.12);
+        overflow: hidden;
+      }
+      html.site-preloader-pending .site-preloader__bar-fill {
+        display: block;
+        height: 100%;
+        width: 0%;
+        background: #ed1c24;
+      }
+      html.site-preloader-pending .site-preloader__counter {
+        font-family: Poppins, sans-serif;
+        font-size: 13px;
+        letter-spacing: .08em;
+        color: rgba(0,0,0,.65);
+      }
+      html.site-preloader-skip #sitePreloader {
+        display:none !important;
       }
     </style>
 
@@ -56,8 +156,10 @@
     <link rel="preload" href="~/Assets/css/homepage-style.css" as="style">
     <link rel="stylesheet" href="~/Assets/css/homepage-style.css" />
 
-    <link rel="preload" href="~/Assets/css/homepage-preloader.css" as="style" asp-append-version="true">
-    <link rel="stylesheet" href="~/Assets/css/homepage-preloader.css" asp-append-version="true" />
+    <link rel="preload" href="~/Assets/css/homepage-decisions-style.css" as="style">
+    <link rel="stylesheet" href="~/Assets/css/homepage-decisions-style.css" asp-append-version="true" />
+
+   
 }
 
 <section class="hero-banner-section">
@@ -413,6 +515,81 @@
   </div>
 </section>
 
+<section class="section-pt home-decisions-section relative" aria-labelledby="home-decisions-heading">
+  <div class="container">
+    <div class="section-title-outer section-title-outer-start section-title-md home-decisions-intro" data-home-decisions-intro>
+      <h2 class="text-h2 title-section reveal-text">
+        Every <span> strong build begins </span> with good decisions
+      </h2>
+      <p>
+        Building a home comes with many questions. We are here to answer them all.
+      </p>
+    </div>
+
+    <div class="home-decisions-grid" data-home-decisions-grid>
+      <a class="home-decisions-card" href="#" data-home-decisions-card aria-label="Cost Calculator — Calculate now">
+        <div class="home-decisions-card-copy">
+          <div>
+            <h3 class="home-decisions-card-title">Cost Calculator</h3>
+            <p class="home-decisions-card-text">Estimate how much cement your project needs before you break ground.</p>
+          </div>
+          <div class="outer-btn-wrap">
+            <div class="site-link">
+              Calculate now
+              <span class="site-link-arrow" aria-hidden="true">
+                <img src="Assets/images/common-images/button-arrow-icon.svg" alt="" class="w-auto object-cover">
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="home-decisions-card-media home-decisions-card-media--muted">
+          <img src="Assets/images/homepage/buildbegins/buildbegins-1.webp" alt="" width="480" height="640" loading="lazy">
+        </div>
+      </a>
+
+      <a class="home-decisions-card" href="#" data-home-decisions-card aria-label="Homebuilder's Guide — Read the guide">
+        <div class="home-decisions-card-copy">
+          <div>
+            <h3 class="home-decisions-card-title">Homebuilder's Guide</h3>
+            <p class="home-decisions-card-text">Choosing the right cement grade for your home, explained simply.</p>
+          </div>
+          <div class="outer-btn-wrap">
+            <div class="site-link">
+              Read the guide
+              <span class="site-link-arrow" aria-hidden="true">
+                <img src="Assets/images/common-images/button-arrow-icon.svg" alt="" class="w-auto object-cover">
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="home-decisions-card-media home-decisions-card-media--muted">
+          <img src="Assets/images/homepage/buildbegins/buildbegins-2.webp" alt="" width="480" height="640" loading="lazy">
+        </div>
+      </a>
+
+      <a class="home-decisions-card" href="#" data-home-decisions-card aria-label="Find a Dealer Near You">
+        <div class="home-decisions-card-copy">
+          <div>
+            <h3 class="home-decisions-card-title">Find a Dealer Near You</h3>
+            <p class="home-decisions-card-text">Locate your nearest Priya Cement stockist across eight states.</p>
+          </div>
+          <div class="outer-btn-wrap">
+            <div class="site-link">
+              Find a Dealer
+              <span class="site-link-arrow" aria-hidden="true">
+                <img src="Assets/images/common-images/button-arrow-icon.svg" alt="" class="w-auto object-cover">
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="home-decisions-card-media home-decisions-card-media--muted">
+          <img src="Assets/images/homepage/buildbegins/buildbegins-3.webp" alt="" width="480" height="640" loading="lazy">
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
 <section class="home-sustainability-section section-spacing overflow-hidden relative">
   <div class="video-bg-wrap absolute top-0 inset-s-0 w-full h-full overflow-hidden">
     <video
@@ -711,7 +888,7 @@
   @* ADDED SCRIPT  *@
   <script src="~/Assets/js/swiper-bundle.min.js"></script>
   <script src="~/Assets/js/homepage-script.js" asp-append-version="true"></script>
-  <script src="~/Assets/js/homepage-preloader.js" asp-append-version="true"></script>
+  <script src="~/Assets/js/homepage-decisions-script.js" asp-append-version="true"></script>
   <script src="~/Assets/js/odometer-counter-script.js"></script>
 
   

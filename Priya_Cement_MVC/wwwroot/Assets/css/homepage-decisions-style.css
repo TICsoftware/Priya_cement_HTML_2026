@@ -1,0 +1,264 @@
+/* ---------------------------------------
+   HOME — Every strong build begins…
+--------------------------------------- */
+.home-decisions-section {
+  background: #fff;
+  overflow: visible;
+}
+
+.home-decisions-intro {
+  margin-bottom: clamp(2rem, 1.5rem + 2vw, 3.5rem);
+  max-width: 690px;
+}
+
+.home-decisions-intro p {
+  margin-inline: 0;
+  max-width: 33rem;
+}
+
+.home-decisions-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+  align-items: start;
+  padding-bottom: 30px;
+  overflow: visible;
+}
+
+.home-decisions-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  aspect-ratio: 3.4 / 3;
+  height: auto;
+  min-height: 0;
+  padding: 1.1rem 1rem 1rem;
+  border-radius: 0.625rem;
+  background: #fff;
+  overflow: hidden;
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.35s ease, box-shadow 0.3s ease;
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
+  will-change: transform;
+  backface-visibility: hidden;
+}
+
+.home-decisions-card:focus-visible {
+  outline: 2px solid var(--color-secondary, #ed1c24);
+  outline-offset: 3px;
+}
+
+.home-decisions-grid.is-rise-anim .home-decisions-card {
+  /* GSAP owns translateY — don't fight it with CSS transition on transform */
+  transition: background-color 0.35s ease, box-shadow 0.3s ease;
+}
+
+.home-decisions-card:hover {
+  background-color: #fff;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.18);
+}
+
+/* CTA looks like site-link; whole card is the real link */
+.home-decisions-card:hover .site-link {
+  color: var(--link-hover, #ed1c24);
+}
+
+.home-decisions-card:hover .site-link::after {
+  transform: scaleX(1);
+}
+
+.home-decisions-card:hover .site-link-arrow {
+  transform: translateX(6px);
+}
+
+.home-decisions-card--featured {
+  box-shadow: 0 18px 48px rgba(35, 31, 32, 0.12);
+}
+
+.home-decisions-card-copy {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.5rem;
+  width: min(65%, 15.5rem);
+  max-width: 70%;
+  height: 100%;
+  min-height: 0;
+  padding-bottom: 0;
+}
+
+.home-decisions-card-title {
+  margin: 0 0 0.4rem;
+  font-size: var(--text-h3);
+  font-weight: 600;
+  line-height: 1.25;
+  color: var(--color-primary);
+}
+
+.home-decisions-card-text {
+  margin: 0;
+  font-size: var(--text-p);
+  line-height: 1.45;
+  color: var(--color-primary);
+}
+
+.home-decisions-card .outer-btn-wrap {
+  margin-top: auto;
+  padding-top: 0.5rem;
+}
+
+.home-decisions-card-media {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  z-index: 0;
+  width: 52%;
+  max-width: 12.5rem;
+  height: 88%;
+  margin: 0;
+  line-height: 0;
+  pointer-events: none;
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    #000 0%,
+    #000 62%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    #000 0%,
+    #000 62%,
+    transparent 100%
+  );
+}
+
+.home-decisions-card-media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: bottom right;
+}
+
+.home-decisions-card-media--muted img {
+  filter: grayscale(1);
+  transition: filter 0.4s ease;
+}
+
+.home-decisions-card:hover .home-decisions-card-media--muted img {
+  filter: grayscale(0);
+}
+
+@media (min-width: 768px) {
+  .home-decisions-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.25rem;
+  }
+
+  .home-decisions-card {
+    aspect-ratio: 3.4 / 3;
+    padding: 1.25rem 1.1rem 1.1rem;
+  }
+
+  .home-decisions-card-media {
+    width: 50%;
+    max-width: none;
+    height: 90%;
+  }
+
+  /* Stagger down left → right */
+  .home-decisions-card:nth-child(1) {
+    margin-top: 0;
+  }
+
+  .home-decisions-card:nth-child(2) {
+    margin-top: 2.75rem;
+  }
+
+  .home-decisions-card:nth-child(3) {
+    margin-top: 5.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .home-decisions-grid {
+    gap: 1.75rem;
+  }
+
+  .home-decisions-card {
+    aspect-ratio: 3.4 / 3;
+    padding: 1.5rem 1.35rem 1.35rem;
+  }
+
+  .home-decisions-card-copy {
+    width: min(60%, 20rem);
+    max-width: 56%;
+    gap: 0.65rem;
+  }
+
+  .home-decisions-card-media {
+    width: 100%;
+    height: 100%;
+  }
+
+  .home-decisions-card:nth-child(2) {
+    margin-top: 3.5rem;
+  }
+
+  .home-decisions-card:nth-child(3) {
+    margin-top: 7rem;
+  }
+}
+
+@media (min-width: 1280px) {
+  .home-decisions-card {
+    aspect-ratio: 3.4 / 3;
+  }
+}
+
+@media (max-width: 576px) {
+.home-decisions-card-media {width: 70%;max-width: 15.5rem;height: 95%;}
+.home-decisions-card-media--muted img {
+    filter: grayscale(0);
+}
+}
+
+
+@media (max-width: 375px) {
+.home-decisions-card-media {max-width: 10rem;}
+}
+
+@media (min-width: 1200px) and (max-width: 1366px) {
+  .home-decisions-intro {
+    max-width: 685px;
+  }
+
+  .home-decisions-card {
+    aspect-ratio: 3.4 / 3;
+  }
+    .home-decisions-card-text {font-size: 1rem;}
+  .home-decisions-card-title {font-size: clamp(1.05rem, 0.95rem + 0.85vw, var(--text-h3));}
+}
+
+
+
+@media (prefers-reduced-motion: reduce) {
+  .home-decisions-card {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .home-decisions-card,
+  .home-decisions-card-media--muted img {
+    transition: none;
+  }
+
+}

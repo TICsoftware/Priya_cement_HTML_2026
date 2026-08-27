@@ -16,8 +16,8 @@
   position:relative;
   overflow:hidden;
   height:100%;
-  /* Soft band behind contain letterboxing / parallax peek — not black */
-  background:#ebe8e2;
+  /* Match loader gray so exit never flashes pure white letterboxing */
+  background:#f5f5f5;
 }
 
 /* Oversized media — same parallax bleed; JS still translates this layer */
@@ -47,7 +47,8 @@
   inset:0;
   width:100%;
   height:100%;
-  object-fit:contain;
+  /* Full-bleed under the loader exit — contain left large pale empty bands */
+  object-fit:cover;
   object-position:center center;
   display:block;
 }
