@@ -1,0 +1,149 @@
+/* ---------- Financial Information — Annual Reports + MGT-7 ---------- */
+.fi-reports-section .section-title-outer,
+.fi-mgt-section .section-title-outer {
+  margin-bottom: 1.75rem;
+}
+
+.fi-card-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1.5rem 1.35rem;
+}
+
+/* Annual report cards */
+.fi-report-card,
+.fi-mgt-card {
+  will-change: transform;
+  backface-visibility: hidden;
+}
+
+.fi-card-grid.is-rise-anim .fi-mgt-card {
+  /* GSAP owns translateY — don't fight it with CSS transition on transform */
+  transition: box-shadow 0.3s ease;
+}
+
+.fi-report-card {
+  display: flex;
+  flex-direction: column;
+  color: var(--color-primary, #231f20);
+  text-decoration: none;
+}
+
+.fi-report-cover {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: 1rem 1rem 1.1rem;
+  border-radius: 1rem;
+  background: #f8f8f8;
+}
+
+.fi-report-media {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  line-height: 0;
+}
+
+.fi-report-media > img {
+  display: block;
+  width: 108%;
+  max-width: none;
+  height: auto;
+  margin: -2% -4% -12% -4%;
+}
+
+.fi-report-dl {
+  position: absolute;
+  left: 50%;
+  bottom: 1rem;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 50%;
+  background: #231f20;
+  opacity: 0;
+  transform: translateX(-50%) translateY(8px);
+  transition: opacity 0.28s ease, transform 0.28s ease;
+  pointer-events: none;
+}
+
+.fi-report-dl img {
+  width: 0.9375rem;
+  height: auto;
+  box-shadow: none;
+  border-radius: 0;
+}
+
+.fi-report-card:hover .fi-report-dl,
+.fi-report-card:focus-visible .fi-report-dl {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+.fi-report-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  margin: 0;
+  padding: 0;
+}
+
+.fi-report-copy strong {
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.35;
+  color: var(--color-primary, #231f20);
+}
+
+.fi-report-copy span {
+  font-size: 0.9375rem;
+  font-weight: 400;
+  line-height: 1.4;
+  color: var(--color-primary, #231f20);
+}
+
+.bgimage-section .bgimage-outer-wrap {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.bgimage-section .bgimage-outer-wrap .bg-image {
+  z-index: 0;
+}
+@media (max-width: 991px) {
+  .fi-card-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+    .fi-report-card .fi-report-dl, .fi-report-card:focus-visible .fi-report-dl {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+}
+
+@media (max-width: 767px) {
+  .fi-card-grid {
+    grid-template-columns: 1fr;
+    max-width: 100%;
+  }
+
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fi-report-dl,
+  .fi-mgt-card,
+  .fi-mgt-card-body,
+  .fi-mgt-card-corner,
+  .fi-mgt-card-hover,
+  .fi-mgt-card-hover::before,
+  .fi-mgt-card-hover .site-link {
+    transition: none;
+  }
+}

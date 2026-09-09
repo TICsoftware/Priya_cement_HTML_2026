@@ -1,0 +1,183 @@
+﻿@{
+    ViewData["Title"] = "News and Coverage";
+}
+
+@section Styles {
+   <link rel="stylesheet" href="~/Assets/css/media-style.css" asp-append-version="true" />
+   <link rel="stylesheet" href="~/Assets/css/image-gallery.css" asp-append-version="true" />
+}
+
+   <!-- HERO BANNER -->
+   <section class="relative inside-banner-outer overflow-hidden">
+         <div class="inside-banner-inner banner-animation relative ">
+
+            <!-- Banner -->
+            <div class="overflow-hidden h-[75vh] sm:h-131.25 relative innerbanner-image-wrapper">
+
+               <!-- Parallax Image -->
+               <picture>
+                  <!-- Desktop -->
+                  <source media="(min-width:1024px)"
+                     srcset="~/Assets/images/banners/financialinformation-banner-desktop.webp">
+
+                  <!-- Tablet -->
+                  <source media="(min-width:992px)"
+                     srcset="~/Assets/images/banners/financialinformation-banner-mob.webp">
+
+                  <!-- Mobile -->
+                  <img
+                     src="~/Assets/images/banners/financialinformation-banner-mob.webp"
+                     alt=""
+                     class="innerbanner-image absolute left-0 top-0 w-full h-full object-cover"
+                     loading="eager"
+                     fetchpriority="high">
+               </picture>
+
+               <!-- Keep Existing Overlay -->
+               <div class="innerbanner-overlay"></div>
+
+
+            </div>
+
+            <!-- Content -->
+           
+               <div class="innerbanner-caption absolute inset-0 z-30 flex items-center">
+                  <div class="container">
+                     <div class="max-w-4xl text-left">
+
+                        <h1 class="innerbanner-title text-h1 text-white">
+                         News & Coverage
+                        </h1>
+
+                        <nav class="breadcrumb-nav" aria-label="Breadcrumb">
+                           <ol class="flex items-center gap-2 text-sm">
+                              <li>
+                                 <a href="/" class="text-white/70 hover:text-white transition">
+                                    Home
+                                 </a>
+                              </li>
+
+                              <li class="text-white/60">/</li>
+
+                              <li class="text-white">
+                                 News & Coverage
+                              </li>
+                           </ol>
+                        </nav>
+
+                     </div>
+                  </div>
+               </div>
+           
+
+         </div>
+   </section>
+   <!-- HERO BANNER END -->
+
+   <section class="section-spacing print-section" aria-labelledby="print-heading">
+      <div class="container">
+         <div class="section-title-outer section-title-outer-start section-title-md section-title-left">
+            <h2 class="text-h2 title-section reveal-text">
+               Print
+            </h2>
+            <p>A market player since August 1986, Priya Cement is one of the biggest and most recognized cement brands in India.  </p>
+         </div>
+
+         <div class="image-gallery mt-5" data-gallery="print">
+            <a class="image-gallery-card" href="/Assets/images/print/english_vert_adv.webp" aria-label="Priya Cement five elements print ad">
+               <img src="~/Assets/images/print/english_vert_adv.webp" alt="Priya Cement five elements print ad" width="480" height="600" loading="lazy">
+            </a>
+            <a class="image-gallery-card" href="/Assets/images/print/english_adv.webp" aria-label="Priya Cement 100 crore bags print ad">
+               <img src="~/Assets/images/print/english_adv.webp" alt="Priya Cement 100 crore bags print ad" width="480" height="600" loading="lazy">
+            </a>
+            <a class="image-gallery-card" href="/Assets/images/print/press_note.webp" aria-label="Priya Cement press note">
+               <img src="~/Assets/images/print/press_note.webp" alt="Priya Cement press note" width="480" height="600" loading="lazy">
+            </a>
+            <a class="image-gallery-card" href="/Assets/images/print/ganesh_chaturthi.webp" aria-label="Priya Cement Ganesh Chaturthi greeting">
+               <img src="~/Assets/images/print/ganesh_chaturthi.webp" alt="Priya Cement Ganesh Chaturthi greeting" width="480" height="600" loading="lazy">
+            </a>
+            <a class="image-gallery-card" href="/Assets/images/print/tarun_bharat.webp" aria-label="Priya Cement newspaper coverage">
+               <img src="~/Assets/images/print/tarun_bharat.webp" alt="Priya Cement newspaper coverage" width="480" height="600" loading="lazy">
+            </a>
+            <a class="image-gallery-card" href="/Assets/images/print/vellore.webp" aria-label="Priya Cement Tamil print greeting">
+               <img src="~/Assets/images/print/vellore.webp" alt="Priya Cement Tamil print greeting" width="480" height="600" loading="lazy">
+            </a>
+         </div>
+      </div>
+   </section>
+
+   <section class="section-spacing gallery-section relative overflow-hidden bgimage-section" aria-labelledby="gallery-heading">
+      <div class="bgimage-outer-wrap" aria-hidden="true">
+         <img src="~/Assets/images/bg-image.webp" alt="" class="w-full h-full object-cover bg-image">
+      </div>
+      <div class="container relative z-1">
+         <div class="section-title-outer section-title-outer-start section-title-md section-title-left">
+            <h2 id="gallery-heading" class="text-h2 title-section reveal-text">
+               Gallery
+            </h2>
+            <p>A market player since August 1986, Priya Cement is one of the biggest and most recognized cement brands in India.  </p>
+         </div>
+
+         <div class="image-gallery image-gallery-4 mt-5" data-gallery="gallery">
+            <a class="image-gallery-card" href="/Assets/images/gallery/coporate-gallery-1.webp" aria-label="Priya Cement gallery 1">
+               <img src="~/Assets/images/gallery/coporate-gallery-1.webp" alt="Priya Cement gallery 1" width="480" height="600" loading="lazy">
+            </a>
+            <a class="image-gallery-card" href="/Assets/images/gallery/coporate-gallery-2.webp" aria-label="Priya Cement gallery 2">
+               <img src="~/Assets/images/gallery/coporate-gallery-2.webp" alt="Priya Cement gallery 2" width="480" height="600" loading="lazy">
+            </a>
+            <a class="image-gallery-card" href="/Assets/images/gallery/coporate-gallery-3.webp" aria-label="Priya Cement gallery 3">
+               <img src="~/Assets/images/gallery/coporate-gallery-3.webp" alt="Priya Cement gallery 3" width="480" height="600" loading="lazy">
+            </a>
+            <a class="image-gallery-card" href="/Assets/images/gallery/coporate-gallery-4.webp" aria-label="Priya Cement gallery 4">
+               <img src="~/Assets/images/gallery/coporate-gallery-4.webp" alt="Priya Cement gallery 4" width="480" height="600" loading="lazy">
+            </a>
+            <a class="image-gallery-card" href="/Assets/images/gallery/coporate-gallery-5.webp" aria-label="Priya Cement gallery 5">
+               <img src="~/Assets/images/gallery/coporate-gallery-5.webp" alt="Priya Cement gallery 5" width="480" height="600" loading="lazy">
+            </a>
+            <a class="image-gallery-card" href="/Assets/images/gallery/coporate-gallery-6.webp" aria-label="Priya Cement gallery 6">
+               <img src="~/Assets/images/gallery/coporate-gallery-6.webp" alt="Priya Cement gallery 6" width="480" height="600" loading="lazy">
+            </a>
+            <a class="image-gallery-card" href="/Assets/images/gallery/coporate-gallery-7.webp" aria-label="Priya Cement gallery 7">
+               <img src="~/Assets/images/gallery/coporate-gallery-7.webp" alt="Priya Cement gallery 7" width="480" height="600" loading="lazy">
+            </a>
+            <a class="image-gallery-card" href="/Assets/images/gallery/coporate-gallery-8.webp" aria-label="Priya Cement gallery 8">
+               <img src="~/Assets/images/gallery/coporate-gallery-8.webp" alt="Priya Cement gallery 8" width="480" height="600" loading="lazy">
+            </a>
+            <a class="image-gallery-card" href="/Assets/images/gallery/coporate-gallery-9.webp" aria-label="Priya Cement gallery 9">
+               <img src="~/Assets/images/gallery/coporate-gallery-9.webp" alt="Priya Cement gallery 9" width="480" height="600" loading="lazy">
+            </a>
+            <a class="image-gallery-card" href="/Assets/images/gallery/coporate-gallery-10.webp" aria-label="Priya Cement gallery 10">
+               <img src="~/Assets/images/gallery/coporate-gallery-10.webp" alt="Priya Cement gallery 10" width="480" height="600" loading="lazy">
+            </a>
+            <a class="image-gallery-card" href="/Assets/images/gallery/coporate-gallery-11.webp" aria-label="Priya Cement gallery 11">
+               <img src="~/Assets/images/gallery/coporate-gallery-11.webp" alt="Priya Cement gallery 11" width="480" height="600" loading="lazy">
+            </a>
+            <a class="image-gallery-card" href="/Assets/images/gallery/coporate-gallery-12.webp" aria-label="Priya Cement gallery 12">
+               <img src="~/Assets/images/gallery/coporate-gallery-12.webp" alt="Priya Cement gallery 12" width="480" height="600" loading="lazy">
+            </a>
+            <a class="image-gallery-card" href="/Assets/images/gallery/coporate-gallery-13.webp" aria-label="Priya Cement gallery 13">
+               <img src="~/Assets/images/gallery/coporate-gallery-13.webp" alt="Priya Cement gallery 13" width="480" height="600" loading="lazy">
+            </a>
+            <a class="image-gallery-card" href="/Assets/images/gallery/coporate-gallery-14.webp" aria-label="Priya Cement gallery 14">
+               <img src="~/Assets/images/gallery/coporate-gallery-14.webp" alt="Priya Cement gallery 14" width="480" height="600" loading="lazy">
+            </a>
+            <a class="image-gallery-card" href="/Assets/images/gallery/coporate-gallery-15.webp" aria-label="Priya Cement gallery 15">
+               <img src="~/Assets/images/gallery/coporate-gallery-15.webp" alt="Priya Cement gallery 15" width="480" height="600" loading="lazy">
+            </a>
+            <a class="image-gallery-card" href="/Assets/images/gallery/coporate-gallery-16.webp" aria-label="Priya Cement gallery 16">
+               <img src="~/Assets/images/gallery/coporate-gallery-16.webp" alt="Priya Cement gallery 16" width="480" height="600" loading="lazy">
+            </a>
+            <a class="image-gallery-card" href="/Assets/images/gallery/coporate-gallery-17.webp" aria-label="Priya Cement gallery 17">
+               <img src="~/Assets/images/gallery/coporate-gallery-17.webp" alt="Priya Cement gallery 17" width="480" height="600" loading="lazy">
+            </a>
+         </div>
+      </div>
+   </section>
+
+
+
+@section Scripts {
+   <script src="~/Assets/js/inner-banner-script.js" asp-append-version="true"></script>
+   <script src="~/Assets/js/newscoverage-script.js" asp-append-version="true"></script>
+   <script src="~/Assets/js/image-gallery.js" asp-append-version="true"></script>
+}
